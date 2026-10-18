@@ -1,0 +1,64 @@
+name: market-report
+
+on:
+  schedule:            # cron은 UTC (KST-9h). market_bot.py 의 SLOT_BY_CRON 과 문자열이 정확히 같아야 합니다.
+    - cron: "0 22 * * 0-5"    # KST 월~토 0700  (A,B,E)
+    - cron: "0 23 * * 0-4"    # KST 월~금 0800  (C,D)
+    - cron: "50 23 * * 0-4"   # KST 월~금 0850  (C,D)
+    - cron: "0 0 * * 1-5"     # KST 월~금 0900  (A,B,E)
+    - cron: "0 1 * * 1-5"     # KST 월~금 1000  (C,D)
+    - cron: "30 3 * * 1-5"    # KST 월~금 1230  (C,D)
+    - cron: "0 5 * * 1-5"     # KST 월~금 1400  (C,D)
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: "수동 실행 대상 (예: ABCDE)"
+        default: "ABCDE"
+      slot:
+        description: "슬롯 표시용 (예: 0700)"
+        default: "0700"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-report
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Korean font
+        run: sudo apt-get update -y && sudo apt-get install -y fonts-nanum
+      - run: pip install -r requirements.txt
+      - name: Run
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
+          PAGES_BASE_URL: ${{ vars.PAGES_BASE_URL }}     # 예: https://<user>.github.io/<repo>
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+          KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}                  # 선택: refresh token 자동 갱신용
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}      # 선택: 한국 국채금리
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}  # 선택: AI 코멘트
+          KRX_ID: ${{ secrets.KRX_ID }}                  # pykrx 로그인이 필요한 경우
+          KRX_PW: ${{ secrets.KRX_PW }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python market_bot.py --targets "${{ inputs.targets }}" --slot "${{ inputs.slot }}"
+          else
+            python market_bot.py
+          fi
+      - name: Publish reports
+        run: |
+          git config user.name "market-bot"
+          git config user.email "market-bot@users.noreply.github.com"
+          git add docs data || true
+          git diff --cached --quiet || (git commit -m "report $(date -u +%FT%TZ)" && git pull --rebase && git push)
