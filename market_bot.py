@@ -325,38 +325,69 @@ def kr_sections(df, label, d, hi_fetch, topn_hi=150):
     return html, f"{label} 1위 {top['종목']} {top['등락률(%)']:+.1f}% 상한{up_n}/하한{dn_n}"
 
 def target_C():
+    import traceback
     from pykrx import stock
+    parts, sums, errs, cache = [], [], [], {}
+
+    def need(label, r):
+        if r is None or (hasattr(r, "empty") and r.empty):
+            raise RuntimeError(f"{label}: 빈 응답")
+        return r
+
+    def run(label, fn):
+        try:
+            h, sm = fn()
+            parts.append(h); sums.append(sm)
+        except Exception as ex:
+            traceback.print_exc()
+            errs.append(f"{label}: {type(ex).__name__}: {ex}")
+
     today = dt.datetime.now(KST).strftime("%Y%m%d")
     d = stock.get_nearest_business_day_in_a_week(today)
+    if not isinstance(d, str):
+        raise RuntimeError(f"영업일 조회 실패(KRX 응답 이상): {d!r}")
     pdy = stock.get_nearest_business_day_in_a_week(
         (dt.datetime.strptime(d, "%Y%m%d") - dt.timedelta(days=1)).strftime("%Y%m%d"))
-    # 코스피 종목
-    cur = stock.get_market_ohlcv(d, market="KOSPI")
-  
-    prv = stock.get_market_ohlcv(pdy, market="KOSPI")
-    if cur is None or cur.empty:
-        raise RuntimeError("KRX 응답이 비었습니다. KRX_ID/KRX_PW 시크릿을 확인하세요")
-  
-    nm = stock.get_market_price_change_by_ticker(pdy, d, market="KOSPI")["종목명"]
-    s = pd.DataFrame({"종목": nm, "종가": cur["종가"], "등락률(%)": cur["등락률"], "거래량": cur["거래량"],
-                      "전일거래량": prv["거래량"], "거래대금": cur["거래대금"]}).dropna(subset=["종가"])
-    s["거래증가율(%)"] = (s["거래량"] / s["전일거래량"].replace(0, np.nan) - 1) * 100
-    h1, s1 = kr_sections(s, "C1 코스피 종목", d, lambda a, b, t: stock.get_market_ohlcv_by_date(a, b, t))
-    # 한국 ETF
-    ec = stock.get_etf_ohlcv_by_ticker(d); ep = stock.get_etf_ohlcv_by_ticker(pdy)
-    names = etf_names(stock, list(ec.index))
-    e = pd.DataFrame({"종목": [names.get(t, t) for t in ec.index], "종가": ec["종가"].values,
-                      "등락률(%)": ((ec["종가"] / ep["종가"].reindex(ec.index) - 1) * 100).values,
-                      "거래량": ec["거래량"].values, "전일거래량": ep["거래량"].reindex(ec.index).values,
-                      "거래대금": ec["거래대금"].values}, index=ec.index)
-    e = e[e["종가"] > 0]
-    e["거래증가율(%)"] = (e["거래량"] / e["전일거래량"].replace(0, np.nan) - 1) * 100
+    if not isinstance(pdy, str):
+        raise RuntimeError(f"전영업일 조회 실패(KRX 응답 이상): {pdy!r}")
+
+    def do_stock():
+        cur = need("코스피 당일시세", stock.get_market_ohlcv(d, market="KOSPI"))
+        prv = need("코스피 전일시세", stock.get_market_ohlcv(pdy, market="KOSPI"))
+        nm = need("종목명", stock.get_market_price_change_by_ticker(pdy, d, market="KOSPI"))["종목명"]
+        s = pd.DataFrame({"종목": nm, "종가": cur["종가"], "등락률(%)": cur["등락률"],
+                          "거래량": cur["거래량"], "전일거래량": prv["거래량"],
+                          "거래대금": cur["거래대금"]}).dropna(subset=["종가"])
+        s["거래증가율(%)"] = (s["거래량"] / s["전일거래량"].replace(0, np.nan) - 1) * 100
+        return kr_sections(s, "C1 코스피 종목", d,
+                           lambda a, b, t: stock.get_market_ohlcv_by_date(a, b, t))
+
+    def make_etf():
+        if "e" not in cache:
+            ec = need("ETF 당일시세", stock.get_etf_ohlcv_by_ticker(d))
+            ep = need("ETF 전일시세", stock.get_etf_ohlcv_by_ticker(pdy))
+            names = etf_names(stock, list(ec.index))
+            e = pd.DataFrame({"종목": [str(names.get(t, t)) for t in ec.index],
+                              "종가": ec["종가"].values,
+                              "등락률(%)": ((ec["종가"] / ep["종가"].reindex(ec.index) - 1) * 100).values,
+                              "거래량": ec["거래량"].values,
+                              "전일거래량": ep["거래량"].reindex(ec.index).values,
+                              "거래대금": ec["거래대금"].values}, index=ec.index)
+            e = e[e["종가"] > 0].copy()
+            e["거래증가율(%)"] = (e["거래량"] / e["전일거래량"].replace(0, np.nan) - 1) * 100
+            cache["e"] = e
+        return cache["e"]
+
     efetch = lambda a, b, t: stock.get_etf_ohlcv_by_date(a, b, t)
-    h2, s2 = kr_sections(e, "C1 한국 ETF", d, efetch, 100)
-    us = e[e["종목"].str.contains(KR_US_RE)]
-    h3, s3 = kr_sections(us, "C2 미국증시 투자 한국 ETF", d, efetch, 60)
-    note = (f"<p>기준일 {d} (개장 전/장중 조회 시 KRX 제공 최신 데이터 기준)</p>")
-    return note + h1 + h2 + h3, f"{d}\n{s1}\n{s2}\n{s3}"
+    run("C1 코스피 종목", do_stock)
+    run("C1 한국 ETF", lambda: kr_sections(make_etf(), "C1 한국 ETF", d, efetch, 100))
+    run("C2 미국투자 한국 ETF", lambda: kr_sections(
+        make_etf()[make_etf()["종목"].str.contains(KR_US_RE)], "C2 미국증시 투자 한국 ETF", d, efetch, 60))
+
+    if not parts:
+        raise RuntimeError(" | ".join(errs) or "원인 불명")
+    err_html = ("<p class='err'>일부 실패: " + "<br>".join(errs) + "</p>") if errs else ""
+    return f"<p>기준일 {d}</p>{err_html}" + "".join(parts), f"{d}\n" + "\n".join(sums)
 
 # ───────────────────────── 대상 D (VAA 공격형) ─────────────────────────
 VAA_OFF = {"SPY": "미국주식", "EFA": "선진국주식", "EEM": "신흥국주식", "AGG": "미국혼합채권"}
@@ -523,7 +554,7 @@ def main():
             import traceback
             traceback.print_exc()
             print(f"[{t}] 실패:", repr(e), file=sys.stderr)
-            body, summ = f"<p class='err'>조회 실패: {e}</p>", f"조회 실패: {type(e).__name__}"
+            body, summ = f"<p class='err'>조회 실패: {e}</p>", f"조회 실패: {type(e).__name__} {str(e)[:70]}"
         write_page(t, slot, body, summ)
         if token:
             link = f"{PAGES_BASE}/{t}.html" if PAGES_BASE else None
