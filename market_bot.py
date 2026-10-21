@@ -516,13 +516,11 @@ def main():
     for t in targets:
         try:
             body, summ = FUNCS[t]()
-        except Exception as e:
-          
+        except Exception as e:       
            import traceback; traceback.print_exc()
-            print(f"[{t}] 실패:", repr(e), file=sys.stderr)
-
-      
-          body, summ = f"<p class='err'>조회 실패: {e}</p>", f"조회 실패: {type(e).__name__}"
+           print(f"[{t}] 실패:", repr(e), file=sys.stderr)      
+           body, summ = f"<p class='err'>조회 실패: {e}</p>", f"조회 실패: {type(e).__name__}"
+          
         write_page(t, slot, body, summ)
         if token:
             link = f"{PAGES_BASE}/{t}.html" if PAGES_BASE else None
