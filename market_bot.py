@@ -296,7 +296,12 @@ def etf_names(stock, tickers):
 
 def kr_sections(df, label, d, hi_fetch, topn_hi=150):
     cols = ["종목", "종가", "등락률(%)", "거래량", "거래증가율(%)", "거래대금"]
+
+  
     df = df.dropna(subset=["등락률(%)"]).copy()
+    if df.empty:
+        return f"<h3>{label}</h3><p class='err'>데이터 없음(KRX 응답이 비어 있음)</p>", f"{label} 데이터 없음"
+  
     cand = df.sort_values("거래대금", ascending=False).head(topn_hi)
     start = (dt.datetime.strptime(d, "%Y%m%d") - dt.timedelta(days=365)).strftime("%Y%m%d")
     hi_list = []
@@ -327,7 +332,11 @@ def target_C():
         (dt.datetime.strptime(d, "%Y%m%d") - dt.timedelta(days=1)).strftime("%Y%m%d"))
     # 코스피 종목
     cur = stock.get_market_ohlcv(d, market="KOSPI")
+  
     prv = stock.get_market_ohlcv(pdy, market="KOSPI")
+    if cur is None or cur.empty:
+        raise RuntimeError("KRX 응답이 비었습니다. KRX_ID/KRX_PW 시크릿을 확인하세요")
+  
     nm = stock.get_market_price_change_by_ticker(pdy, d, market="KOSPI")["종목명"]
     s = pd.DataFrame({"종목": nm, "종가": cur["종가"], "등락률(%)": cur["등락률"], "거래량": cur["거래량"],
                       "전일거래량": prv["거래량"], "거래대금": cur["거래대금"]}).dropna(subset=["종가"])
