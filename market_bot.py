@@ -510,17 +510,20 @@ def main():
     a = ap.parse_args()
     now = dt.datetime.now(KST)
     slot = a.slot or SLOT_BY_CRON.get(os.environ.get("SCHEDULE", "")) or nearest_slot(now)
-    targets = a.targets or TARGETS_BY_SLOT[slot]
+    targets = (a.targets or TARGETS_BY_SLOT[slot]).upper().replace(",", "").replace(" ", "")
     token = None if a.no_send else kakao_access_token()
 
     for t in targets:
+        if t not in FUNCS:
+            print(f"알 수 없는 대상: {t}", file=sys.stderr)
+            continue
         try:
             body, summ = FUNCS[t]()
-        except Exception as e:       
-           import traceback; traceback.print_exc()
-           print(f"[{t}] 실패:", repr(e), file=sys.stderr)      
-           body, summ = f"<p class='err'>조회 실패: {e}</p>", f"조회 실패: {type(e).__name__}"
-          
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            print(f"[{t}] 실패:", repr(e), file=sys.stderr)
+            body, summ = f"<p class='err'>조회 실패: {e}</p>", f"조회 실패: {type(e).__name__}"
         write_page(t, slot, body, summ)
         if token:
             link = f"{PAGES_BASE}/{t}.html" if PAGES_BASE else None
@@ -528,6 +531,3 @@ def main():
                 kakao_send(token, f"[{slot}] {TARGET_NAMES[t]}\n{summ}", link)
             except Exception as e:
                 print("카톡 발송 실패:", e, file=sys.stderr)
-
-if __name__ == "__main__":
-    main()
