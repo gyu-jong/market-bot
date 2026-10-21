@@ -531,3 +531,6 @@ def main():
                 kakao_send(token, f"[{slot}] {TARGET_NAMES[t]}\n{summ}", link)
             except Exception as e:
                 print("카톡 발송 실패:", e, file=sys.stderr)
+
+if __name__ == "__main__":
+    main()
