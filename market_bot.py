@@ -21,7 +21,14 @@ import yfinance as yf
 KST = ZoneInfo("Asia/Seoul")
 OUT = pathlib.Path(os.environ.get("OUT_DIR", "docs"))
 PAGES_BASE = os.environ.get("PAGES_BASE_URL", "").rstrip("/")
-plt.rcParams["font.family"] = ["NanumGothic", "AppleGothic", "Malgun Gothic", "DejaVu Sans"]
+
+from matplotlib import font_manager
+_avail = {f.name for f in font_manager.fontManager.ttflist}
+for _f in ("NanumGothic", "AppleGothic", "Malgun Gothic"):
+    if _f in _avail:
+        plt.rcParams["font.family"] = _f
+        break
+
 plt.rcParams["axes.unicode_minus"] = False
 
 # ───────────────────────── 스케줄 정의 (cron은 UTC = KST-9h) ─────────────────────────
