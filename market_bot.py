@@ -194,7 +194,7 @@ SECTORS = {"XLK": "기술", "XLF": "금융", "XLE": "에너지", "XLV": "헬스�
            "XLRE": "부동산", "XLC": "커뮤니케이션"}
 
 def target_A():
-    parts, key = [], {}
+    parts, key, sect = [], {}, []
     def add(h, rows):
         parts.append(h)
         for nm, last, ch in rows:
@@ -220,12 +220,15 @@ def target_A():
     else:
         parts.append("<h2>A3 금리</h2><p class='err'>조회 실패</p>")
     try:
-        add(*prices_block("A6 미국 산업별 ETF (1일 등락순)", SECTORS, sort_1d=True, cols=4))
+        h6, sect = prices_block("A6 미국 산업별 ETF (1일 등락순)", SECTORS, sort_1d=True, cols=4)
+        parts.append(h6)
     except Exception as e:
         parts.append(f"<h2>A6</h2><p class='err'>조회 실패: {e}</p>")
-    picks = [k for k in ("원/달러", "S&P500", "나스닥", "코스피", "WTI유", "금", "미 국채10년") if k in key]
-    summ = "\n".join(f"{k} {f_num(key[k][0])} {f_pct(key[k][1])}" for k in picks[:6])
-    return "".join(parts), summ
+    lines = [f"{k} {f_num(v[0])} {f_pct(v[1])}" for k, v in key.items()]
+    if sect:
+        lines.append("섹터강세 " + ", ".join(f"{r[0]}{f_pct(r[2]['1일'])}" for r in sect[:3]))
+        lines.append("섹터약세 " + ", ".join(f"{r[0]}{f_pct(r[2]['1일'])}" for r in sect[-3:]))
+    return "".join(parts), "\n".join(lines)
 
 # ───────────────────────── 대상 B (미국 ETF) ─────────────────────────
 def us_etf_universe():
@@ -274,10 +277,12 @@ def target_B():
             + df_html(hi[cols], "52주 신고가", 50)
             + df_html(d.sort_values("거래량", ascending=False)[cols], "거래량 상위", 30)
             + df_html(surge.sort_values("거래증가율(%)", ascending=False)[cols], "거래증가율 상위(전일 10만주 이상)", 30))
-    g = d.sort_values("등락률(%)", ascending=False).iloc[0]
-    l = d.sort_values("등락률(%)").iloc[0]
-    summ = (f"{asof}\n상승1위 {g['종목']} {g['등락률(%)']:+.1f}%\n하락1위 {l['종목']} {l['등락률(%)']:+.1f}%\n"
-            f"52주신고가 {len(hi)}개")
+    fmt = lambda df: ", ".join(f"{r['종목']} {r['등락률(%)']:+.1f}%" for _, r in df.iterrows())
+    summ = (f"{asof}\n▲상승5: " + fmt(d.sort_values("등락률(%)", ascending=False).head(5)) +
+            "\n▼하락5: " + fmt(d.sort_values("등락률(%)").head(5)) +
+            f"\n52주신고가 {len(hi)}개: " + ", ".join(hi["종목"].head(5)) +
+            "\n거래량TOP5: " + ", ".join(d.sort_values("거래량", ascending=False)["종목"].head(5)) +
+            "\n거래증가TOP5: " + ", ".join(surge.sort_values("거래증가율(%)", ascending=False)["종목"].head(5)))
     return html, summ
 
 # ───────────────────────── 대상 C (한국) ─────────────────────────
@@ -320,9 +325,16 @@ def kr_sections(df, label, d, hi_fetch, topn_hi=150):
             + df_html(df.sort_values("등락률(%)")[cols], "하락 상위", 50)
             + df_html(df.sort_values("거래량", ascending=False)[cols], "거래량 상위", 30)
             + df_html(surge.sort_values("거래증가율(%)", ascending=False)[cols], "거래증가율 상위", 30))
-    top = df.sort_values("등락률(%)", ascending=False).iloc[0]
-    up_n = int((df["등락률(%)"] >= 29.0).sum()); dn_n = int((df["등락률(%)"] <= -29.0).sum())
-    return html, f"{label} 1위 {top['종목']} {top['등락률(%)']:+.1f}% 상한{up_n}/하한{dn_n}"
+    ups = df[df["등락률(%)"] >= 29.0]; dns = df[df["등락률(%)"] <= -29.0]
+    f2 = lambda x: ", ".join(f"{r['종목']} {r['등락률(%)']:+.1f}%" for _, r in x.iterrows())
+    summ = (f"■{label}\n상한{len(ups)}: " + ", ".join(ups["종목"].head(3)) +
+            f" / 하한{len(dns)}: " + ", ".join(dns["종목"].head(3)) +
+            "\n▲" + f2(df.sort_values("등락률(%)", ascending=False).head(5)) +
+            "\n▼" + f2(df.sort_values("등락률(%)").head(5)) +
+            f"\n52주신고가 {len(hi_list)}개: " + ", ".join(df.loc[df.index.intersection(hi_list), "종목"].head(4)) +
+            "\n거래량TOP3: " + ", ".join(df.sort_values("거래량", ascending=False)["종목"].head(3)) +
+            "\n거래증가TOP3: " + ", ".join(surge.sort_values("거래증가율(%)", ascending=False)["종목"].head(3)))
+    return html, summ
 
 def target_C():
     import traceback
@@ -430,7 +442,11 @@ def target_D():
             f"<p><b>현재 신호({last:%Y-%m-%d}): {mode}모드 → {pick}({names[pick]}) 100%</b></p>"
             f"<p>직전 월말({prev_end:%Y-%m-%d}) 신호: {pmode}모드 → {ppick} ({changed})</p>"
             f"<p class='muted'>원전략은 월말 1회 리밸런싱입니다. 장중 수치는 참고용입니다.</p>")
-    return h + tbl + rule, f"VAA {mode}모드 → {pick}({names[pick]})\n직전월말 {ppick}, {changed}"
+    lines = [f"VAA {mode}모드 → {pick}({names[pick]})", f"직전월말 {ppick}, 신호 {changed}"]
+    for t in names:
+        r = rets[t]
+        lines.append(f"{t} 1M{r[1]*100:+.1f} 3M{r[3]*100:+.1f} 6M{r[6]*100:+.1f} 12M{r[12]*100:+.1f} 점수{sc[t]*100:+.1f}")
+    return h + tbl + rule, "\n".join(lines)
 
 # ───────────────────────── 대상 E (올시즌스) ─────────────────────────
 ALLSEASONS = {"SPY": "미국주식", "TLT": "미국장기채", "GLD": "금", "SHY": "미국단기채"}
@@ -459,7 +475,11 @@ def target_E():
             f"<p>12개월 전 25%씩 매수 후 방치 시 현재 비중: {drift}<br>"
             f"리밸런싱(±5%p 밴드 기준): <b>{'필요' if need else '불필요'}</b></p>"
             "<p class='muted'>포트폴리오 수익률은 자산별 수익률의 25% 가중 단순합(근사)입니다.</p>")
-    return html, f"올시즌스 1M {port[1]*100:+.2f}% 3M {port[3]*100:+.2f}%\n6M {port[6]*100:+.2f}% 12M {port[12]*100:+.2f}%\n리밸런싱 {'필요' if need else '불필요'}"
+    lines = [f"{t} 1M{R[t][1]*100:+.1f} 3M{R[t][3]*100:+.1f} 6M{R[t][6]*100:+.1f} 12M{R[t][12]*100:+.1f}" for t in ALLSEASONS]
+    lines.append(f"합산 1M{port[1]*100:+.1f} 3M{port[3]*100:+.1f} 6M{port[6]*100:+.1f} 12M{port[12]*100:+.1f}")
+    lines.append(f"현재비중 {drift}")
+    lines.append(f"리밸런싱 {'필요' if need else '불필요'}")
+    return html, "\n".join(lines)
 
 # ───────────────────────── 리포트 / 카카오 ─────────────────────────
 CSS = """body{font-family:'Noto Sans KR',-apple-system,sans-serif;max-width:980px;margin:auto;padding:12px;font-size:14px}
@@ -520,7 +540,7 @@ def kakao_access_token():
 
 def kakao_send(token, text, link=None):
     url = link or "https://www.kakao.com"
-    tpl = {"object_type": "text", "text": text[:195],
+    tpl = {"object_type": "text", "text": text[:199],
            "link": {"web_url": url, "mobile_web_url": url}, "button_title": "리포트 보기"}
     r = requests.post("https://kapi.kakao.com/v2/api/talk/memo/default/send",
                       headers={"Authorization": f"Bearer {token}"},
@@ -529,6 +549,17 @@ def kakao_send(token, text, link=None):
     r.raise_for_status()
 
 # ───────────────────────── main ─────────────────────────
+def chunk_text(text, limit=150):
+    chunks, cur = [], ""
+    for line in text.split("\n"):
+        if cur and len(cur) + len(line) + 1 > limit:
+            chunks.append(cur); cur = line[:limit]
+        else:
+            cur = f"{cur}\n{line}" if cur else line[:limit]
+    if cur:
+        chunks.append(cur)
+    return chunks
+
 FUNCS = {"A": target_A, "B": target_B, "C": target_C, "D": target_D, "E": target_E}
 
 def nearest_slot(now):
@@ -558,10 +589,18 @@ def main():
         write_page(t, slot, body, summ)
         if token:
             link = f"{PAGES_BASE}/{t}.html" if PAGES_BASE else None
-            try:
-                kakao_send(token, f"[{slot}] {TARGET_NAMES[t]}\n{summ}", link)
-            except Exception as e:
-                print("카톡 발송 실패:", e, file=sys.stderr)
+            parts = chunk_text(summ)
+            for i, body_txt in enumerate(parts, 1):
+                head = f"[{slot}] {TARGET_NAMES[t]} ({i}/{len(parts)})\n"
+                try:
+                    kakao_send(token, head + body_txt, link)
+                except Exception as e:
+                    print("카톡 발송 실패:", e, file=sys.stderr)
+            if link:
+                try:
+                    kakao_send(token, f"[{slot}] {TARGET_NAMES[t]} 전체 리포트(그래프·상위50)\n{link}", link)
+                except Exception as e:
+                    print("링크 발송 실패:", e, file=sys.stderr)
 
 if __name__ == "__main__":
     main()
