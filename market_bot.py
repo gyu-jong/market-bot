@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 market_bot.py - 시장 데이터 수집 -> HTML 리포트(그래프 포함) 생성 -> 카카오톡 "나에게 보내기" 알림
-
+ 
 사용 예)
   python market_bot.py --slot 0700            # 0700 슬롯(A,B,E) 실행 후 카톡 발송
   python market_bot.py --targets D --no-send  # D만 실행, 발송 없이 docs/D.html 생성
@@ -9,7 +9,7 @@ GitHub Actions에서는 환경변수 SCHEDULE(cron 문자열)로 슬롯을 자�
 """
 import argparse, base64, io, json, os, pathlib, re, sys, datetime as dt
 from zoneinfo import ZoneInfo
-
+ 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -17,20 +17,20 @@ import numpy as np
 import pandas as pd
 import requests
 import yfinance as yf
-
+ 
 KST = ZoneInfo("Asia/Seoul")
 OUT = pathlib.Path(os.environ.get("OUT_DIR", "docs"))
 PAGES_BASE = os.environ.get("PAGES_BASE_URL", "").rstrip("/")
-
+ 
 from matplotlib import font_manager
 _avail = {f.name for f in font_manager.fontManager.ttflist}
 for _f in ("NanumGothic", "AppleGothic", "Malgun Gothic"):
     if _f in _avail:
         plt.rcParams["font.family"] = _f
         break
-
+ 
 plt.rcParams["axes.unicode_minus"] = False
-
+ 
 # ───────────────────────── 스케줄 정의 (cron은 UTC = KST-9h) ─────────────────────────
 SLOT_BY_CRON = {
     "0 22 * * 0-5": "0700",   # KST 월~토 0700
@@ -45,37 +45,37 @@ TARGETS_BY_SLOT = {"0700": "ABE", "0900": "ABE",
                    "0800": "CD", "0850": "CD", "1000": "CD", "1230": "CD", "1400": "CD"}
 TARGET_NAMES = {"A": "A 거시·시장지표", "B": "B 미국 ETF", "C": "C 한국 종목·ETF",
                 "D": "D VAA 공격형", "E": "E 올시즌스"}
-
+ 
 PERIODS = [("1일", None), ("1주", pd.DateOffset(weeks=1)), ("1개월", pd.DateOffset(months=1)),
            ("1분기", pd.DateOffset(months=3)), ("1년", pd.DateOffset(years=1)),
            ("2년", pd.DateOffset(years=2)), ("3년", pd.DateOffset(years=3))]
 CHART_DAYS = int(os.environ.get("CHART_DAYS", "7"))  # 그래프에 표시할 최근 거래일 수
-
+ 
 SYSTEM_PROMPT = """당신은 금융시장 데이터 분석 어시스턴트입니다.
 입력된 수치 요약만 근거로 한국어 3문장 이내 코멘트를 작성하세요.
 규칙: 입력에 없는 수치·뉴스·원인은 만들지 말 것. 추정은 '가능성' 표현을 쓸 것.
 투자 권유(매수/매도 지시)는 하지 말고, 변화가 큰 항목과 주의점을 짚을 것."""
-
+ 
 # ───────────────────────── 공통 유틸 ─────────────────────────
 def f_num(v):
     if v is None or v != v:
         return "-"
     return f"{v:,.2f}" if abs(v) < 1000 else f"{v:,.0f}"
-
+ 
 def f_pct(v, diff=False):
     if v is None or v != v:
         return "-"
     arrow = "▲" if v > 0 else "▼" if v < 0 else "-"
     return f"{arrow}{abs(v):.2f}{'p' if diff else '%'}"
-
+ 
 def cls(v):
     return "up" if (v == v and v > 0) else "dn" if (v == v and v < 0) else ""
-
+ 
 def strip_tz(obj):
     if getattr(obj.index, "tz", None) is not None:
         obj.index = obj.index.tz_localize(None)
     return obj
-
+ 
 def fetch_close(tickers, period="4y"):
     tickers = list(tickers)
     df = yf.download(tickers, period=period, auto_adjust=True, progress=False,
@@ -85,7 +85,7 @@ def fetch_close(tickers, period="4y"):
         close = pd.DataFrame(close)
         close.columns = tickers[:1]
     return strip_tz(close)
-
+ 
 def changes(s, diff=False):
     """기간별 증감. diff=True면 차이(금리 %p), 아니면 수익률(%)."""
     s = s.dropna()
@@ -102,7 +102,7 @@ def changes(s, diff=False):
         else:
             out[name] = (last - base) if diff else (last / base - 1) * 100
     return last, out
-
+ 
 def spark_grid(series, title, cols=4):
     items = [(n, s.dropna().tail(CHART_DAYS)) for n, s in series.items() if s.dropna().size > 1]
     if not items:
@@ -121,7 +121,7 @@ def spark_grid(series, title, cols=4):
     fig.tight_layout()
     buf = io.BytesIO(); fig.savefig(buf, format="png", dpi=110); plt.close(fig)
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()
-
+ 
 def table_html(rows, diff=False):
     head = "<tr><th>항목</th><th>현재</th>" + "".join(f"<th>{p}</th>" for p, _ in PERIODS) + "</tr>"
     body = ""
@@ -129,7 +129,7 @@ def table_html(rows, diff=False):
         tds = "".join(f"<td class='{cls(ch[p])}'>{f_pct(ch[p], diff)}</td>" for p, _ in PERIODS)
         body += f"<tr><td>{nm}</td><td>{f_num(last)}</td>{tds}</tr>"
     return f"<div class='scroll'><table>{head}{body}</table></div>"
-
+ 
 def block(title, series, diff=False, cols=4, sort_1d=False):
     rows = []
     for nm, s in series.items():
@@ -142,19 +142,19 @@ def block(title, series, diff=False, cols=4, sort_1d=False):
     img = spark_grid({r[0]: series[r[0]] for r in rows}, title, cols)
     html = f"<h2>{title}</h2>" + (f"<img src='{img}'>" if img else "") + table_html(rows, diff)
     return html, rows
-
+ 
 def prices_block(title, mapping, **kw):
     close = fetch_close(mapping.keys())
     series = {nm: close[t] for t, nm in mapping.items() if t in close and close[t].dropna().size > 2}
     return block(title, series, **kw)
-
+ 
 def df_html(df, title, n=None, open_=False):
     d = df.head(n) if n else df
     h = d.to_html(index=False, border=0, classes="t",
                   float_format=lambda x: f"{x:,.2f}", na_rep="-")
     return (f"<details {'open' if open_ else ''}><summary>{title} ({len(d)})</summary>"
             f"<div class='scroll'>{h}</div></details>")
-
+ 
 # ───────────────────────── 대상 A ─────────────────────────
 def fred(series_id):
     r = requests.get("https://fred.stlouisfed.org/graph/fredgraph.csv",
@@ -164,10 +164,10 @@ def fred(series_id):
     s = pd.Series(pd.to_numeric(df.iloc[:, 1], errors="coerce").values,
                   index=pd.to_datetime(df.iloc[:, 0])).dropna()
     return s[s.index >= pd.Timestamp.now() - pd.DateOffset(years=4)]
-
+ 
 # ECOS 통계코드(시장금리 일별 817Y002). 코드가 다르면 ECOS 사이트에서 확인 후 수정하세요.
 ECOS_CODES = {"한 국고채3년": "010200000", "한 국고채10년": "010210000"}
-
+ 
 def ecos(code):
     key = os.environ.get("ECOS_API_KEY")
     if not key:
@@ -177,7 +177,7 @@ def ecos(code):
     url = f"https://ecos.bok.or.kr/api/StatisticSearch/{key}/json/kr/1/2000/817Y002/D/{start}/{end}/{code}"
     rows = requests.get(url, timeout=30).json()["StatisticSearch"]["row"]
     return pd.Series({pd.to_datetime(r["TIME"]): float(r["DATA_VALUE"]) for r in rows}).sort_index()
-
+ 
 A_GROUPS = [
     ("A1 환율", {"KRW=X": "원/달러", "EURKRW=X": "원/유로", "JPYKRW=X": "원/엔(1엔)"}),
     ("A2 종합주가지수", {"^GSPC": "S&P500", "^DJI": "다우", "^IXIC": "나스닥",
@@ -192,7 +192,7 @@ A_GROUPS = [
 SECTORS = {"XLK": "기술", "XLF": "금융", "XLE": "에너지", "XLV": "헬스케어", "XLY": "경기소비",
            "XLP": "필수소비", "XLI": "산업재", "XLB": "소재", "XLU": "유틸리티",
            "XLRE": "부동산", "XLC": "커뮤니케이션"}
-
+ 
 def target_A():
     parts, key, sect = [], {}, []
     def add(h, rows):
@@ -229,7 +229,7 @@ def target_A():
         lines.append("섹터강세 " + ", ".join(f"{r[0]}{f_pct(r[2]['1일'])}" for r in sect[:3]))
         lines.append("섹터약세 " + ", ".join(f"{r[0]}{f_pct(r[2]['1일'])}" for r in sect[-3:]))
     return "".join(parts), "\n".join(lines)
-
+ 
 # ───────────────────────── 대상 B (미국 ETF) ─────────────────────────
 def us_etf_universe():
     syms = set()
@@ -241,7 +241,7 @@ def us_etf_universe():
             df = df[df["Test Issue"] == "N"]
         syms |= set(df[col].astype(str))
     return sorted(s for s in syms if re.fullmatch(r"[A-Z]{1,5}", s))
-
+ 
 def target_B():
     syms = us_etf_universe()
     lim = int(os.environ.get("MAX_US_ETFS", "0"))
@@ -284,10 +284,10 @@ def target_B():
             "\n거래량TOP5: " + ", ".join(d.sort_values("거래량", ascending=False)["종목"].head(5)) +
             "\n거래증가TOP5: " + ", ".join(surge.sort_values("거래증가율(%)", ascending=False)["종목"].head(5)))
     return html, summ
-
+ 
 # ───────────────────────── 대상 C (한국) ─────────────────────────
 KR_US_RE = re.compile("미국|S&P|나스닥|NASDAQ|다우존스|필라델피아|빅테크|테슬라|엔비디아|애플|마이크로소프|구글|아마존|팔란티어|브로드컴|FANG|뉴욕")
-
+ 
 def etf_names(stock, tickers):
     p = pathlib.Path("data/etf_names.json")
     cache = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
@@ -298,10 +298,10 @@ def etf_names(stock, tickers):
     p.parent.mkdir(exist_ok=True)
     p.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
     return cache
-
+ 
 def kr_sections(df, label, d, hi_fetch, topn_hi=150):
     cols = ["종목", "종가", "등락률(%)", "거래량", "거래증가율(%)", "거래대금"]
-
+ 
   
     df = df.dropna(subset=["등락률(%)"]).copy()
     if df.empty:
@@ -335,17 +335,17 @@ def kr_sections(df, label, d, hi_fetch, topn_hi=150):
             "\n거래량TOP3: " + ", ".join(df.sort_values("거래량", ascending=False)["종목"].head(3)) +
             "\n거래증가TOP3: " + ", ".join(surge.sort_values("거래증가율(%)", ascending=False)["종목"].head(3)))
     return html, summ
-
+ 
 def target_C():
     import traceback
     from pykrx import stock
     parts, sums, errs, cache = [], [], [], {}
-
+ 
     def need(label, r):
         if r is None or (hasattr(r, "empty") and r.empty):
             raise RuntimeError(f"{label}: 빈 응답")
         return r
-
+ 
     def run(label, fn):
         try:
             h, sm = fn()
@@ -353,7 +353,7 @@ def target_C():
         except Exception as ex:
             traceback.print_exc()
             errs.append(f"{label}: {type(ex).__name__}: {ex}")
-
+ 
     today = dt.datetime.now(KST).strftime("%Y%m%d")
     d = stock.get_nearest_business_day_in_a_week(today)
     if not isinstance(d, str):
@@ -362,7 +362,7 @@ def target_C():
         (dt.datetime.strptime(d, "%Y%m%d") - dt.timedelta(days=1)).strftime("%Y%m%d"))
     if not isinstance(pdy, str):
         raise RuntimeError(f"전영업일 조회 실패(KRX 응답 이상): {pdy!r}")
-
+ 
     def do_stock():
         cur = need("코스피 당일시세", stock.get_market_ohlcv(d, market="KOSPI"))
         prv = need("코스피 전일시세", stock.get_market_ohlcv(pdy, market="KOSPI"))
@@ -373,7 +373,7 @@ def target_C():
         s["거래증가율(%)"] = (s["거래량"] / s["전일거래량"].replace(0, np.nan) - 1) * 100
         return kr_sections(s, "C1 코스피 종목", d,
                            lambda a, b, t: stock.get_market_ohlcv_by_date(a, b, t))
-
+ 
     def make_etf():
         if "e" not in cache:
             ec = need("ETF 당일시세", stock.get_etf_ohlcv_by_ticker(d))
@@ -389,27 +389,27 @@ def target_C():
             e["거래증가율(%)"] = (e["거래량"] / e["전일거래량"].replace(0, np.nan) - 1) * 100
             cache["e"] = e
         return cache["e"]
-
+ 
     efetch = lambda a, b, t: stock.get_etf_ohlcv_by_date(a, b, t)
     run("C1 코스피 종목", do_stock)
     run("C1 한국 ETF", lambda: kr_sections(make_etf(), "C1 한국 ETF", d, efetch, 100))
     run("C2 미국투자 한국 ETF", lambda: kr_sections(
         make_etf()[make_etf()["종목"].str.contains(KR_US_RE)], "C2 미국증시 투자 한국 ETF", d, efetch, 60))
-
+ 
     if not parts:
         raise RuntimeError(" | ".join(errs) or "원인 불명")
     err_html = ("<p class='err'>일부 실패: " + "<br>".join(errs) + "</p>") if errs else ""
     return f"<p>기준일 {d}</p>{err_html}" + "".join(parts), f"{d}\n" + "\n".join(sums)
-
+ 
 # ───────────────────────── 대상 D (VAA 공격형) ─────────────────────────
 VAA_OFF = {"SPY": "미국주식", "EFA": "선진국주식", "EEM": "신흥국주식", "AGG": "미국혼합채권"}
 VAA_DEF = {"LQD": "미국회사채", "IEF": "미국중기국채", "SHY": "미국단기국채"}
-
+ 
 def momentum(s, asof):
     s = s[:asof].dropna(); last, d = s.iloc[-1], s.index[-1]
     r = {m: last / s.asof(d - pd.DateOffset(months=m)) - 1 for m in (1, 3, 6, 12)}
     return r, 12 * r[1] + 4 * r[3] + 2 * r[6] + r[12]
-
+ 
 def vaa_pick(close, asof):
     sc, rets = {}, {}
     for t in list(VAA_OFF) + list(VAA_DEF):
@@ -419,7 +419,7 @@ def vaa_pick(close, asof):
     else:
         pick, mode = max(VAA_DEF, key=lambda t: sc[t]), "방어"
     return pick, mode, sc, rets
-
+ 
 def target_D():
     names = {**VAA_OFF, **VAA_DEF}
     close = fetch_close(names.keys())
@@ -447,10 +447,10 @@ def target_D():
         r = rets[t]
         lines.append(f"{t} 1M{r[1]*100:+.1f} 3M{r[3]*100:+.1f} 6M{r[6]*100:+.1f} 12M{r[12]*100:+.1f} 점수{sc[t]*100:+.1f}")
     return h + tbl + rule, "\n".join(lines)
-
+ 
 # ───────────────────────── 대상 E (올시즌스) ─────────────────────────
 ALLSEASONS = {"SPY": "미국주식", "TLT": "미국장기채", "GLD": "금", "SHY": "미국단기채"}
-
+ 
 def target_E():
     close = fetch_close(ALLSEASONS.keys())
     last, d = close.iloc[-1], close.index[-1]
@@ -480,14 +480,14 @@ def target_E():
     lines.append(f"현재비중 {drift}")
     lines.append(f"리밸런싱 {'필요' if need else '불필요'}")
     return html, "\n".join(lines)
-
+ 
 # ───────────────────────── 리포트 / 카카오 ─────────────────────────
 CSS = """body{font-family:'Noto Sans KR',-apple-system,sans-serif;max-width:980px;margin:auto;padding:12px;font-size:14px}
 h1{font-size:18px}h2{font-size:16px;margin-top:22px}img{max-width:100%}.scroll{overflow-x:auto}
 table{border-collapse:collapse;font-size:12px;white-space:nowrap}td,th{border:1px solid #ddd;padding:3px 7px;text-align:right}
 td:first-child,th:first-child{text-align:left}.up{color:#d62728}.dn{color:#1f77b4}.err{color:#c00}.muted{color:#888;font-size:12px}
 summary{cursor:pointer;font-weight:600;margin:8px 0}.ai{background:#f5f7fa;padding:8px 12px;border-radius:6px}"""
-
+ 
 def ai_comment(text):
     if not os.environ.get("ANTHROPIC_API_KEY"):
         return ""
@@ -499,7 +499,7 @@ def ai_comment(text):
         return m.content[0].text.strip()
     except Exception as e:
         print("AI 코멘트 실패", e); return ""
-
+ 
 def write_page(t, slot, body, summ):
     OUT.mkdir(parents=True, exist_ok=True)
     now = dt.datetime.now(KST)
@@ -513,7 +513,7 @@ def write_page(t, slot, body, summ):
     (OUT / f"{t}.html").write_text(html, encoding="utf-8")
     idx = "".join(f"<li><a href='{k}.html'>{v}</a></li>" for k, v in TARGET_NAMES.items())
     (OUT / "index.html").write_text(f"<!doctype html><meta charset='utf-8'><h1>시장 리포트</h1><ul>{idx}</ul>", encoding="utf-8")
-
+ 
 def update_gh_secret(name, value):
     pat, repo = os.environ.get("GH_PAT"), os.environ.get("GITHUB_REPOSITORY")
     if not (pat and repo):
@@ -525,7 +525,7 @@ def update_gh_secret(name, value):
     enc = base64.b64encode(box.encrypt(value.encode())).decode()
     requests.put(f"https://api.github.com/repos/{repo}/actions/secrets/{name}", headers=h,
                  json={"encrypted_value": enc, "key_id": k["key_id"]}, timeout=20).raise_for_status()
-
+ 
 def kakao_access_token():
     data = {"grant_type": "refresh_token", "client_id": os.environ["KAKAO_REST_API_KEY"],
             "refresh_token": os.environ["KAKAO_REFRESH_TOKEN"]}
@@ -537,7 +537,7 @@ def kakao_access_token():
     if j.get("refresh_token"):
         update_gh_secret("KAKAO_REFRESH_TOKEN", j["refresh_token"])
     return j["access_token"]
-
+ 
 def kakao_send(token, text, link=None):
     url = link or "https://www.kakao.com"
     tpl = {"object_type": "text", "text": text[:199],
@@ -547,7 +547,7 @@ def kakao_send(token, text, link=None):
                       data={"template_object": json.dumps(tpl, ensure_ascii=False)}, timeout=20)
     print("kakao:", r.status_code, r.text[:200])
     r.raise_for_status()
-
+ 
 # ───────────────────────── main ─────────────────────────
 def chunk_text(text, limit=150):
     chunks, cur = [], ""
@@ -559,13 +559,13 @@ def chunk_text(text, limit=150):
     if cur:
         chunks.append(cur)
     return chunks
-
+ 
 FUNCS = {"A": target_A, "B": target_B, "C": target_C, "D": target_D, "E": target_E}
-
+ 
 def nearest_slot(now):
     hhmm = now.hour * 100 + now.minute
     return min(TARGETS_BY_SLOT, key=lambda s: abs(int(s) - hhmm))
-
+ 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--slot"); ap.add_argument("--targets"); ap.add_argument("--no-send", action="store_true")
@@ -574,7 +574,7 @@ def main():
     slot = a.slot or SLOT_BY_CRON.get(os.environ.get("SCHEDULE", "")) or nearest_slot(now)
     targets = (a.targets or TARGETS_BY_SLOT[slot]).upper().replace(",", "").replace(" ", "")
     token = None if a.no_send else kakao_access_token()
-
+ 
     for t in targets:
         if t not in FUNCS:
             print(f"알 수 없는 대상: {t}", file=sys.stderr)
@@ -601,6 +601,7 @@ def main():
                     kakao_send(token, f"[{slot}] {TARGET_NAMES[t]} 전체 리포트(그래프·상위50)\n{link}", link)
                 except Exception as e:
                     print("링크 발송 실패:", e, file=sys.stderr)
-
+ 
 if __name__ == "__main__":
     main()
+ 
