@@ -7,7 +7,7 @@ market_bot.py - 시장 데이터 수집 -> HTML 리포트(그래프 포함) 생�
   python market_bot.py --targets D --no-send  # D만 실행, 발송 없이 docs/D.html 생성
 GitHub Actions에서는 환경변수 SCHEDULE(cron 문자열)로 슬롯을 자동 판별합니다.
 """
-import argparse, base64, io, json, os, pathlib, re, sys, datetime as dt
+import argparse, base64, io, json, os, pathlib, re, sys, time, datetime as dt
 from zoneinfo import ZoneInfo
  
 import matplotlib
@@ -33,13 +33,17 @@ plt.rcParams["axes.unicode_minus"] = False
  
 # ───────────────────────── 스케줄 정의 (cron은 UTC = KST-9h) ─────────────────────────
 SLOT_BY_CRON = {
-    "0 22 * * 0-5": "0700",   # KST 월~토 0700
-    "0 23 * * 0-4": "0800",   # KST 월~금 0800
-    "50 23 * * 0-4": "0850",
-    "0 0 * * 1-5": "0900",
-    "0 1 * * 1-5": "1000",
-    "30 3 * * 1-5": "1230",
-    "0 5 * * 1-5": "1400",
+    # 목표 발송시각보다 13~25분 먼저 시작(정각 혼잡·지연 회피) → 스크립트가 목표시각까지 기다렸다가 발송
+    "35 21 * * 0-5": "0700",   # KST 월~토 0635 시작 → 0700 발송
+    "47 22 * * 0-4": "0800",   # KST 월~금 0747 → 0800
+    "37 23 * * 0-4": "0850",   # KST 월~금 0837 → 0850
+    "35 23 * * 0-4": "0900",   # KST 월~금 0835 → 0900
+    "47 0 * * 1-5": "1000",    # KST 월~금 0947 → 1000
+    "17 3 * * 1-5": "1230",    # KST 월~금 1217 → 1230
+    "47 4 * * 1-5": "1400",    # KST 월~금 1347 → 1400
+    # (구 버전 정각 크론: 호환용)
+    "0 22 * * 0-5": "0700", "0 23 * * 0-4": "0800", "50 23 * * 0-4": "0850",
+    "0 0 * * 1-5": "0900", "0 1 * * 1-5": "1000", "30 3 * * 1-5": "1230", "0 5 * * 1-5": "1400",
 }
 TARGETS_BY_SLOT = {"0700": "ABE", "0900": "ABE",
                    "0800": "CD", "0850": "CD", "1000": "CD", "1230": "CD", "1400": "CD"}
@@ -595,15 +599,10 @@ def nearest_slot(now):
     hhmm = now.hour * 100 + now.minute
     return min(TARGETS_BY_SLOT, key=lambda s: abs(int(s) - hhmm))
  
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--slot"); ap.add_argument("--targets"); ap.add_argument("--no-send", action="store_true")
-    a = ap.parse_args()
-    now = dt.datetime.now(KST)
-    slot = a.slot or SLOT_BY_CRON.get(os.environ.get("SCHEDULE", "")) or nearest_slot(now)
-    targets = (a.targets or TARGETS_BY_SLOT[slot]).upper().replace(",", "").replace(" ", "")
-    token = None if a.no_send else kakao_access_token()
+SUMM_FILE = pathlib.Path("out/summaries.json")
  
+def build(slot, targets):
+    items = []
     for t in targets:
         if t not in FUNCS:
             print(f"알 수 없는 대상: {t}", file=sys.stderr)
@@ -616,20 +615,72 @@ def main():
             print(f"[{t}] 실패:", repr(e), file=sys.stderr)
             body, summ = f"<p class='err'>조회 실패: {e}</p>", f"조회 실패: {type(e).__name__} {str(e)[:70]}"
         write_page(t, slot, body, summ)
-        if token:
-            link = f"{PAGES_BASE}/{t}.html" if PAGES_BASE else None
-            parts = chunk_text(summ)
-            for i, body_txt in enumerate(parts, 1):
-                head = f"[{slot}] {TARGET_NAMES[t]} ({i}/{len(parts)})\n"
-                try:
-                    kakao_send(token, head + body_txt, link)
-                except Exception as e:
-                    print("카톡 발송 실패:", e, file=sys.stderr)
-            if link:
-                try:
-                    kakao_send(token, f"[{slot}] {TARGET_NAMES[t]} 전체 리포트(그래프·상위50)\n{link}", link)
-                except Exception as e:
-                    print("링크 발송 실패:", e, file=sys.stderr)
+        items.append({"t": t, "summ": summ})
+    SUMM_FILE.parent.mkdir(exist_ok=True)
+    SUMM_FILE.write_text(json.dumps({"slot": slot, "items": items}, ensure_ascii=False), encoding="utf-8")
+    return items
+ 
+def slot_target(slot):
+    now = dt.datetime.now(KST)
+    return now.replace(hour=int(slot[:2]), minute=int(slot[2:]), second=0, microsecond=0)
+ 
+def wait_until_slot(slot, max_wait_min=60):
+    """목표시각까지 남았으면 기다린다. 이미 지났으면(지연) 즉시 진행."""
+    delta = (slot_target(slot) - dt.datetime.now(KST)).total_seconds()
+    if 0 < delta <= max_wait_min * 60:
+        print(f"[대기] {slot}까지 {int(delta)}초 대기", flush=True)
+        time.sleep(delta)
+    else:
+        print(f"[대기 없음] 목표시각 대비 {int(-delta)}초 경과", flush=True)
+ 
+def send_all(slot, items):
+    token = kakao_access_token()
+    late = int((dt.datetime.now(KST) - slot_target(slot)).total_seconds() // 60)
+    tag = f" +{late}분 지연" if late >= 10 else ""
+    for it in items:
+        t, summ = it["t"], it["summ"]
+        link = f"{PAGES_BASE}/{t}.html" if PAGES_BASE else None
+        parts = chunk_text(summ)
+        for i, body_txt in enumerate(parts, 1):
+            head = f"[{slot}{tag}] {TARGET_NAMES[t]} ({i}/{len(parts)})\n"
+            try:
+                kakao_send(token, head + body_txt, link)
+            except Exception as e:
+                print("카톡 발송 실패:", e, file=sys.stderr)
+        if link:
+            try:
+                kakao_send(token, f"[{slot}] {TARGET_NAMES[t]} 전체 리포트(그래프·상위50)\n{link}", link)
+            except Exception as e:
+                print("링크 발송 실패:", e, file=sys.stderr)
+ 
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--slot"); ap.add_argument("--targets")
+    ap.add_argument("--no-send", action="store_true", help="발송 없이 리포트만 생성")
+    ap.add_argument("--build-only", action="store_true", help="리포트·요약만 생성(발송 안 함)")
+    ap.add_argument("--send-only", action="store_true", help="out/summaries.json 을 읽어 발송만")
+    ap.add_argument("--no-wait", action="store_true", help="목표시각 대기 없이 즉시 발송(수동 테스트용)")
+    a = ap.parse_args()
+    now = dt.datetime.now(KST)
+    print(f"[시작] KST {now:%Y-%m-%d %H:%M:%S} / SCHEDULE='{os.environ.get('SCHEDULE', '')}'", flush=True)
+ 
+    if a.send_only:
+        data = json.loads(SUMM_FILE.read_text(encoding="utf-8"))
+        slot = data["slot"]
+        if os.environ.get("SCHEDULE") and not a.no_wait:
+            wait_until_slot(slot)
+        send_all(slot, data["items"])
+        return
+ 
+    slot = a.slot or SLOT_BY_CRON.get(os.environ.get("SCHEDULE", "")) or nearest_slot(now)
+    targets = (a.targets or TARGETS_BY_SLOT[slot]).upper().replace(",", "").replace(" ", "")
+    print(f"[슬롯] {slot} / 대상 {targets}", flush=True)
+    items = build(slot, targets)
+    if a.build_only or a.no_send:
+        return
+    if os.environ.get("SCHEDULE") and not a.no_wait:
+        wait_until_slot(slot)
+    send_all(slot, items)
  
 if __name__ == "__main__":
     main()
