@@ -1,14 +1,18 @@
-name: market-report
 
+name: market-report
+ 
 on:
-  schedule:            # cron은 UTC (KST-9h). market_bot.py 의 SLOT_BY_CRON 과 문자열이 정확히 같아야 합니다.
-    - cron: "0 22 * * 0-5"    # KST 월~토 0700  (A,B,E)
-    - cron: "0 23 * * 0-4"    # KST 월~금 0800  (C,D)
-    - cron: "50 23 * * 0-4"   # KST 월~금 0850  (C,D)
-    - cron: "0 0 * * 1-5"     # KST 월~금 0900  (A,B,E)
-    - cron: "0 1 * * 1-5"     # KST 월~금 1000  (C,D)
-    - cron: "30 3 * * 1-5"    # KST 월~금 1230  (C,D)
-    - cron: "0 5 * * 1-5"     # KST 월~금 1400  (C,D)
+  schedule:
+    # cron은 UTC(KST-9h). 정각 혼잡/지연을 피하려고 목표 발송시각보다 13~25분 먼저 시작하고,
+    # 스크립트가 목표시각(KST)까지 기다렸다가 카톡을 보냅니다.
+    # market_bot.py 의 SLOT_BY_CRON 과 문자열이 정확히 같아야 합니다.
+    - cron: "35 21 * * 0-5"   # 월~토 KST 0635 시작 → 0700 발송 (A,B,E)
+    - cron: "47 22 * * 0-4"   # 월~금 KST 0747 시작 → 0800 발송 (C,D)
+    - cron: "37 23 * * 0-4"   # 월~금 KST 0837 시작 → 0850 발송 (C,D)
+    - cron: "35 23 * * 0-4"   # 월~금 KST 0835 시작 → 0900 발송 (A,B,E)
+    - cron: "47 0 * * 1-5"    # 월~금 KST 0947 시작 → 1000 발송 (C,D)
+    - cron: "17 3 * * 1-5"    # 월~금 KST 1217 시작 → 1230 발송 (C,D)
+    - cron: "47 4 * * 1-5"    # 월~금 KST 1347 시작 → 1400 발송 (C,D)
   workflow_dispatch:
     inputs:
       targets:
@@ -17,49 +21,74 @@ on:
       slot:
         description: "슬롯 표시용 (예: 0700)"
         default: "0700"
-
+ 
 permissions:
   contents: write
-
+ 
+# 슬롯마다 별도 그룹: 서로 대기시키거나 대기 중인 실행을 취소하지 않도록 함
 concurrency:
-  group: market-report
+  group: market-${{ github.event.schedule || github.run_id }}
   cancel-in-progress: false
-
+ 
 jobs:
   run:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      SCHEDULE: ${{ github.event.schedule }}
+      PAGES_BASE_URL: ${{ vars.PAGES_BASE_URL }}
+      KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+      KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+      KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+      GH_PAT: ${{ secrets.GH_PAT }}
+      ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      KRX_ID: ${{ secrets.KRX_ID }}
+      KRX_PW: ${{ secrets.KRX_PW }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-python@v6
+      - name: Schedule fired (로그 확인용)
+        run: |
+          echo "event=${{ github.event_name }} schedule='${{ github.event.schedule }}'"
+          echo "UTC $(date -u '+%F %T')  /  KST $(TZ=Asia/Seoul date '+%F %T')"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
       - name: Korean font
         run: sudo apt-get update -y && sudo apt-get install -y fonts-nanum
       - run: pip install -r requirements.txt
-      - name: Run
-        env:
-          SCHEDULE: ${{ github.event.schedule }}
-          PAGES_BASE_URL: ${{ vars.PAGES_BASE_URL }}     # 예: https://<user>.github.io/<repo>
-          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
-          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-          KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
-          GH_PAT: ${{ secrets.GH_PAT }}                  # 선택: refresh token 자동 갱신용
-          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}      # 선택: 한국 국채금리
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}  # 선택: AI 코멘트
-          KRX_ID: ${{ secrets.KRX_ID }}                  # pykrx 로그인이 필요한 경우
-          KRX_PW: ${{ secrets.KRX_PW }}
+ 
+      # 1) 데이터 수집·리포트 생성 (발송 안 함)
+      - name: Build
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            python market_bot.py --targets "${{ inputs.targets }}" --slot "${{ inputs.slot }}"
+            python market_bot.py --build-only --targets "${{ inputs.targets }}" --slot "${{ inputs.slot }}"
           else
-            python market_bot.py
+            python market_bot.py --build-only
           fi
+ 
+      # 2) 리포트 게시(커밋·푸시). 발송 전에 올려서 링크가 열리도록 함
       - name: Publish reports
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "market-bot"
           git config user.email "market-bot@users.noreply.github.com"
-          mkdir -p docs data
-          git add -A docs data
-          git diff --cached --quiet || (git commit -m "report $(date -u +%FT%TZ)" && git pull --rebase && git push)
+          git add docs data || true
+          if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
+          git commit -m "report $(date -u +%FT%TZ)"
+          for i in 1 2 3 4 5; do
+            git pull --rebase && git push && break
+            echo "push 재시도 $i"; sleep $((i*5))
+          done
+ 
+      # 3) 목표시각(KST)까지 대기 후 카톡 발송 (수동 실행은 즉시 발송)
+      - name: Send Kakao (목표시각까지 대기)
+        if: ${{ !cancelled() }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python market_bot.py --send-only --no-wait
+          else
+            python market_bot.py --send-only
+          fi
+ 
