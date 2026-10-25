@@ -288,16 +288,45 @@ def target_B():
 # ───────────────────────── 대상 C (한국) ─────────────────────────
 KR_US_RE = re.compile("미국|S&P|나스닥|NASDAQ|다우존스|필라델피아|빅테크|테슬라|엔비디아|애플|마이크로소프|구글|아마존|팔란티어|브로드컴|FANG|뉴욕")
  
+def _to_name(v, default):
+    """pykrx 버전에 따라 이름이 str/Series/DataFrame으로 올 수 있어 문자열로 통일."""
+    try:
+        if isinstance(v, pd.DataFrame):
+            v = v.iloc[0, 0] if v.size else ""
+        elif isinstance(v, pd.Series):
+            v = v.iloc[0] if len(v) else ""
+        v = str(v).strip()
+        return v if v and v.lower() not in ("nan", "none") else default
+    except Exception:
+        return default
+ 
 def etf_names(stock, tickers):
     p = pathlib.Path("data/etf_names.json")
-    cache = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+    try:
+        cache = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+    except Exception:
+        cache = {}
+    fails = 0
     for t in tickers:
-        if t not in cache:
-            try: cache[t] = stock.get_etf_ticker_name(t)
-            except Exception: cache[t] = t
-    p.parent.mkdir(exist_ok=True)
-    p.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
-    return cache
+        t = str(t)
+        if t in cache and cache[t] and cache[t] != t:
+            continue
+        if fails >= 5:                      # 연속 실패 시 더 시도하지 않고 코드로 대체
+            cache.setdefault(t, t)
+            continue
+        try:
+            name = _to_name(stock.get_etf_ticker_name(t), t)
+            cache[t] = name
+            fails = 0 if name != t else fails + 1
+        except Exception:
+            cache.setdefault(t, t)
+            fails += 1
+    try:
+        p.parent.mkdir(exist_ok=True)
+        p.write_text(json.dumps({str(k): str(v) for k, v in cache.items()}, ensure_ascii=False), encoding="utf-8")
+    except Exception as e:
+        print("ETF 이름 캐시 저장 실패:", e)
+    return {str(k): str(v) for k, v in cache.items()}
  
 def kr_sections(df, label, d, hi_fetch, topn_hi=150):
     cols = ["종목", "종가", "등락률(%)", "거래량", "거래증가율(%)", "거래대금"]
@@ -378,8 +407,8 @@ def target_C():
         if "e" not in cache:
             ec = need("ETF 당일시세", stock.get_etf_ohlcv_by_ticker(d))
             ep = need("ETF 전일시세", stock.get_etf_ohlcv_by_ticker(pdy))
-            names = etf_names(stock, list(ec.index))
-            e = pd.DataFrame({"종목": [str(names.get(t, t)) for t in ec.index],
+            names = etf_names(stock, [str(i) for i in ec.index])
+            e = pd.DataFrame({"종목": [str(names.get(str(t), t)) for t in ec.index],
                               "종가": ec["종가"].values,
                               "등락률(%)": ((ec["종가"] / ep["종가"].reindex(ec.index) - 1) * 100).values,
                               "거래량": ec["거래량"].values,
