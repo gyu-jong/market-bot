@@ -367,7 +367,7 @@ POINT_PLACE = {
  
 def _ai_query(g):
     import anthropic
-    client = anthropic.Anthropic()
+    client = anthropic.Anthropic(timeout=90.0, max_retries=1)
     tmpl = {n: {"value": None, "unit": "", "as_of": "", "note": "", "source": ""} for n in g["items"]}
     hints = "\n".join(f"- {n}: {h}" for n, h in g["items"].items())
     prompt = (f"오늘은 {dt.date.today():%Y-%m-%d}입니다. 웹 검색으로 아래 지표의 가장 최근 공표 수치를 찾아 JSON만 출력하세요.\n"
@@ -405,6 +405,8 @@ def collect_points():
     now = dt.datetime.now(dt.timezone.utc)
     use_ai = bool(os.environ.get("ANTHROPIC_API_KEY")) and os.environ.get("AI_POINTS", "1") != "0"
     out = {}
+    t_ai = time.time()
+    ai_deadline = float(os.environ.get("AI_DEADLINE_SEC", "240"))   # 이 시간이 지나면 남은 그룹은 캐시 사용
     for gid, g in AI_GROUPS.items():
         ent = cache.get(gid)
         fresh = False
@@ -413,7 +415,9 @@ def collect_points():
                 fresh = (now - dt.datetime.fromisoformat(ent["ts"])).total_seconds() < AI_TTL_H * 3600
             except Exception:
                 fresh = False
-        if use_ai and not fresh:
+        if use_ai and not fresh and time.time() - t_ai > ai_deadline:
+            print(f"AI 수집 시간 초과({int(time.time() - t_ai)}초) → [{gid}] 는 캐시 사용")
+        elif use_ai and not fresh:
             try:
                 data = _ai_query(g)
                 if any(v["value"] is not None for v in data.values()):
@@ -745,8 +749,23 @@ def us_etf_universe():
         syms |= set(df[col].astype(str))
     return sorted(s for s in syms if re.fullmatch(r"[A-Z]{1,5}", s))
  
+UNIV_FILE = "data/us_etf_universe.json"
+ 
+def _cached_universe():
+    obj = _load_json(UNIV_FILE, {})
+    try:
+        age = dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(obj["ts"])
+        if age.total_seconds() < 7 * 86400 and len(obj.get("syms", [])) >= 50:
+            return obj["syms"]
+    except Exception:
+        pass
+    return None
+ 
 def target_B():
-    syms = us_etf_universe()
+    syms = _cached_universe()
+    used_cache = syms is not None
+    if not used_cache:
+        syms = us_etf_universe()
     lim = int(os.environ.get("MAX_US_ETFS", "0"))
     if lim:
         syms = syms[:lim]
@@ -771,6 +790,10 @@ def target_B():
     d = d[(d["종가"] >= float(os.environ.get("MIN_PRICE", "5"))) &
           (d["거래대금($)"] >= float(os.environ.get("MIN_DOLLAR_VOL", "1000000")))]
     asof = close.index[-1].strftime("%Y-%m-%d")
+    if not used_cache and len(d) > 200:       # 주 1회 전체 조회 후 거래대금 상위만 저장
+        top_n = int(os.environ.get("B_UNIV_TOP", "1500"))
+        _save_json(UNIV_FILE, {"ts": dt.datetime.now(dt.timezone.utc).isoformat(),
+                               "syms": d.sort_values("거래대금($)", ascending=False).head(top_n)["종목"].tolist()})
     cols = ["종목", "종가", "등락률(%)", "거래량", "거래증가율(%)", "거래대금($)"]
     hi = d[d["종가"] >= d["52주고가"] * 0.9999].sort_values("등락률(%)", ascending=False)
     surge = d[d["전일거래량"] >= 100000]
@@ -1081,7 +1104,7 @@ def kakao_send(token, text, link=None):
     r.raise_for_status()
  
 # ───────────────────────── main ─────────────────────────
-def chunk_text(text, limit=150):
+def chunk_text(text, limit=145):
     chunks, cur = [], ""
     for line in text.split("\n"):
         if cur and len(cur) + len(line) + 1 > limit:
@@ -1098,14 +1121,27 @@ def nearest_slot(now):
     hhmm = now.hour * 100 + now.minute
     return min(TARGETS_BY_SLOT, key=lambda s: abs(int(s) - hhmm))
  
+SLOT_START = {"0700": "0635", "0800": "0747", "0850": "0837", "0900": "0835",
+              "1000": "0947", "1230": "1217", "1400": "1347"}      # 호출(트리거) 예정 시각(KST)
 SUMM_FILE = pathlib.Path("out/summaries.json")
  
-def build(slot, targets):
-    items = []
+def start_delay_min(slot):
+    """예정 시각보다 실행이 얼마나 늦게 시작했는지(분). 정시 모드가 아니면 None."""
+    st = SLOT_START.get(slot)
+    timed = os.environ.get("SCHEDULE") or os.environ.get("WAIT_FOR_SLOT", "").strip().lower() == "true"
+    if not st or not timed:
+        return None
+    now = dt.datetime.now(KST)
+    sched = now.replace(hour=int(st[:2]), minute=int(st[2:]), second=0, microsecond=0)
+    return int(round((now - sched).total_seconds() / 60))
+ 
+def build(slot, targets, meta=None):
+    items, t_all = [], time.time()
     for t in targets:
         if t not in FUNCS:
             print(f"알 수 없는 대상: {t}", file=sys.stderr)
             continue
+        t0 = time.time()
         try:
             body, summ = FUNCS[t]()
         except Exception as e:
@@ -1115,8 +1151,11 @@ def build(slot, targets):
             body, summ = f"<p class='err'>조회 실패: {e}</p>", f"조회 실패: {type(e).__name__} {str(e)[:70]}"
         write_page(t, slot, body, summ)
         items.append({"t": t, "summ": summ})
+        print(f"[타이밍] {t} 수집 {int(time.time() - t0)}초", flush=True)
+    rec = dict(meta or {}, slot=slot, items=items, build_sec=int(time.time() - t_all))
+    print(f"[타이밍] 전체 수집 {rec['build_sec']}초 / 시작지연 {rec.get('start_delay_min')}분", flush=True)
     SUMM_FILE.parent.mkdir(exist_ok=True)
-    SUMM_FILE.write_text(json.dumps({"slot": slot, "items": items}, ensure_ascii=False), encoding="utf-8")
+    SUMM_FILE.write_text(json.dumps(rec, ensure_ascii=False), encoding="utf-8")
     return items
  
 def should_wait(no_wait):
@@ -1138,11 +1177,16 @@ def wait_until_slot(slot, max_wait_min=60):
     else:
         print(f"[대기 없음] 목표시각 대비 {int(-delta)}초 경과", flush=True)
  
-def send_all(slot, items, show_late=False):
+def send_all(slot, items, show_late=False, meta=None):
     token = kakao_access_token()
     late = int((dt.datetime.now(KST) - slot_target(slot)).total_seconds() // 60)
     # 정시 발송 모드(예약/외부 호출)일 때만 '지연' 표시. 수동 테스트에서는 표시하지 않음
-    tag = f" +{late}분 지연" if (show_late and 10 <= late <= 360) else ""
+    tag = ""
+    if show_late and 10 <= late <= 360:
+        m = meta or {}
+        sd, bs = m.get("start_delay_min"), m.get("build_sec")
+        detail = f"(시작{sd:+d}·수집{round(bs / 60)})" if sd is not None and bs is not None else ""
+        tag = f" +{late}분{detail}"      # 예: +25분(시작+20·수집5) = 시작이 20분 늦고 수집에 5분 걸림
     for it in items:
         t, summ = it["t"], it["summ"]
         link = f"{PAGES_BASE}/{t}.html" if PAGES_BASE else None
@@ -1176,7 +1220,7 @@ def main():
         timed = should_wait(a.no_wait)
         if timed:
             wait_until_slot(slot)
-        send_all(slot, data["items"], show_late=timed)
+        send_all(slot, data["items"], show_late=timed, meta=data)
         return
  
     slot = a.slot or SLOT_BY_CRON.get(os.environ.get("SCHEDULE", "")) or nearest_slot(now)
@@ -1185,13 +1229,14 @@ def main():
         raw = TARGETS_BY_SLOT.get(slot, "ABE")
     targets = raw.replace(",", "").replace(" ", "")
     print(f"[슬롯] {slot} / 대상 {targets}", flush=True)
-    items = build(slot, targets)
+    meta = {"start_delay_min": start_delay_min(slot)}
+    items = build(slot, targets, meta)
     if a.build_only or a.no_send:
         return
     timed = should_wait(a.no_wait)
     if timed:
         wait_until_slot(slot)
-    send_all(slot, items, show_late=timed)
+    send_all(slot, items, show_late=timed, meta=meta)
  
 if __name__ == "__main__":
     main()
