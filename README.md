@@ -89,10 +89,15 @@ GitHub cron은 정시보다 수 분~수십 분 늦을 수 있습니다. 정시�
 
 ---
 
-# 정시 실행 설정 (외부 타이머 cron-job.org)
+# 정시 실행 설정 (cron-job.org) — 슬롯마다 두 가지 호출: 30분 전 + 정시
 
-GitHub 자체 예약(schedule)은 정각 부근에서 수 분~수십 분 늦거나 누락될 수 있어, 외부 타이머가 정해진 시각에 GitHub를 호출하는 방식을 씁니다.
-(워크플로우의 `schedule` 블록은 주석 처리돼 있습니다. 외부 타이머와 동시에 켜면 메시지가 중복 발송됩니다.)
+같은 슬롯을 두 번 호출합니다. 둘 다 카톡 결과가 오고, 머리말로 구분됩니다.
+| 호출 방식 | 호출 시각 | 결과 도착 | 카톡 머리 |
+|---|---|---|---|
+| 30분 전 호출 | 발송 30분 전 | **정시**(실행이 먼저 시작해 수집을 끝내 두고 정시에 발송) | `[0630 30분전호출]` |
+| 정시 호출 | 발송 시각 | 수집이 끝나는 대로(보통 수집 시간만큼 뒤) | `[0630 정시호출]` |
+
+GitHub 자체 예약은 몇 시간씩 늦어서 꺼 두었습니다. (두 호출이 서로 보완합니다.)
 
 ## 1) 호출용 토큰 만들기 (GitHub)
 계정 Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate
@@ -100,123 +105,78 @@ GitHub 자체 예약(schedule)은 정각 부근에서 수 분~수십 분 늦거�
 - Permissions → Repository permissions → **Actions: Read and write**
 - 생성된 `github_pat_...` 값을 복사해 둡니다. (시크릿 갱신용 `GH_PAT`과는 별개의 토큰입니다)
 
-## 2) cron-job.org 가입 후 작업 7개 만들기
-각 작업(Create cronjob)의 공통 설정
-- URL: `https://api.github.com/repos/깃허브아이디/market-bot/actions/workflows/market.yml/dispatches`
+## 2) cron-job.org 작업 만들기 (슬롯 9개 × 2가지 = 18개)
+**먼저 기존 작업(60분 전 호출, lead·quiet 가 들어간 본문)은 모두 삭제하거나 아래 값으로 고칩니다.** 옛 본문이 남아 있으면 422 오류가 계속됩니다.
+
+공통 설정 (한 번 만든 뒤 작업 복제(Duplicate)로 시각과 본문만 바꾸면 편합니다)
+- URL: `https://api.github.com/repos/gyu-jong/market-bot/actions/workflows/market.yml/dispatches`
 - Time zone: **Asia/Seoul**
 - Advanced → Request method: **POST**
-- Advanced → Headers (3개)
+- Advanced → Headers (4개)
   - `Accept` : `application/vnd.github+json`
   - `Authorization` : `Bearer github_pat_복사한토큰`
   - `X-GitHub-Api-Version` : `2022-11-28`
-- Advanced → Request body (슬롯마다 slot만 바꿉니다)
-  `{"ref":"main","inputs":{"slot":"0630"}}`  (slot 값만 작업마다 바꿉니다. targets=AUTO, wait=true 는 기본값이라 쓰지 않아도 됩니다)
-  - 저장소의 기본 브랜치가 `main`이 아니면 `"ref"` 값을 그 이름으로(예: `master`) 바꿉니다.
+  - `Content-Type` : `application/json`
+- Advanced → **Save responses in job history** 켜기 (실패했을 때 GitHub의 오류 문장을 볼 수 있습니다)
+- Request body: **`inputs`에는 slot 하나만** 넣습니다. 따옴표는 키보드의 곧은 따옴표(`"`)여야 합니다.
+  - 30분 전 호출: `{"ref":"main","inputs":{"slot":"0630@30"}}`
+  - 정시 호출 : `{"ref":"main","inputs":{"slot":"0630@0"}}`
+  - 저장소의 기본 브랜치가 `main`이 아니면 `"ref"` 값을 그 이름으로 바꿉니다.
 
-| 발송 시각(slot) | 호출 시각(KST) = 발송 60분 전 | 요일 | 보내는 대상(AUTO) |
-|---|---|---|---|
-| 0630 | 05:30 | 월~토 | A, B, D, E |
-| 0800 | 07:00 | 월~금 | A1, A2, A3, C |
-| 0830 | 07:30 | 월~금 | A |
-| 0930 | 08:30 | 월~금 | A1, A2, A3, C |
-| 1030 | 09:30 | 월~금 | A1, A2, A3, C |
-| 1300 | 12:00 | 월~금 | A1, A2, A3, C |
-| 1400 | 13:00 | 월~금 | A1, A2, A3, C |
-| 1500 | 14:00 | 월~금 | A1, A2, A3, C |
-| 2400 | 23:00 | 월~금 | B, D, E |
+| slot | 30분 전 호출 (본문 `slot`) | 정시 호출 (본문 `slot`) | 요일 | 보내는 대상 |
+|---|---|---|---|---|
+| 0630 | 06:00 (`0630@30`) | 06:30 (`0630@0`) | 월~토 | A, B, D, E |
+| 0800 | 07:30 (`0800@30`) | 08:00 (`0800@0`) | 월~금 | A1, A2, A3, C |
+| 0830 | 08:00 (`0830@30`) | 08:30 (`0830@0`) | 월~금 | A |
+| 0930 | 09:00 (`0930@30`) | 09:30 (`0930@0`) | 월~금 | A1, A2, A3, C |
+| 1030 | 10:00 (`1030@30`) | 10:30 (`1030@0`) | 월~금 | A1, A2, A3, C |
+| 1300 | 12:30 (`1300@30`) | 13:00 (`1300@0`) | 월~금 | A1, A2, A3, C |
+| 1400 | 13:30 (`1400@30`) | 14:00 (`1400@0`) | 월~금 | A1, A2, A3, C |
+| 1500 | 14:30 (`1500@30`) | 15:00 (`1500@0`) | 월~금 | A1, A2, A3, C |
+| 2400 | 23:30 (`2400@30`), 월~금 | 00:00 (`2400@0`), **화~토** | | B, D, E |
 
-호출을 일부러 60분 일찍 보내는 이유: GitHub 실행 시작이 늦어져도 흡수하기 위해서입니다. 실행이 시작되면 스크립트는 **발송 20분 전(C·D는 8분 전)까지 기다렸다가** 그때 데이터를 모으고, **slot 시각에 맞춰** 카톡을 보냅니다. 수집이 한도(기본 25분)를 넘으면 해당 대상만 "수집 시간 초과"로 표시하고 나머지는 정시에 보냅니다.
-비공개(private) 저장소는 무료 실행 시간이 월 2,000분이라, 대기 시간 때문에 부족할 수 있습니다. 이 경우 `TRIGGER_LEAD_MIN`을 30으로 줄이고 호출 시각도 30분 전으로 바꾸세요. 성공하면 cron-job.org 실행 기록에 HTTP 204가 보입니다.
+(2400 슬롯의 정시 호출은 다음 날 자정이라 요일이 화~토입니다.)
 
-## 3) 지연 원인 읽는 법
-정시보다 10분 이상 늦으면 카톡 머리에 `[0630 +19분(시작+40·수집4)]`처럼 표시됩니다.
-- 시작+N: 호출 예정 시각보다 N분 늦게 실행이 시작됨 (타이머/GitHub 문제)
-- 수집M: 데이터 수집에 M분 걸림 (수집이 느린 경우)
+## 3) 잘 연결됐는지 확인
+1. cron-job.org에서 작업의 **Test run**을 누르면 응답이 **204**여야 합니다. (오류면 응답 본문의 `message`를 보세요 → 아래 표)
+2. 저장소 Actions 탭 왼쪽 목록에 **`market-report v6`** 이름이 보이고, 방금 호출한 실행이 생겨야 합니다. 이름에 v6가 없으면 올린 `market.yml`이 옛 버전입니다.
+
+`slot` 하나만 쓰는 이유: 호출 본문에 저장소 파일에 없는 입력이 들어가면 GitHub가 422로 거절합니다. `slot`은 이 워크플로우의 모든 버전에 있어서 이 형태는 그 이유로 거절될 수 없습니다.
+
+## 4) 결과 읽는 법
+- 정시보다 10분 이상 늦으면 머리에 `[0630 30분전호출 +19분(시작+40·수집4)]`처럼 표시됩니다.
+  - 시작+N: 호출 예정 시각보다 N분 늦게 실행이 시작됨 (타이머/GitHub 쪽)
+  - 수집M: 데이터 수집에 M분 걸림
+- 호출 방식별 도착 지연은 `docs/timing.html`(= `https://깃허브아이디.github.io/market-bot/timing.html`)에 자동으로 쌓입니다. 평균·최대 지연과 10분·30분 이내 비율이 방식별로 나옵니다.
 
 ## 속도 관련 환경변수 (선택)
 - `AI_DEADLINE_SEC`(기본 240): AI 웹검색 수집의 총 시간 상한. 넘으면 남은 그룹은 캐시를 씁니다.
 - `B_UNIV_TOP`(기본 1500): 미국 ETF 조회 대상을 거래대금 상위 N개로 제한(주 1회 전체 갱신).
 
-
 ---
 
-# 자동 실행이 늦거나 안 올 때: 원인 점검 (3분)
+# 호출이 오류(422 등)로 실패할 때
 
-수동 실행(Run workflow)은 빨리 오는데 자동 실행만 몇 시간씩 늦다면, 코드가 아니라 **자동 실행을 시작시키는 쪽**의 문제입니다.
-
-## 1) cron-job.org 실행 기록 확인
-작업을 열면 실행 기록(History)에 시각과 응답 코드가 나옵니다.
-- **204**: 정상 (GitHub가 실행을 시작함)
-- 그 밖의 숫자(401, 403, 404, 422): 호출이 실패한 것 → 아래 2)로 원인 확인
-
-## 2) 호출을 직접 시험 (D만 가볍게 실행, 즉시 발송)
+## 직접 호출해서 오류 문장 확인 (D만 가볍게 실행, 즉시 발송)
 Mac/Linux 터미널:
 ```
-curl -i -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer github_pat_토큰" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/깃허브아이디/market-bot/actions/workflows/market.yml/dispatches -d '{"ref":"main","inputs":{"slot":"0630","targets":"D","wait":"false"}}'
+curl -i -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer github_pat_토큰" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/gyu-jong/market-bot/actions/workflows/market.yml/dispatches -d '{"ref":"main","inputs":{"slot":"0630","targets":"D","wait":"false"}}'
 ```
 Windows 명령 프롬프트(한 줄):
 ```
-curl.exe -i -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer github_pat_토큰" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/깃허브아이디/market-bot/actions/workflows/market.yml/dispatches -d "{\"ref\":\"main\",\"inputs\":{\"slot\":\"0630\",\"targets\":\"D\",\"wait\":\"false\"}}"
+curl.exe -i -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer github_pat_토큰" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/gyu-jong/market-bot/actions/workflows/market.yml/dispatches -d "{\"ref\":\"main\",\"inputs\":{\"slot\":\"0630\",\"targets\":\"D\",\"wait\":\"false\"}}"
 ```
-맨 위 줄의 숫자로 판단합니다.
+맨 위 줄의 숫자와 마지막 `message` 문장으로 판단합니다.
 | 응답 | 의미와 조치 |
 |---|---|
 | 204 | 정상. 몇 분 안에 D 결과가 카톡으로 옴 |
 | 401 | 토큰이 틀렸거나 만료 → 토큰 다시 만들기 |
-| 403 | 토큰에 Actions 쓰기 권한 없음 → 권한 `Actions: Read and write` 확인 |
+| 403 | 토큰에 Actions 쓰기 권한 없음 → `Actions: Read and write` 확인 |
 | 404 | 아이디·저장소·파일명(market.yml)이 틀렸거나 토큰이 이 저장소 접근 권한이 없음 |
-| 422 `Unexpected inputs provided` | 저장소의 market.yml 이 **옛 버전**임(wait 입력이 없음) → 새 파일로 교체 |
+| 422 `Unexpected inputs provided` | 본문에 slot 외 입력이 있거나, 저장소의 market.yml 이 옛 버전 → 본문을 slot 하나로, 파일을 새 버전으로 |
 | 422 `No ref found` | 브랜치 이름이 main이 아님 → 본문의 `"ref"`를 실제 브랜치명으로 |
-| 422 `does not have 'workflow_dispatch'` | market.yml 이 옛 버전 → 새 파일로 교체 |
-
-## 3) Actions 탭의 실행 목록 확인
-각 실행 옆의 Event 열이 `workflow_dispatch`(cron-job.org 호출)인지 `schedule`(GitHub 자체 예약)인지 봅니다. `schedule`만 보이고 정시 `workflow_dispatch`가 없다면 cron-job.org 호출이 실패하고 있는 것입니다.
+| 422 `does not have 'workflow_dispatch'` | market.yml 이 옛 버전이거나 파일 형식 오류 → 새 파일로 교체 |
+| 422 `Invalid request` / `wasn't supplied` | 본문이 비었거나 JSON 형식 오류(굽은 따옴표 “ ” 포함 여부 확인) → 위 본문을 그대로 입력 |
 
 ## 같은 시각에 두 번 오지 않나요?
-cron-job.org 호출과 GitHub 예약이 둘 다 켜져 있어도 **같은 슬롯은 한 번만** 발송됩니다. 먼저 온 실행이 `data/sent/날짜_슬롯.txt` 표식을 올려 선점하고, 늦게 온 실행은 "이미 발송됨"으로 건너뜁니다. (수동 실행은 항상 발송됩니다.)
-
-
-## cron-job.org 가 422 로 실패할 때 (실제로 겪은 사례)
-422 는 "요청 형식은 맞지만 GitHub가 거절"이라는 뜻이고, 사유는 응답 본문의 `message`에 있습니다(위 curl 시험에서 `-i`로 보입니다). 흔한 사유:
-1. 저장소의 `market.yml` 이 **옛 버전** (`wait` 입력이 없거나 workflow_dispatch 가 없음) → 새 파일로 교체. 올바른 파일은 **맨 위 첫 줄에 `# 파일 버전: dispatch-v3`** 가 보입니다.
-2. 브랜치 이름 불일치 (`No ref found for: main`) → `"ref"` 값을 실제 기본 브랜치명으로.
-3. 본문 값이 문자열이 아님 (`"wait":true` 처럼 따옴표 없음) → 값은 모두 따옴표로 감쌉니다. 가장 안전한 본문은 slot 만 넣는 위 형태입니다.
-4. 본문을 비워 두었거나 Content-Type 오류 → Request body 칸에 위 JSON 을 그대로 넣었는지 확인.
-
-
----
-
-# 호출 시각 비교: 정시 호출 vs 60분 전 호출
-
-목적: 발송 시각과 **같은 시각에 호출**(정시 호출)했을 때와 **60분 전에 호출**(기본)했을 때 도착이 얼마나 달라지는지 숫자로 비교합니다.
-
-## 1) 비교용 작업 만들기 (cron-job.org)
-기존 60분 전 호출 작업은 **그대로 둡니다.** 같은 슬롯에 정시 호출 작업을 추가로 만들고, 본문만 아래처럼 합니다.
-```
-{"ref":"main","inputs":{"slot":"0630","lead":"0","quiet":"true"}}
-```
-- `lead":"0"` : 이 호출이 발송 시각 0분 전(정시)이라는 표시입니다. 정시 호출은 수집 시간을 충분히(25분) 줍니다.
-- `quiet":"true"` : 카톡은 보내지 않고 **시간만 기록**합니다(같은 메시지가 두 번 오지 않음). 실제로 메시지가 오는 모습도 보고 싶으면 `"quiet":"false"`로 바꾸세요. 그러면 머리에 `정시호출`이 붙어서 구분됩니다.
-
-| slot | 정시 호출 시각(KST) | 요일 |
-|---|---|---|
-| 0630 | 06:30 | 월~토 |
-| 0800 | 08:00 | 월~금 |
-| 0830 | 08:30 | 월~금 |
-| 0930 | 09:30 | 월~금 |
-| 1030 | 10:30 | 월~금 |
-| 1300 | 13:00 | 월~금 |
-| 1400 | 14:00 | 월~금 |
-| 1500 | 15:00 | 월~금 |
-| 2400 | 00:00 (자정) | **화~토** (월~금의 2400 = 다음 날 00:00) |
-
-작업이 많으면 대표 슬롯 3개(0630, 1300, 2400)만 먼저 비교해도 됩니다.
-
-## 2) 결과 보기
-`https://깃허브아이디.github.io/market-bot/timing.html` (며칠 쌓인 뒤 확인)
-- **호출 방식별 요약**: 평균 시작지연, 평균 수집 시간, 평균 도착(목표 대비 분), 10분 이내·30분 이내 비율
-- **슬롯 × 호출 방식**, **최근 기록**
-- 해석: 정시 호출은 수집이 끝나야 도착하므로 대략 **수집 시간만큼 늦게**, 60분 전 호출은 **0분 안팎**이어야 합니다. 두 방식 모두 "시작지연"이 크면 GitHub/타이머 쪽 지연입니다.
-- 원본은 `data/timing_log.csv` 에 쌓입니다.
-
-비교가 끝나면 정시 호출 작업은 삭제(또는 일시중지)하세요.
+의도된 동작입니다. 슬롯마다 **30분 전 호출 결과**와 **정시 호출 결과**가 각각 한 번씩 옵니다. 같은 호출 방식이 두 번 실행돼도(재시도 등) 같은 방식은 한 번만 발송됩니다(표식 `data/sent/날짜_슬롯_L30.txt` 등). 수동 실행은 항상 발송됩니다.
