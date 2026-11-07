@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 market_bot.py - 시장 데이터 수집 -> HTML 리포트(그래프 포함) 생성 -> 카카오톡 "나에게 보내기" 알림
-
+ 
 사용 예)
   python market_bot.py --slot 0700            # 0700 슬롯(A,B,E) 실행 후 카톡 발송
   python market_bot.py --targets D --no-send  # D만 실행, 발송 없이 docs/D.html 생성
@@ -9,38 +9,38 @@ GitHub Actions에서는 환경변수 SCHEDULE(cron 문자열)로 슬롯을 자�
 """
 import argparse, base64, csv, io, json, os, pathlib, re, signal, subprocess, sys, time, datetime as dt
 from zoneinfo import ZoneInfo
-
+ 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import requests
-
+ 
 _HTTP_TIMEOUT = float(os.environ.get("HTTP_TIMEOUT_SEC", "30"))
 _orig_session_request = requests.sessions.Session.request
-
+ 
 def _request_with_timeout(self, method, url, **kw):
     if kw.get("timeout") is None:            # pykrx 등 timeout 없이 호출하는 라이브러리 보호
         kw["timeout"] = _HTTP_TIMEOUT
     return _orig_session_request(self, method, url, **kw)
-
+ 
 requests.sessions.Session.request = _request_with_timeout
 import yfinance as yf
-
+ 
 KST = ZoneInfo("Asia/Seoul")
 OUT = pathlib.Path(os.environ.get("OUT_DIR", "docs"))
 PAGES_BASE = os.environ.get("PAGES_BASE_URL", "").rstrip("/")
-
+ 
 from matplotlib import font_manager
 _avail = {f.name for f in font_manager.fontManager.ttflist}
 for _f in ("NanumGothic", "AppleGothic", "Malgun Gothic"):
     if _f in _avail:
         plt.rcParams["font.family"] = _f
         break
-
+ 
 plt.rcParams["axes.unicode_minus"] = False
-
+ 
 # ───────────────────────── 스케줄 정의 (cron은 UTC = KST-9h) ─────────────────────────
 SLOT_BY_CRON = {
     # GitHub 예약(백업) 크론 문자열 → 슬롯. 시작은 목표시각보다 SLOT_LEAD 분 먼저(정각 혼잡 회피).
@@ -66,48 +66,48 @@ TARGETS_BY_SLOT = {
 TARGET_NAMES = {"A": "A 지수·거시 전체", "A1": "A1 환율·주가·RSI", "A2": "A2 PMI·금속·심리", "A3": "A3 금리",
                 "B": "B 미국 ETF", "C": "C 한국 종목·ETF",
                 "D": "D VAA 공격형", "E": "E 올시즌스"}
-
+ 
 def parse_targets(raw):
     """'A,B,D,E' / 'A1A2A3C' / 'ABCDE' → ['A','B',...]. 하위 대상은 A1·A2·A3 처럼 숫자를 붙인다."""
     return re.findall(r"[A-E][0-9]?", (raw or "").upper())
-
+ 
 PERIODS = [("1일", None), ("1주", pd.DateOffset(weeks=1)), ("1개월", pd.DateOffset(months=1)),
            ("1분기", pd.DateOffset(months=3)), ("1년", pd.DateOffset(years=1)),
            ("2년", pd.DateOffset(years=2)), ("3년", pd.DateOffset(years=3))]
 CHART_DAYS = int(os.environ.get("CHART_DAYS", "7"))  # 그래프에 표시할 최근 거래일 수
-
+ 
 SYSTEM_PROMPT = """당신은 금융시장 데이터 분석 어시스턴트입니다.
 입력된 수치 요약만 근거로 한국어 3문장 이내 코멘트를 작성하세요.
 규칙: 입력에 없는 수치·뉴스·원인은 만들지 말 것. 추정은 '가능성' 표현을 쓸 것.
 투자 권유(매수/매도 지시)는 하지 말고, 변화가 큰 항목과 주의점을 짚을 것."""
-
+ 
 # ───────────────────────── 공통 유틸 ─────────────────────────
 def f_num(v):
     if v is None or v != v:
         return "-"
     return f"{v:,.2f}" if abs(v) < 1000 else f"{v:,.0f}"
-
+ 
 def f_pct(v, diff=False):
     if v is None or v != v:
         return "-"
     arrow = "▲" if v > 0 else "▼" if v < 0 else "-"
     return f"{arrow}{abs(v):.2f}{'p' if diff else '%'}"
-
+ 
 def cls(v):
     return "up" if (v == v and v > 0) else "dn" if (v == v and v < 0) else ""
-
+ 
 def wk_no(d):
     """ISO 주차 번호 (예: W43)"""
     return f"W{d.isocalendar()[1]:02d}"
-
+ 
 def iso_wk(d):
     """연도 포함 주차 (예: 2026-W43)"""
     y, w = d.isocalendar()[0], d.isocalendar()[1]
     return f"{y}-W{w:02d}"
-
+ 
 def ym(d):
     return f"{d.year}-{d.month:02d}"
-
+ 
 def period_label(name, bd, freq):
     """비교 기준 시점의 라벨: 일간=날짜/주차/월/분기/연, 주간=Week No., 월간=연-월"""
     if bd is None or bd != bd:
@@ -125,19 +125,19 @@ def period_label(name, bd, freq):
     if name == "1분기":
         return f"{bd.year}Q{(bd.month - 1) // 3 + 1}"
     return f"{bd.year}"
-
+ 
 def asof_label(d, freq):
     if freq == "M":
         return ym(d)
     if freq == "W":
         return iso_wk(d)
     return f"{d:%m-%d}({wk_no(d)})"
-
+ 
 def strip_tz(obj):
     if getattr(obj.index, "tz", None) is not None:
         obj.index = obj.index.tz_localize(None)
     return obj
-
+ 
 def fetch_close(tickers, period="4y"):
     tickers = list(tickers)
     df = yf.download(tickers, period=period, auto_adjust=True, progress=False,
@@ -147,7 +147,7 @@ def fetch_close(tickers, period="4y"):
         close = pd.DataFrame(close)
         close.columns = tickers[:1]
     return strip_tz(close)
-
+ 
 def changes(s, diff=False, monthly=False, weekly=False):
     """기간별 증감. diff=True면 차이(금리 %p), 아니면 수익률(%). 기준 시점은 _bases 로 함께 반환."""
     s = s.dropna()
@@ -176,7 +176,7 @@ def changes(s, diff=False, monthly=False, weekly=False):
     out["_d"], out["_bases"] = d, bases
     out["_freq"] = "M" if monthly else "W" if weekly else "D"
     return last, out
-
+ 
 def spark_grid(series, title, cols=4, npts=None, unit="거래일"):
     items = [(n, s.dropna().tail(npts or CHART_DAYS)) for n, s in series.items() if s.dropna().size > 1]
     if not items:
@@ -195,12 +195,12 @@ def spark_grid(series, title, cols=4, npts=None, unit="거래일"):
     fig.tight_layout()
     buf = io.BytesIO(); fig.savefig(buf, format="png", dpi=110); plt.close(fig)
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()
-
+ 
 def table_html(rows, diff=False):
     freq = rows[0][2].get("_freq", "D") if rows else "D"
     pers = [p for p, _ in PERIODS if any(r[2][p] == r[2][p] for r in rows)] or [p for p, _ in PERIODS]
     ref = max(rows, key=lambda r: r[2].get("_d", pd.Timestamp(0))) if rows else None
-
+ 
     def hdr(p):
         bd = ref[2].get("_bases", {}).get(p) if ref else None
         lab = period_label(p, bd, freq)
@@ -214,7 +214,7 @@ def table_html(rows, diff=False):
         tds = "".join(f"<td class='{cls(ch[p])}'>{f_pct(ch[p], diff)}</td>" for p in pers)
         body += f"<tr><td>{nm}</td><td>{asof}</td><td>{f_num(last)}</td>{tds}</tr>"
     return f"<div class='scroll'><table>{head}{body}</table></div>"
-
+ 
 def block(title, series, diff=False, cols=4, sort_1d=False, monthly=False, weekly=False):
     rows = []
     for nm, s in series.items():
@@ -229,19 +229,19 @@ def block(title, series, diff=False, cols=4, sort_1d=False, monthly=False, weekl
                      npts=7 if lowfreq else None, unit="개월" if monthly else "주" if weekly else "거래일")
     html = f"<h2>{title}</h2>" + (f"<img src='{img}'>" if img else "") + table_html(rows, diff)
     return html, rows
-
+ 
 def prices_block(title, mapping, **kw):
     close = fetch_close(mapping.keys())
     series = {nm: close[t] for t, nm in mapping.items() if t in close and close[t].dropna().size > 2}
     return block(title, series, **kw)
-
+ 
 def df_html(df, title, n=None, open_=False):
     d = df.head(n) if n else df
     h = d.to_html(index=False, border=0, classes="t",
                   float_format=lambda x: f"{x:,.2f}", na_rep="-")
     return (f"<details {'open' if open_ else ''}><summary>{title} ({len(d)})</summary>"
             f"<div class='scroll'>{h}</div></details>")
-
+ 
 # ───────────────────────── 대상 A ─────────────────────────
 def fred(series_id):
     r = requests.get("https://fred.stlouisfed.org/graph/fredgraph.csv",
@@ -251,10 +251,10 @@ def fred(series_id):
     s = pd.Series(pd.to_numeric(df.iloc[:, 1], errors="coerce").values,
                   index=pd.to_datetime(df.iloc[:, 0])).dropna()
     return s[s.index >= pd.Timestamp.now() - pd.DateOffset(years=4)]
-
+ 
 # ECOS 통계코드(시장금리 일별 817Y002). 코드가 다르면 ECOS 사이트에서 확인 후 수정하세요.
 ECOS_CODES = {"한 국고채3년": "010200000", "한 국고채10년": "010210000"}
-
+ 
 def ecos(code):
     key = os.environ.get("ECOS_API_KEY")
     if not key:
@@ -264,25 +264,25 @@ def ecos(code):
     url = f"https://ecos.bok.or.kr/api/StatisticSearch/{key}/json/kr/1/2000/817Y002/D/{start}/{end}/{code}"
     rows = requests.get(url, timeout=30).json()["StatisticSearch"]["row"]
     return pd.Series({pd.to_datetime(r["TIME"]): float(r["DATA_VALUE"]) for r in rows}).sort_index()
-
+ 
 SECTORS = {"XLK": "기술", "XLF": "금융", "XLE": "에너지", "XLV": "헬스케어", "XLY": "경기소비",
            "XLP": "필수소비", "XLI": "산업재", "XLB": "소재", "XLU": "유틸리티",
            "XLRE": "부동산", "XLC": "커뮤니케이션"}
-
+ 
 # ── 데이터 수집 보조 ──
 def _load_json(p, default):
     try:
         return json.loads(pathlib.Path(p).read_text(encoding="utf-8"))
     except Exception:
         return default
-
+ 
 def _save_json(p, obj):
     try:
         p = pathlib.Path(p); p.parent.mkdir(exist_ok=True)
         p.write_text(json.dumps(obj, ensure_ascii=False, indent=1), encoding="utf-8")
     except Exception as e:
         print("JSON 저장 실패:", p, e)
-
+ 
 def cnn_fear_greed():
     start = (dt.date.today() - dt.timedelta(days=365 * 3)).strftime("%Y-%m-%d")
     r = requests.get("https://production.dataviz.cnn.io/index/fearandgreed/graphdata/" + start,
@@ -293,12 +293,12 @@ def cnn_fear_greed():
     s = pd.Series({pd.to_datetime(d["x"], unit="ms").normalize(): float(d["y"])
                    for d in j["fear_and_greed_historical"]["data"]}).sort_index()
     return s, j.get("fear_and_greed", {}).get("rating", "")
-
+ 
 def crack_spread():
     """미국 3-2-1 크랙스프레드($/bbl) = (2×휘발유 + 1×디젤 - 3×WTI)/3. 싱가포르 정제마진의 대용 지표."""
     c = fetch_close(["RB=F", "HO=F", "CL=F"]).dropna()
     return (2 * c["RB=F"] * 42 + c["HO=F"] * 42 - 3 * c["CL=F"]) / 3
-
+ 
 def yf_items(title, items, **kw):
     """items: [(티커, 표시명, 배수)]"""
     series, missing = {}, []
@@ -315,7 +315,7 @@ def yf_items(title, items, **kw):
     if missing:
         h += "<p class='err'>조회 실패: " + ", ".join(missing) + "</p>"
     return h, rows, missing
-
+ 
 def fred_items(title, items, **kw):
     """items: [(FRED 시리즈ID, 표시명)]"""
     series, missing = {}, []
@@ -331,13 +331,13 @@ def fred_items(title, items, **kw):
     if missing:
         h += "<p class='err'>조회 실패: " + ", ".join(missing) + "</p>"
     return h, rows, missing
-
+ 
 # ── 무료 시계열이 없는 지표: AI 웹검색 수집(캐시) + 수동 입력(우선) ──
 AI_TTL_H = float(os.environ.get("AI_TTL_HOURS", "20"))
 AI_CACHE = "data/ai_points.json"
 MANUAL_FILE = "data/manual_inputs.json"
 HIST_FILE = "data/point_history.json"
-
+ 
 AI_GROUPS = {
     "pmi": {"desc": "주요 제조국 제조업 PMI (50 기준, 최근 월 확정/속보치 중 가장 최신).",
             "items": {"미국 ISM 제조업 PMI": "ISM Manufacturing PMI", "중국 NBS 제조업 PMI": "국가통계국 공식 제조업 PMI",
@@ -371,7 +371,7 @@ AI_GROUPS = {
                         "중국 고정자산투자 누계 YoY(%)": "중국 국가통계국, 연초 누계 전년동기비",
                         "중국 소매판매 YoY(%)": "중국 국가통계국, 최근 월 전년동월비"}},
 }
-
+ 
 POINT_PLACE = {
     "A1": ["S&P500 Forward P/E"],
     "A2_PMI": ["미국 ISM 제조업 PMI", "중국 NBS 제조업 PMI", "유로존 HCOB 제조업 PMI",
@@ -385,7 +385,7 @@ POINT_PLACE = {
     "A6": ["한국 수출액", "한국 수입액", "한국 무역수지", "한국 반도체 수출액",
            "중국 고정자산투자 누계 YoY(%)", "중국 소매판매 YoY(%)"],
 }
-
+ 
 def _ai_query(g):
     import anthropic
     client = anthropic.Anthropic(timeout=90.0, max_retries=1)
@@ -419,7 +419,7 @@ def _ai_query(g):
         clean[n] = {"value": v, "unit": str(rec.get("unit", ""))[:12], "as_of": str(rec.get("as_of", ""))[:10],
                     "note": str(rec.get("note", ""))[:40], "source": str(rec.get("source", ""))[:200]}
     return clean
-
+ 
 def collect_points(groups=None):
     """{표시명: record}. 우선순위: 수동입력 > AI검색(신선) > AI검색(캐시, stale)"""
     cache = _load_json(AI_CACHE, {})
@@ -456,7 +456,7 @@ def collect_points(groups=None):
         if isinstance(rec, dict) and rec.get("value") is not None:
             out[n] = dict({"unit": "", "as_of": "", "note": "", "source": ""}, **{k: v for k, v in rec.items() if k != "src"}, src="수동")
     return out
-
+ 
 def update_history(points):
     h = _load_json(HIST_FILE, {})
     for n, rec in points.items():
@@ -468,22 +468,22 @@ def update_history(points):
             h[n] = L[-36:]
     _save_json(HIST_FILE, h)
     return h
-
+ 
 def prev_change(h, n):
     L = h.get(n, [])
     if len(L) >= 2 and L[-2]["value"]:
         return (L[-1]["value"] / L[-2]["value"] - 1) * 100, L[-2]["as_of"]
     return None, ""
-
+ 
 POINT_WEEKLY = {"S&P500 Forward P/E", "AAII 강세(%)", "AAII 약세(%)", "AAII 중립(%)", "SCFI(상하이컨테이너운임)"}
 POINT_MONTHLY = set(POINT_PLACE["A2_PMI"]) | set(POINT_PLACE["A6"])
-
+ 
 def point_freq(n):
     return "W" if n in POINT_WEEKLY else "M" if n in POINT_MONTHLY else "D"
-
+ 
 def _pt_date(as_of):
     return pd.Timestamp(as_of if len(as_of) >= 10 else as_of[:7] + "-01")
-
+ 
 def point_label(n, as_of):
     """표 표시용: 주간=2026-W43 (10-22), 월간=2026-09, 일간=10-23 (W43)"""
     if not as_of:
@@ -493,7 +493,7 @@ def point_label(n, as_of):
         return ym(d) if f == "M" else f"{iso_wk(d)} ({d:%m-%d})" if f == "W" else f"{d:%m-%d} ({wk_no(d)})"
     except Exception:
         return as_of
-
+ 
 def point_tag(n, as_of):
     """카톡 요약용 짧은 표기: 주간=2026-W43, 월간=2026-09, 일간=10-23"""
     if not as_of:
@@ -503,7 +503,7 @@ def point_tag(n, as_of):
         return ym(d) if f == "M" else iso_wk(d) if f == "W" else f"{d:%m-%d}"
     except Exception:
         return as_of[-7:]
-
+ 
 def points_html(title, names, points, hist):
     rows, miss = "", []
     for n in names:
@@ -522,22 +522,22 @@ def points_html(title, names, points, hist):
                  f"<td>{rec.get('note', '')} {link}</td></tr>")
     head = "<tr><th>항목</th><th>값</th><th>기준(주차·월)</th><th>직전 대비</th><th>출처</th><th>비고</th></tr>"
     return f"<h2>{title}</h2><div class='scroll'><table>{head}{rows}</table></div>", miss
-
+ 
 def f_pct1(v, diff=False):
     if v is None or v != v:
         return "-"
     arrow = "▲" if v > 0 else "▼" if v < 0 else "-"
     return f"{arrow}{abs(v):.1f}{'p' if diff else '%'}"
-
+ 
 # 카톡 요약(brief)에 항상 넣는 핵심 항목
 A_KEY = {"미국 M2", "달러지수", "원/달러", "원/엔(100엔)", "S&P500", "나스닥", "코스피", "S&P500 Forward P/E",
          "미국 ISM 제조업 PMI", "중국 NBS 제조업 PMI", "VIX", "CNN Fear&Greed", "AAII 강세(%)",
          "미 국채10년", "한 국고채10년", "WTI(현물)", "브렌트(현물)", "금(현물)", "구리(선물)",
          "BDI(발틱운임지수)", "한국 수출액", "한국 반도체 수출액", "산업금속 ETF(DBB)"}
-
+ 
 RSI_IDX = [("S&P500", "^GSPC"), ("다우", "^DJI"), ("나스닥", "^IXIC"), ("코스피", "^KS11"), ("코스닥", "^KQ11")]
 PE_NAME = "S&P500 Forward P/E"
-
+ 
 def wilder_rsi(s, n=14):
     """Wilder RSI(n). 데이터가 n+1개 미만이면 빈 시리즈."""
     s = s.dropna()
@@ -549,7 +549,7 @@ def wilder_rsi(s, n=14):
     ad = dn.ewm(alpha=1 / n, adjust=False, min_periods=n).mean()
     r = 100 - 100 / (1 + au / ad)
     return r.where(ad != 0, 100.0).dropna()
-
+ 
 def _last_of(s, kind):
     """주봉(금요일 마감)·월봉(월말) 종가. 진행 중인 주·월의 최근 값을 포함."""
     if kind == "W":
@@ -558,18 +558,18 @@ def _last_of(s, kind):
         return s.resample("ME").last().dropna()
     except ValueError:                       # 구버전 pandas
         return s.resample("M").last().dropna()
-
+ 
 def rsi_zone(v):
     if v != v:
         return ""
     return "과매수" if v >= 70 else "과매도" if v <= 30 else "중립"
-
+ 
 def _rsi_cell(v, tag=""):
     if v != v:
         return "<td>-</td>"
     c = "up" if v >= 70 else "dn" if v <= 30 else ""
     return f"<td class='{c}'>{v:.1f} {rsi_zone(v)}{(' <small>' + tag + '</small>') if tag else ''}</td>"
-
+ 
 def rsi_html(hist):
     """A1 RSI(14): 일간·주간(Week No.)·월간. Forward P/E 는 누적된 주간 이력으로 계산."""
     close = fetch_close([t for _, t in RSI_IDX])
@@ -623,7 +623,7 @@ def rsi_html(hist):
         S.append({"text": f"RSI주({iso_wk(d_all)}) " + " ".join(w_line)
                           + (f" FwdPE {pe_w:.0f}" if pe_w is not None and pe_w == pe_w else ""), "key": True})
     return html, S, miss
-
+ 
 def target_A(only=None):
     """only=None 이면 A 전체, {'A1','A2','A3'} 처럼 주면 해당 섹션만(한국 시간대용)."""
     want = lambda sec: only is None or sec in only
@@ -648,7 +648,7 @@ def target_A(only=None):
         except Exception as e:
             parts.append(f"<h2>{title}</h2><p class='err'>조회 실패: {e}</p>"); return
         parts.append(h); miss_all.extend(miss); add_rows(rows, monthly, weekly=weekly)
-
+ 
     points = {}
     try:
         need = None if (only is None or only & {"A4", "A5", "A6"}) else set().union(
@@ -666,7 +666,7 @@ def target_A(only=None):
                 u = rec.get("unit", "")
                 S.append({"text": f"{n.split('(')[0]} {f_num(rec['value'])}{u if len(u) <= 4 else ''}"
                                   f"({point_tag(n, rec.get('as_of', ''))})", "key": n in A_KEY})
-
+ 
     # ── A1 환율/주가 ──
     if want("A1"):
         run_yf("A1 달러·환율", [("DX-Y.NYB", "달러지수", 1), ("KRW=X", "원/달러", 1), ("EURKRW=X", "원/유로", 1),
@@ -681,7 +681,7 @@ def target_A(only=None):
             parts.append(h_r); S.extend(s_r); miss_all.extend(m_r)
         except Exception as e:
             parts.append(f"<h2>A1 RSI</h2><p class='err'>조회 실패: {e}</p>"); miss_all.append("RSI")
-
+ 
     # ── A2 지수/심리 ──
     if want("A2"):
         run_points("A2 주요 제조국 제조업 PMI", "A2_PMI")
@@ -695,7 +695,7 @@ def target_A(only=None):
         except Exception as e:
             parts.append(f"<h2>A2 CNN Fear & Greed</h2><p class='err'>조회 실패: {e}</p>"); miss_all.append("CNN Fear&Greed")
         run_points("A2 AAII 투자자 심리", "A2_SENT")
-
+ 
     # ── A3 금리 ──
     if want("A3"):
         rates = {}
@@ -712,7 +712,7 @@ def target_A(only=None):
             parts.append(h); add_rows(rows, diff=True)
         else:
             parts.append("<h2>A3 금리</h2><p class='err'>조회 실패</p>")
-
+ 
     # ── A4 현물 ──
     if want("A4"):
         run_fred("A4 에너지 현물 (일간, FRED/EIA)",
@@ -736,7 +736,7 @@ def target_A(only=None):
                 ("LIT", "리튬·배터리 ETF(LIT, 리튬 대용)", 1),
                 ("DBA", "곡물·농산물 ETF(DBA, 곡물지수 대용)", 1)])
         run_points("A4 정제마진·운임·리튬·코발트", "A4")
-
+ 
     # ── A5 선물 ──
     if want("A5"):
         run_yf("A5 에너지 선물",
@@ -750,7 +750,7 @@ def target_A(only=None):
                [("GC=F", "금(선물)", 1), ("SI=F", "은(선물)", 1), ("HG=F", "구리(선물)", 1),
                 ("ALI=F", "알루미늄(선물)", 1), ("TIO=F", "철광석(선물)", 1)])
         run_points("A5 그 외 선물 (두바이유·나프타·가스오일·LME·리튬·코발트)", "A5")
-
+ 
     # ── A6 실물·섹터 ──
     if want("A6"):
         run_points("A6 한국 수출입·반도체 수출, 중국 투자·내수", "A6")
@@ -761,8 +761,8 @@ def target_A(only=None):
         except Exception as e:
             sect = []
             parts.append(f"<h2>A6 산업별 ETF</h2><p class='err'>조회 실패: {e}</p>")
-
-
+ 
+ 
     # ── 카톡 요약 ──
     mode = os.environ.get("A_SUMMARY_MODE", "brief").strip().lower()
     if only is not None:
@@ -778,7 +778,7 @@ def target_A(only=None):
     if mode != "full":
         lines.append("※전체 항목은 리포트 링크에서 확인")
     return "".join(parts), "\n".join(lines)
-
+ 
 # ───────────────────────── 대상 B (미국 ETF) ─────────────────────────
 def us_etf_universe():
     syms = set()
@@ -790,9 +790,9 @@ def us_etf_universe():
             df = df[df["Test Issue"] == "N"]
         syms |= set(df[col].astype(str))
     return sorted(s for s in syms if re.fullmatch(r"[A-Z]{1,5}", s))
-
+ 
 UNIV_FILE = "data/us_etf_universe.json"
-
+ 
 def _cached_universe():
     obj = _load_json(UNIV_FILE, {})
     try:
@@ -802,7 +802,7 @@ def _cached_universe():
     except Exception:
         pass
     return None
-
+ 
 def target_B():
     syms = _cached_universe()
     used_cache = syms is not None
@@ -852,10 +852,10 @@ def target_B():
             "\n거래량TOP5: " + ", ".join(d.sort_values("거래량", ascending=False)["종목"].head(5)) +
             "\n거래증가TOP5: " + ", ".join(surge.sort_values("거래증가율(%)", ascending=False)["종목"].head(5)))
     return html, summ
-
+ 
 # ───────────────────────── 대상 C (한국) ─────────────────────────
 KR_US_RE = re.compile("미국|S&P|나스닥|NASDAQ|다우존스|필라델피아|빅테크|테슬라|엔비디아|애플|마이크로소프|구글|아마존|팔란티어|브로드컴|FANG|뉴욕")
-
+ 
 def _to_name(v, default):
     """pykrx 버전에 따라 이름이 str/Series/DataFrame으로 올 수 있어 문자열로 통일."""
     try:
@@ -867,7 +867,7 @@ def _to_name(v, default):
         return v if v and v.lower() not in ("nan", "none") else default
     except Exception:
         return default
-
+ 
 def etf_names(stock, tickers):
     p = pathlib.Path("data/etf_names.json")
     try:
@@ -895,10 +895,10 @@ def etf_names(stock, tickers):
     except Exception as e:
         print("ETF 이름 캐시 저장 실패:", e)
     return {str(k): str(v) for k, v in cache.items()}
-
+ 
 def kr_sections(df, label, d, hi_fetch, topn_hi=150):
     cols = ["종목", "종가", "등락률(%)", "거래량", "거래증가율(%)", "거래대금"]
-
+ 
   
     df = df.dropna(subset=["등락률(%)"]).copy()
     if df.empty:
@@ -932,17 +932,17 @@ def kr_sections(df, label, d, hi_fetch, topn_hi=150):
             "\n거래량TOP3: " + ", ".join(df.sort_values("거래량", ascending=False)["종목"].head(3)) +
             "\n거래증가TOP3: " + ", ".join(surge.sort_values("거래증가율(%)", ascending=False)["종목"].head(3)))
     return html, summ
-
+ 
 def target_C():
     import traceback
     from pykrx import stock
     parts, sums, errs, cache = [], [], [], {}
-
+ 
     def need(label, r):
         if r is None or (hasattr(r, "empty") and r.empty):
             raise RuntimeError(f"{label}: 빈 응답")
         return r
-
+ 
     def run(label, fn):
         try:
             h, sm = fn()
@@ -950,7 +950,7 @@ def target_C():
         except Exception as ex:
             traceback.print_exc()
             errs.append(f"{label}: {type(ex).__name__}: {ex}")
-
+ 
     today = dt.datetime.now(KST).strftime("%Y%m%d")
     d = stock.get_nearest_business_day_in_a_week(today)
     if not isinstance(d, str):
@@ -959,7 +959,7 @@ def target_C():
         (dt.datetime.strptime(d, "%Y%m%d") - dt.timedelta(days=1)).strftime("%Y%m%d"))
     if not isinstance(pdy, str):
         raise RuntimeError(f"전영업일 조회 실패(KRX 응답 이상): {pdy!r}")
-
+ 
     def do_stock():
         cur = need("코스피 당일시세", stock.get_market_ohlcv(d, market="KOSPI"))
         prv = need("코스피 전일시세", stock.get_market_ohlcv(pdy, market="KOSPI"))
@@ -970,7 +970,7 @@ def target_C():
         s["거래증가율(%)"] = (s["거래량"] / s["전일거래량"].replace(0, np.nan) - 1) * 100
         return kr_sections(s, "C1 코스피 종목", d,
                            lambda a, b, t: stock.get_market_ohlcv_by_date(a, b, t))
-
+ 
     def make_etf():
         if "e" not in cache:
             ec = need("ETF 당일시세", stock.get_etf_ohlcv_by_ticker(d))
@@ -986,27 +986,27 @@ def target_C():
             e["거래증가율(%)"] = (e["거래량"] / e["전일거래량"].replace(0, np.nan) - 1) * 100
             cache["e"] = e
         return cache["e"]
-
+ 
     efetch = lambda a, b, t: stock.get_etf_ohlcv_by_date(a, b, t)
     run("C1 코스피 종목", do_stock)
     run("C1 한국 ETF", lambda: kr_sections(make_etf(), "C1 한국 ETF", d, efetch, 100))
     run("C2 미국투자 한국 ETF", lambda: kr_sections(
         make_etf()[make_etf()["종목"].str.contains(KR_US_RE)], "C2 미국증시 투자 한국 ETF", d, efetch, 60))
-
+ 
     if not parts:
         raise RuntimeError(" | ".join(errs) or "원인 불명")
     err_html = ("<p class='err'>일부 실패: " + "<br>".join(errs) + "</p>") if errs else ""
     return f"<p>기준일 {d}</p>{err_html}" + "".join(parts), f"{d}\n" + "\n".join(sums)
-
+ 
 # ───────────────────────── 대상 D (VAA 공격형) ─────────────────────────
 VAA_OFF = {"SPY": "미국주식", "EFA": "선진국주식", "EEM": "신흥국주식", "AGG": "미국혼합채권"}
 VAA_DEF = {"LQD": "미국회사채", "IEF": "미국중기국채", "SHY": "미국단기국채"}
-
+ 
 def momentum(s, asof):
     s = s[:asof].dropna(); last, d = s.iloc[-1], s.index[-1]
     r = {m: last / s.asof(d - pd.DateOffset(months=m)) - 1 for m in (1, 3, 6, 12)}
     return r, 12 * r[1] + 4 * r[3] + 2 * r[6] + r[12]
-
+ 
 def vaa_pick(close, asof):
     sc, rets = {}, {}
     for t in list(VAA_OFF) + list(VAA_DEF):
@@ -1016,7 +1016,7 @@ def vaa_pick(close, asof):
     else:
         pick, mode = max(VAA_DEF, key=lambda t: sc[t]), "방어"
     return pick, mode, sc, rets
-
+ 
 def target_D():
     names = {**VAA_OFF, **VAA_DEF}
     close = fetch_close(names.keys())
@@ -1044,10 +1044,10 @@ def target_D():
         r = rets[t]
         lines.append(f"{t} 1M{r[1]*100:+.1f} 3M{r[3]*100:+.1f} 6M{r[6]*100:+.1f} 12M{r[12]*100:+.1f} 점수{sc[t]*100:+.1f}")
     return h + tbl + rule, "\n".join(lines)
-
+ 
 # ───────────────────────── 대상 E (올시즌스) ─────────────────────────
 ALLSEASONS = {"SPY": "미국주식", "TLT": "미국장기채", "GLD": "금", "SHY": "미국단기채"}
-
+ 
 def target_E():
     close = fetch_close(ALLSEASONS.keys())
     last, d = close.iloc[-1], close.index[-1]
@@ -1077,14 +1077,14 @@ def target_E():
     lines.append(f"현재비중 {drift}")
     lines.append(f"리밸런싱 {'필요' if need else '불필요'}")
     return html, "\n".join(lines)
-
+ 
 # ───────────────────────── 리포트 / 카카오 ─────────────────────────
 CSS = """body{font-family:'Noto Sans KR',-apple-system,sans-serif;max-width:980px;margin:auto;padding:12px;font-size:14px}
 h1{font-size:18px}h2{font-size:16px;margin-top:22px}img{max-width:100%}.scroll{overflow-x:auto}
 table{border-collapse:collapse;font-size:12px;white-space:nowrap}td,th{border:1px solid #ddd;padding:3px 7px;text-align:right}
 td:first-child,th:first-child{text-align:left}.up{color:#d62728}.dn{color:#1f77b4}.err{color:#c00}.muted{color:#888;font-size:12px}
 summary{cursor:pointer;font-weight:600;margin:8px 0}.ai{background:#f5f7fa;padding:8px 12px;border-radius:6px}"""
-
+ 
 def ai_comment(text):
     if not os.environ.get("ANTHROPIC_API_KEY"):
         return ""
@@ -1096,7 +1096,7 @@ def ai_comment(text):
         return m.content[0].text.strip()
     except Exception as e:
         print("AI 코멘트 실패", e); return ""
-
+ 
 def write_page(t, slot, body, summ):
     OUT.mkdir(parents=True, exist_ok=True)
     now = dt.datetime.now(KST)
@@ -1110,7 +1110,7 @@ def write_page(t, slot, body, summ):
     (OUT / f"{t}.html").write_text(html, encoding="utf-8")
     idx = "".join(f"<li><a href='{k}.html'>{v}</a></li>" for k, v in TARGET_NAMES.items())
     (OUT / "index.html").write_text(f"<!doctype html><meta charset='utf-8'><h1>시장 리포트</h1><ul>{idx}</ul>", encoding="utf-8")
-
+ 
 def update_gh_secret(name, value):
     pat, repo = os.environ.get("GH_PAT"), os.environ.get("GITHUB_REPOSITORY")
     if not (pat and repo):
@@ -1122,7 +1122,7 @@ def update_gh_secret(name, value):
     enc = base64.b64encode(box.encrypt(value.encode())).decode()
     requests.put(f"https://api.github.com/repos/{repo}/actions/secrets/{name}", headers=h,
                  json={"encrypted_value": enc, "key_id": k["key_id"]}, timeout=20).raise_for_status()
-
+ 
 def kakao_access_token():
     data = {"grant_type": "refresh_token", "client_id": os.environ["KAKAO_REST_API_KEY"],
             "refresh_token": os.environ["KAKAO_REFRESH_TOKEN"]}
@@ -1134,7 +1134,7 @@ def kakao_access_token():
     if j.get("refresh_token"):
         update_gh_secret("KAKAO_REFRESH_TOKEN", j["refresh_token"])
     return j["access_token"]
-
+ 
 def kakao_send(token, text, link=None):
     url = link or "https://www.kakao.com"
     tpl = {"object_type": "text", "text": text[:199],
@@ -1144,7 +1144,7 @@ def kakao_send(token, text, link=None):
                       data={"template_object": json.dumps(tpl, ensure_ascii=False)}, timeout=20)
     print("kakao:", r.status_code, r.text[:200])
     r.raise_for_status()
-
+ 
 # ───────────────────────── main ─────────────────────────
 def chunk_text(text, limit=145):
     chunks, cur = [], ""
@@ -1156,10 +1156,10 @@ def chunk_text(text, limit=145):
     if cur:
         chunks.append(cur)
     return chunks
-
+ 
 FUNCS = {"A": target_A, "A1": lambda: target_A({"A1"}), "A2": lambda: target_A({"A2"}),
          "A3": lambda: target_A({"A3"}), "B": target_B, "C": target_C, "D": target_D, "E": target_E}
-
+ 
 def nearest_slot(now):
     hhmm = now.hour * 100 + now.minute
     def dist(sl):
@@ -1167,9 +1167,9 @@ def nearest_slot(now):
         d = abs(v - hhmm)
         return min(d, abs(v - 2400 - hhmm)) if v >= 2400 else d      # 2400 = 자정(0000)
     return min(TARGETS_BY_SLOT, key=dist)
-
+ 
 SUMM_FILE = pathlib.Path("out/summaries.json")
-
+ 
 def start_delay_min(slot):
     """호출 예정 시각(목표시각 - TRIGGER_LEAD_MIN분)보다 실행이 얼마나 늦게 시작했는지(분)."""
     if not should_wait(False):
@@ -1179,12 +1179,12 @@ def start_delay_min(slot):
     else:                                                           # 외부 호출(cron-job.org)
         sched = slot_target(slot) - dt.timedelta(minutes=int(os.environ.get("TRIGGER_LEAD_MIN", "60")))
     return int(round((dt.datetime.now(KST) - sched).total_seconds() / 60))
-
+ 
 ITEM_DIR = pathlib.Path("out")
-
+ 
 def item_path(t):
     return ITEM_DIR / f"item_{t}.json"
-
+ 
 def run_target(t, slot):
     """대상 1개 수집 + 리포트 페이지 작성. 실패해도 예외를 내지 않고 오류 요약을 돌려준다."""
     t0 = time.time()
@@ -1198,7 +1198,7 @@ def run_target(t, slot):
     write_page(t, slot, body, summ)
     print(f"[타이밍] {t} 수집 {int(time.time() - t0)}초", flush=True)
     return summ
-
+ 
 def _kill_tree(proc):
     try:
         os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
@@ -1211,7 +1211,7 @@ def _kill_tree(proc):
         proc.wait(timeout=5)
     except Exception:
         pass
-
+ 
 def run_workers(targets, argv_fn, deadline, poll=1.0):
     """대상별 하위 프로세스를 동시에 실행. deadline(epoch초)까지 못 끝낸 것은 강제 종료한다.
     반환: {대상: (ok|crash|timeout, 걸린 초)}"""
@@ -1232,7 +1232,7 @@ def run_workers(targets, argv_fn, deadline, poll=1.0):
         if procs:
             time.sleep(poll)
     return res
-
+ 
 def build(slot, targets, meta=None):
     t_all = time.time()
     unknown = [t for t in targets if t not in FUNCS]
@@ -1276,13 +1276,13 @@ def build(slot, targets, meta=None):
     SUMM_FILE.parent.mkdir(exist_ok=True)
     SUMM_FILE.write_text(json.dumps(rec, ensure_ascii=False), encoding="utf-8")
     return items
-
+ 
 def should_wait(no_wait):
     """GitHub 예약(SCHEDULE) 또는 외부 호출(WAIT_FOR_SLOT=true)일 때만 목표시각까지 대기."""
     if no_wait:
         return False
     return bool(os.environ.get("SCHEDULE")) or os.environ.get("WAIT_FOR_SLOT", "").strip().lower() == "true"
-
+ 
 def slot_target(slot):
     now = dt.datetime.now(KST)
     hh, mm = int(slot[:2]), int(slot[2:])
@@ -1290,7 +1290,7 @@ def slot_target(slot):
     if hh >= 24:       # 2400 = 자정. 낮·저녁에 시작한 실행은 '오늘 밤 자정', 새벽에 늦게 시작한 실행은 '방금 지난 자정'
         return base if now.hour < 12 else base + dt.timedelta(days=1)
     return base.replace(hour=hh, minute=mm)
-
+ 
 def wait_until_slot(slot, max_wait_min=60):
     """목표시각까지 남았으면 기다린다. 이미 지났으면(지연) 즉시 진행."""
     delta = (slot_target(slot) - dt.datetime.now(KST)).total_seconds()
@@ -1299,30 +1299,47 @@ def wait_until_slot(slot, max_wait_min=60):
         time.sleep(delta)
     else:
         print(f"[대기 없음] 목표시각 대비 {int(-delta)}초 경과", flush=True)
-
+ 
 SENT_DIR = "data/sent"
-
+ 
 def _git(*args):
     return subprocess.run(["git", *args], capture_output=True, text=True, timeout=120)
-
+ 
 def _claim_enabled():
     return os.environ.get("GITHUB_ACTIONS") == "true" and os.environ.get("NO_CLAIM", "") != "1"
-
+ 
+def parse_slot_spec(raw):
+    """'0630' / '0630@30' / '2400@0' → (슬롯, 호출 리드 분 또는 None).
+    '@N' 은 '이 호출이 발송 N분 전(0=정시)'이라는 표시. 호출 본문에 slot 하나만 넣으면 되도록 한 것."""
+    m = re.fullmatch(r"\s*(\d{4})(?:@(\d{1,3}))?\s*", raw or "")
+    if not m:
+        return (raw or "").strip(), None
+    return m.group(1), (int(m.group(2)) if m.group(2) is not None else None)
+ 
+def apply_slot_spec(raw):
+    """슬롯 표기를 해석해 호출 방식(TRIGGER_LEAD_MIN)을 환경에 반영하고 순수 슬롯을 돌려준다."""
+    slot, lead = parse_slot_spec(raw)
+    if lead is not None:
+        os.environ["TRIGGER_LEAD_MIN"] = str(lead)
+        if lead == 0:                                  # 정시 호출은 수집 시간을 충분히 준다
+            os.environ["MIN_BUDGET_SEC"] = "1500"
+    return slot
+ 
 def run_lead():
     """호출 방식: 발송 시각 몇 분 전에 호출했는지(기본 60, 정시 호출은 0)."""
     return os.environ.get("TRIGGER_LEAD_MIN", "60").strip() or "60"
-
+ 
 def variant_label():
     L = run_lead()
     return "" if L == "60" else ("정시호출" if L == "0" else f"{L}분전호출")
-
+ 
 def _is_quiet():
     return os.environ.get("QUIET_RUN", "").strip().lower() == "true"
-
+ 
 def _claim_file(slot):
     suffix = "" if run_lead() == "60" else f"_L{run_lead()}"
     return pathlib.Path(SENT_DIR) / f"{slot_target(slot):%Y%m%d}_{slot}{suffix}.txt"
-
+ 
 def slot_already_sent(slot):
     """이미 다른 실행이 이 슬롯을 발송했는지(저장소의 표식 파일로 확인)."""
     if not _claim_enabled():
@@ -1332,7 +1349,7 @@ def slot_already_sent(slot):
     except Exception as e:
         print("pull 실패(무시):", e)
     return _claim_file(slot).exists()
-
+ 
 def claim_slot(slot):
     """발송 직전에 표식 파일을 git push 로 선점. 이미 있으면 False(=보내지 않음).
     두 실행이 동시에 와도 push 는 한쪽만 성공하므로 중복 발송이 생기지 않는다."""
@@ -1364,16 +1381,16 @@ def claim_slot(slot):
         print("선점 처리 오류(발송은 진행):", e)
     print("[경고] 선점 확인 실패 → 누락 방지를 위해 발송 진행", flush=True)
     return True
-
+ 
 TIMING_CSV = pathlib.Path("data/timing_log.csv")
 TIMING_COLS = ["date", "slot", "lead_min", "trigger", "mode", "start_delay_min", "build_sec", "done_at", "late_min"]
-
+ 
 def _num(v):
     try:
         return float(v)
     except Exception:
         return None
-
+ 
 def _timing_html(rows):
     """호출 방식(lead)·슬롯별로 도착 지연을 비교하는 표."""
     def stats(sel):
@@ -1414,7 +1431,7 @@ def _timing_html(rows):
             f"<h2>슬롯 × 호출 방식</h2><div class='scroll'><table>{head}{t2}</table></div>"
             f"<h2>최근 기록</h2><div class='scroll'><table><tr><th>날짜</th><th>슬롯</th><th>호출 방식</th><th>트리거</th><th>구분</th>"
             f"<th>시작지연</th><th>수집(초)</th><th>완료시각</th><th>도착(분)</th></tr>{recent}</table></div></body></html>")
-
+ 
 def record_timing(slot, meta, quiet):
     """실행 결과(시작지연·수집시간·도착지연)를 data/timing_log.csv 에 쌓고 docs/timing.html 비교표를 갱신."""
     now = dt.datetime.now(KST)
@@ -1451,7 +1468,7 @@ def record_timing(slot, meta, quiet):
             return
         _git("reset", "--hard", "HEAD~1")
         time.sleep(1 + i)
-
+ 
 def deliver(slot, items, timed, meta):
     """정시 대기 → (조용한 비교 실행이 아니면) 선점 → 발송 → 시간 기록."""
     quiet = _is_quiet()
@@ -1467,7 +1484,7 @@ def deliver(slot, items, timed, meta):
         record_timing(slot, meta, quiet)
     except Exception as e:
         print("시간 기록 실패(무시):", e, file=sys.stderr)
-
+ 
 def send_all(slot, items, show_late=False, meta=None):
     token = kakao_access_token()
     late = int((dt.datetime.now(KST) - slot_target(slot)).total_seconds() // 60)
@@ -1493,7 +1510,7 @@ def send_all(slot, items, show_late=False, meta=None):
                 kakao_send(token, f"[{slot}] {TARGET_NAMES[t]} 전체 리포트(그래프·상위50)\n{link}", link)
             except Exception as e:
                 print("링크 발송 실패:", e, file=sys.stderr)
-
+ 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--slot"); ap.add_argument("--targets")
@@ -1503,9 +1520,11 @@ def main():
     ap.add_argument("--no-wait", action="store_true", help="목표시각 대기 없이 즉시 발송(수동 테스트용)")
     ap.add_argument("--worker", help="(내부용) 대상 1개만 수집해 out/item_<대상>.json 저장")
     a = ap.parse_args()
+    if a.slot:
+        a.slot = apply_slot_spec(a.slot)
     now = dt.datetime.now(KST)
     print(f"[시작] KST {now:%Y-%m-%d %H:%M:%S} / SCHEDULE='{os.environ.get('SCHEDULE', '')}'", flush=True)
-
+ 
     if a.worker:
         slot = a.slot or nearest_slot(now)
         t0 = time.time()
@@ -1514,7 +1533,7 @@ def main():
         item_path(a.worker).write_text(json.dumps({"t": a.worker, "summ": summ, "sec": int(time.time() - t0)},
                                                   ensure_ascii=False), encoding="utf-8")
         return
-
+ 
     if a.send_only:
         try:
             data = json.loads(SUMM_FILE.read_text(encoding="utf-8"))
@@ -1528,7 +1547,7 @@ def main():
             return
         deliver(slot, data["items"], should_wait(a.no_wait), data)
         return
-
+ 
     slot = a.slot or SLOT_BY_CRON.get(os.environ.get("SCHEDULE", "")) or nearest_slot(now)
     raw = (a.targets or "").strip().upper()
     if raw in ("", "AUTO"):
@@ -1550,6 +1569,7 @@ def main():
     except Exception:
         pass
     deliver(slot, items, should_wait(a.no_wait), meta)
-
+ 
 if __name__ == "__main__":
     main()
+ 
