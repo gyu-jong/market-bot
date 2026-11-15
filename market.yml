@@ -1,0 +1,131 @@
+# 파일 버전: dispatch-v8  ← GitHub에 올린 market.yml 맨 위에 이 줄이 보여야 최신 파일입니다
+# 호출 본문은 slot 하나만 씁니다 (다른 입력은 쓰지 않음 → "Unexpected inputs" 422 가 날 수 없음)
+#   30분 전 호출: {"ref":"main","inputs":{"slot":"0630@30"}}
+#   정시 호출   : {"ref":"main","inputs":{"slot":"0630@0"}}
+name: market-report v8
+
+on:
+  # ── 주 실행 방식: 외부 타이머(cron-job.org)가 GitHub API로 이 워크플로우를 호출 ──
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: "대상 (예: A,B,D,E / A1,A2,A3,C). AUTO면 슬롯 기본 대상(0630=A,B,D,E / 0830=A / 2400=B,D,E / 그 외=A1,A2,A3,C)"
+        default: "AUTO"
+      slot:
+        description: "슬롯. 0630 / 0630@30(발송 30분 전 호출) / 0630@0(정시 호출). 슬롯: 0630 0800 0830 0930 1030 1300 1400 1500 2400"
+        default: "0630"
+      wait:
+        description: "true면 슬롯 시각(KST)까지 기다렸다가 발송, false면 즉시 발송(수동 테스트는 false 로 바꾸세요)"
+        default: "true"
+      lead:
+        description: "호출 방식 비교용: 이 호출이 발송 시각의 몇 분 전인지(기본 60, 정시 호출은 0)"
+        default: "60"
+      quiet:
+        description: "true면 카톡을 보내지 않고 시간만 기록(비교용 실행). 평소엔 false"
+        default: "false"
+
+  # ── (사용 안 함) GitHub 자체 예약 ──
+  # 정시 호출 + 30분 전 호출, 두 가지가 서로 보완하고 GitHub 예약은 몇 시간씩 늦어서 꺼 두었습니다.
+  # 다시 켜려면 아래 줄의 주석(#)을 풀고 위의 'on:' 아래에 맞춰 들여쓰기 하세요. 켜면 같은 슬롯 메시지가 추가로 올 수 있습니다.
+  # ── 백업용 GitHub 예약 실행 ──
+  # cron-job.org 호출이 실패하거나 늦어도 이쪽이 대신 실행합니다. (GitHub 예약은 자주 늦어짐)
+  # 같은 슬롯은 한 번만 발송됩니다: 먼저 온 실행이 선점(data/sent/*.txt)하고, 늦게 온 실행은 건너뜁니다.
+  # schedule:
+  # - cron: "5 21 * * 0-5"    # 월~토 0605 시작 → 0630 발송 (A,B,D,E)
+  # - cron: "45 22 * * 0-4"   # 월~금 0745 → 0800 (A1,A2,A3,C)
+  # - cron: "5 23 * * 0-4"    # 0805 → 0830 (A)
+  # - cron: "15 0 * * 1-5"    # 0915 → 0930 (A1,A2,A3,C)
+  # - cron: "15 1 * * 1-5"    # 1015 → 1030
+  # - cron: "45 3 * * 1-5"    # 1245 → 1300
+  # - cron: "45 4 * * 1-5"    # 1345 → 1400
+  # - cron: "45 5 * * 1-5"    # 1445 → 1500
+  # - cron: "35 14 * * 1-5"   # 2335 → 2400 (자정, B,D,E)
+
+permissions:
+  contents: write
+
+# 같은 슬롯이 겹쳐 호출돼도 순서대로 처리(서로 다른 슬롯은 동시에 실행)
+concurrency:
+  group: market-${{ github.event.schedule || format('{0}-{1}-{2}', inputs.slot, inputs.lead, inputs.quiet) }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150     # 일찍 호출 → 수집 직전까지 대기하므로 여유 있게
+    env:
+      TRIGGER_LEAD_MIN: ${{ inputs.lead || '60' }}      # 호출 시각 = 발송시각 - N분 (기본 60, 정시 호출 0)
+      MIN_BUDGET_SEC: ${{ inputs.lead == '0' && '1500' || '240' }}      # 정시 호출은 수집 시간을 충분히 줌
+      QUIET_RUN: ${{ inputs.quiet }}      # true면 발송 없이 시간만 기록(비교용)
+      MAX_BUDGET_SEC: "2400"      # 수집 시간 상한(초). 넘으면 해당 대상은 생략하고 정시 발송
+      HTTP_TIMEOUT_SEC: "30"      # 응답 없는 외부 서버 대기 상한
+      SCHEDULE: ${{ github.event.schedule }}
+      IN_TARGETS: ${{ inputs.targets }}
+      IN_SLOT: ${{ inputs.slot }}
+      WAIT_FOR_SLOT: ${{ inputs.wait }}   # slot 에 @(호출 방식)가 있으면 스크립트가 이 값과 무관하게 정시 발송으로 처리
+      PAGES_BASE_URL: ${{ vars.PAGES_BASE_URL }}
+      KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+      KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+      KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}      # 텔레그램(선택)
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      NOTIFY_CHANNELS: ${{ vars.NOTIFY_CHANNELS }}      # kakao / telegram / kakao,telegram (비우면 텔레그램 시크릿이 있을 때 둘 다)
+      GH_PAT: ${{ secrets.GH_PAT }}
+      ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      KRX_ID: ${{ secrets.KRX_ID }}
+      KRX_PW: ${{ secrets.KRX_PW }}
+    steps:
+      - name: Fired (로그 확인용)
+        run: |
+          echo "event=${{ github.event_name }} slot='$IN_SLOT' targets='$IN_TARGETS' wait='$WAIT_FOR_SLOT'"
+          echo "UTC $(date -u '+%F %T')  /  KST $(TZ=Asia/Seoul date '+%F %T')"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Korean font
+        timeout-minutes: 5
+        run: |
+          sudo timeout 120 apt-get update -y || true
+          sudo timeout 180 apt-get install -y fonts-nanum || true
+      - run: pip install -r requirements.txt
+
+      # 1) 데이터 수집·리포트 생성 (발송 안 함)
+      - name: Build
+        timeout-minutes: 100
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python market_bot.py --build-only --targets "$IN_TARGETS" --slot "$IN_SLOT"
+          else
+            python market_bot.py --build-only
+          fi
+
+      # 2) 리포트 게시(커밋·푸시). 발송 전에 올려서 링크가 열리도록 함
+      - name: Publish reports
+        if: ${{ !cancelled() }}
+        timeout-minutes: 10
+        run: |
+          git config user.name "market-bot"
+          git config user.email "market-bot@users.noreply.github.com"
+          git add docs data || true
+          if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
+          git commit -m "report $(date -u +%FT%TZ)"
+          for i in 1 2 3 4 5; do
+            git pull --rebase && git push && break
+            echo "push 재시도 $i"; sleep $((i*5))
+          done
+
+      # 3) wait=true 이면 슬롯 시각(KST)까지 대기 후 발송, 아니면 즉시 발송
+      - name: Send Kakao
+        if: ${{ !cancelled() }}
+        timeout-minutes: 30
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "$WAIT_FOR_SLOT" != "true" ]; then
+            python market_bot.py --send-only --no-wait --slot "$IN_SLOT"
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python market_bot.py --send-only --slot "$IN_SLOT"
+          else
+            python market_bot.py --send-only
+          fi
