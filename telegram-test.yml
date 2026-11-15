@@ -1,0 +1,95 @@
+# 파일 버전: telegram-test-v1
+# 텔레그램 연결만 따로 점검하는 워크플로우입니다. 입력값이 없으니 "Run workflow" 버튼만 누르면 됩니다.
+# 결과는 실행 로그와 휴대폰 텔레그램 메시지로 확인합니다. (본 봇과 같은 Secrets 이름을 씁니다)
+name: telegram-test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+      - name: 텔레그램 연결 점검
+        run: |
+          python3 - <<'PY'
+          import json, os, re, sys, urllib.error, urllib.request
+
+          tok = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+          chats_raw = os.environ.get("TELEGRAM_CHAT_ID", "")
+          bad = 0
+
+          def say(ok, msg):
+              global bad
+              print(("✔ " if ok else "❌ ") + msg)
+              if not ok:
+                  bad += 1
+
+          print("── 1) Secrets 등록 여부 (값은 표시하지 않습니다) ──")
+          say(bool(tok), "TELEGRAM_BOT_TOKEN " + (f"등록됨 (길이 {len(tok)}자)" if tok else
+              "없음 → Settings > Secrets and variables > Actions > Secrets 탭 > Repository secrets 에 이름을 정확히 등록하세요"))
+          say(bool(chats_raw), "TELEGRAM_CHAT_ID " + ("등록됨" if chats_raw else
+              "없음 → 같은 위치에 TELEGRAM_CHAT_ID 를 등록하세요"))
+          if tok:
+              say(":" in tok, "토큰 형식(숫자:영문숫자)" + ("" if ":" in tok else " → ':' 가 없습니다. 토큰을 중간까지만 복사했거나 다른 값을 넣었습니다"))
+              say(not re.search(r"\s", tok), "토큰에 공백·줄바꿈 없음" + ("" if not re.search(r"\s", tok) else " → 값 앞뒤에 공백/줄바꿈이 섞였습니다. Secret 을 다시 입력하세요"))
+          chats = [c.strip() for c in chats_raw.split(",") if c.strip()]
+          for c in chats:
+              okfmt = bool(re.fullmatch(r"-?\d+|@\w+", c))
+              say(okfmt, f"채팅 ID 형식 '{c[:3]}…' " + ("(올바름)" if okfmt else
+                  "→ 숫자가 아닙니다. 채팅 ID는 숫자만(단체방은 -100… 처럼 음수, 채널은 @채널이름)입니다"))
+          if not tok or not chats:
+              print("\n위 ❌ 항목을 먼저 고친 뒤 다시 실행하세요.")
+              sys.exit(1)
+
+          def call(method, payload=None):
+              url = f"https://api.telegram.org/bot{tok}/{method}"
+              data = json.dumps(payload).encode() if payload is not None else None
+              req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+              try:
+                  with urllib.request.urlopen(req, timeout=20) as r:
+                      return r.status, json.loads(r.read().decode())
+              except urllib.error.HTTPError as e:
+                  try:
+                      return e.code, json.loads(e.read().decode())
+                  except Exception:
+                      return e.code, {}
+              except Exception as e:
+                  return 0, {"description": type(e).__name__}
+
+          print("\n── 2) 봇 토큰 확인 (getMe) ──")
+          code, js = call("getMe")
+          if code == 200 and js.get("ok"):
+              say(True, f"토큰 정상: 봇 @{js['result'].get('username')}")
+          elif code == 401:
+              say(False, "토큰이 틀렸거나 폐기된 토큰입니다(401). @BotFather 에서 토큰을 다시 확인해 Secret 을 새로 입력하세요")
+          elif code == 404:
+              say(False, "토큰 형식이 올바르지 않습니다(404)")
+          else:
+              say(False, f"응답 코드 {code}: {js.get('description', '')}")
+
+          if code == 200:
+              print("\n── 3) 메시지 전송 시험 ──")
+              for c in chats:
+                  code, js = call("sendMessage", {"chat_id": c, "text": "✅ 텔레그램 연결 시험 성공 (market-bot)"})
+                  desc = js.get("description", "")
+                  if code == 200:
+                      say(True, f"채팅 {c[:3]}… 전송 성공 → 휴대폰 텔레그램에서 메시지를 확인하세요")
+                  elif code == 400 and "chat not found" in desc:
+                      say(False, f"채팅 {c[:3]}… 'chat not found' → 채팅 ID가 틀렸거나, 이 봇의 대화창에서 Start 를 아직 누르지 않았습니다")
+                  elif code == 403:
+                      say(False, f"채팅 {c[:3]}… 403 → 봇을 차단했거나 단체방에서 제거됐습니다. 차단 해제 후 Start 를 누르세요")
+                  else:
+                      say(False, f"채팅 {c[:3]}… 응답 {code}: {desc}")
+
+          print("\n결과:", "모두 정상입니다. 본 봇(market-report)도 같은 Secrets 를 쓰므로 이제 텔레그램으로 옵니다." if bad == 0
+                else f"{bad}개 항목이 실패했습니다. 위 ❌ 문장대로 고친 뒤 다시 실행하세요.")
+          sys.exit(0 if bad == 0 else 1)
+          PY
