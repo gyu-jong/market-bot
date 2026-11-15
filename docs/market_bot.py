@@ -7,7 +7,7 @@ market_bot.py - 시장 데이터 수집 -> HTML 리포트(그래프 포함) 생�
   python market_bot.py --targets D --no-send  # D만 실행, 발송 없이 docs/D.html 생성
 GitHub Actions에서는 환경변수 SCHEDULE(cron 문자열)로 슬롯을 자동 판별합니다.
 """
-import argparse, base64, io, json, os, pathlib, re, signal, subprocess, sys, time, datetime as dt
+import argparse, base64, csv, io, json, os, pathlib, re, signal, subprocess, sys, time, datetime as dt
 from zoneinfo import ZoneInfo
 
 import matplotlib
@@ -43,22 +43,36 @@ plt.rcParams["axes.unicode_minus"] = False
 
 # ───────────────────────── 스케줄 정의 (cron은 UTC = KST-9h) ─────────────────────────
 SLOT_BY_CRON = {
-    # 목표 발송시각보다 13~25분 먼저 시작(정각 혼잡·지연 회피) → 스크립트가 목표시각까지 기다렸다가 발송
-    "35 21 * * 0-5": "0700",   # KST 월~토 0635 시작 → 0700 발송
-    "47 22 * * 0-4": "0800",   # KST 월~금 0747 → 0800
-    "37 23 * * 0-4": "0850",   # KST 월~금 0837 → 0850
-    "35 23 * * 0-4": "0900",   # KST 월~금 0835 → 0900
-    "47 0 * * 1-5": "1000",    # KST 월~금 0947 → 1000
-    "17 3 * * 1-5": "1230",    # KST 월~금 1217 → 1230
-    "47 4 * * 1-5": "1400",    # KST 월~금 1347 → 1400
-    # (구 버전 정각 크론: 호환용)
-    "0 22 * * 0-5": "0700", "0 23 * * 0-4": "0800", "50 23 * * 0-4": "0850",
-    "0 0 * * 1-5": "0900", "0 1 * * 1-5": "1000", "30 3 * * 1-5": "1230", "0 5 * * 1-5": "1400",
+    # GitHub 예약(백업) 크론 문자열 → 슬롯. 시작은 목표시각보다 SLOT_LEAD 분 먼저(정각 혼잡 회피).
+    "5 21 * * 0-5": "0630",     # KST 월~토 0605 시작
+    "45 22 * * 0-4": "0800",    # KST 월~금 0745
+    "5 23 * * 0-4": "0830",     # 0805
+    "15 0 * * 1-5": "0930",     # 0915
+    "15 1 * * 1-5": "1030",     # 1015
+    "45 3 * * 1-5": "1300",     # 1245
+    "45 4 * * 1-5": "1400",     # 1345
+    "45 5 * * 1-5": "1500",     # 1445
+    "35 14 * * 1-5": "2400",    # KST 월~금 2335 (2400 = 자정)
 }
-TARGETS_BY_SLOT = {"0700": "ABE", "0900": "ABE",
-                   "0800": "CD", "0850": "CD", "1000": "CD", "1230": "CD", "1400": "CD"}
-TARGET_NAMES = {"A": "A 거시·시장지표", "B": "B 미국 ETF", "C": "C 한국 종목·ETF",
+SLOT_LEAD = {"0630": 25, "0800": 15, "0830": 25, "0930": 15, "1030": 15,
+             "1300": 15, "1400": 15, "1500": 15, "2400": 25}     # 예약 시작 = 목표시각 - 분
+# 수집에 걸린 시간(1주일 실측: 슬롯별 p90~최대)에 맞춘 '수집 시작 시점'(발송 N분 전). BUILD_LEAD_SEC 로 덮어쓸 수 있음
+SLOT_BUILD_LEAD_MIN = {"0630": 14, "0800": 15, "0830": 17, "0930": 26, "1030": 28,
+                       "1300": 21, "1400": 22, "1500": 23, "2400": 15}
+TARGETS_BY_SLOT = {
+    "0630": "A,B,D,E",                 # 지수(A 전체) + 미국 ETF + VAA + 올시즌스
+    "0830": "A",                       # 지수(A 전체)
+    "0800": "A1,A2,A3,C", "0930": "A1,A2,A3,C", "1030": "A1,A2,A3,C",
+    "1300": "A1,A2,A3,C", "1400": "A1,A2,A3,C", "1500": "A1,A2,A3,C",   # 한국 시간대
+    "2400": "B,D,E",                   # 미국 장 시작 직후(자정)
+}
+TARGET_NAMES = {"A": "A 지수·거시 전체", "A1": "A1 환율·주가·RSI", "A2": "A2 PMI·금속·심리", "A3": "A3 금리",
+                "B": "B 미국 ETF", "C": "C 한국 종목·ETF",
                 "D": "D VAA 공격형", "E": "E 올시즌스"}
+
+def parse_targets(raw):
+    """'A,B,D,E' / 'A1A2A3C' / 'ABCDE' → ['A','B',...]. 하위 대상은 A1·A2·A3 처럼 숫자를 붙인다."""
+    return re.findall(r"[A-E][0-9]?", (raw or "").upper())
 
 PERIODS = [("1일", None), ("1주", pd.DateOffset(weeks=1)), ("1개월", pd.DateOffset(months=1)),
            ("1분기", pd.DateOffset(months=3)), ("1년", pd.DateOffset(years=1)),
@@ -409,7 +423,7 @@ def _ai_query(g):
                     "note": str(rec.get("note", ""))[:40], "source": str(rec.get("source", ""))[:200]}
     return clean
 
-def collect_points():
+def collect_points(groups=None):
     """{표시명: record}. 우선순위: 수동입력 > AI검색(신선) > AI검색(캐시, stale)"""
     cache = _load_json(AI_CACHE, {})
     now = dt.datetime.now(dt.timezone.utc)
@@ -418,6 +432,8 @@ def collect_points():
     t_ai = time.time()
     ai_deadline = float(os.environ.get("AI_DEADLINE_SEC", "240"))   # 이 시간이 지나면 남은 그룹은 캐시 사용
     for gid, g in AI_GROUPS.items():
+        if groups is not None and gid not in groups:       # 하위 대상(A1~A3)은 필요한 그룹만 수집
+            continue
         ent = cache.get(gid)
         fresh = False
         if ent:
@@ -611,7 +627,10 @@ def rsi_html(hist):
                           + (f" FwdPE {pe_w:.0f}" if pe_w is not None and pe_w == pe_w else ""), "key": True})
     return html, S, miss
 
-def target_A():
+def target_A(only=None):
+    """only=None 이면 A 전체, {'A1','A2','A3'} 처럼 주면 해당 섹션만(한국 시간대용)."""
+    want = lambda sec: only is None or sec in only
+    sect = []
     parts, S, miss_all = [], [], []      # S: [{"text","key"}]
     def add_rows(rows, monthly=False, diff=False, weekly=False):
         for nm, last, ch in rows:
@@ -635,7 +654,9 @@ def target_A():
 
     points = {}
     try:
-        points = collect_points()
+        need = None if (only is None or only & {"A4", "A5", "A6"}) else set().union(
+            *[{"A1": {"valsent"}, "A2": {"pmi", "metidx", "valsent"}}.get(x, set()) for x in only])
+        points = collect_points(need)
     except Exception as e:
         print("포인트 지표 수집 실패:", repr(e)[:200])
     hist = update_history(points)
@@ -650,91 +671,105 @@ def target_A():
                                   f"({point_tag(n, rec.get('as_of', ''))})", "key": n in A_KEY})
 
     # ── A1 환율/주가 ──
-    run_yf("A1 달러·환율", [("DX-Y.NYB", "달러지수", 1), ("KRW=X", "원/달러", 1), ("EURKRW=X", "원/유로", 1),
-                         ("JPYKRW=X", "원/엔(100엔)", 100)])
-    run_yf("A1 주가지수", [("^GSPC", "S&P500", 1), ("^DJI", "다우", 1), ("^IXIC", "나스닥", 1),
-                        ("^KS11", "코스피", 1), ("^KQ11", "코스닥", 1)])
-    run_fred("A1 미국 M2 통화량 (월간, 십억$)", [("M2SL", "미국 M2")], monthly=True)
-    run_fred("A1 미국 M2 통화량 (주간, 십억$, 비계절조정)", [("WM2NS", "미국 M2(주간)")], weekly=True)
-    run_points("A1 밸류에이션", "A1")
-    try:
-        h_r, s_r, m_r = rsi_html(hist)
-        parts.append(h_r); S.extend(s_r); miss_all.extend(m_r)
-    except Exception as e:
-        parts.append(f"<h2>A1 RSI</h2><p class='err'>조회 실패: {e}</p>"); miss_all.append("RSI")
-    # ── A2 지수/심리 ──
-    run_points("A2 주요 제조국 제조업 PMI", "A2_PMI")
-    run_yf("A2 산업용 금속 (ETF 대용)", [("DBB", "산업금속 ETF(DBB)", 1)])
-    run_points("A2 산업용 금속지수 (LMEX·GSCI·BCOMIN)", "A2_METAL")
-    run_yf("A2 변동성·심리 (VIX)", [("^VIX", "VIX", 1)])
-    try:
-        fg, rating = cnn_fear_greed()
-        h, rows = block(f"A2 CNN Fear & Greed (현재 등급: {rating})", {"CNN Fear&Greed": fg})
-        parts.append(h); add_rows(rows)
-    except Exception as e:
-        parts.append(f"<h2>A2 CNN Fear & Greed</h2><p class='err'>조회 실패: {e}</p>"); miss_all.append("CNN Fear&Greed")
-    run_points("A2 AAII 투자자 심리", "A2_SENT")
-    # ── A3 금리 ──
-    rates = {}
-    for sid, nm in (("DGS10", "미 국채10년"), ("DGS3", "미 국채3년")):
-        try: rates[nm] = fred(sid)
-        except Exception as e: print("FRED 실패", sid, e)
-    for nm, code in ECOS_CODES.items():
+    if want("A1"):
+        run_yf("A1 달러·환율", [("DX-Y.NYB", "달러지수", 1), ("KRW=X", "원/달러", 1), ("EURKRW=X", "원/유로", 1),
+                             ("JPYKRW=X", "원/엔(100엔)", 100)])
+        run_yf("A1 주가지수", [("^GSPC", "S&P500", 1), ("^DJI", "다우", 1), ("^IXIC", "나스닥", 1),
+                            ("^KS11", "코스피", 1), ("^KQ11", "코스닥", 1)])
+        run_fred("A1 미국 M2 통화량 (월간, 십억$)", [("M2SL", "미국 M2")], monthly=True)
+        run_fred("A1 미국 M2 통화량 (주간, 십억$, 비계절조정)", [("WM2NS", "미국 M2(주간)")], weekly=True)
+        run_points("A1 밸류에이션", "A1")
         try:
-            s = ecos(code)
-            if s is not None: rates[nm] = s
-        except Exception as e: print("ECOS 실패", nm, e)
-    if rates:
-        h, rows = block("A3 금리 (증감은 %p)", rates, diff=True, cols=4)
-        parts.append(h); add_rows(rows, diff=True)
-    else:
-        parts.append("<h2>A3 금리</h2><p class='err'>조회 실패</p>")
+            h_r, s_r, m_r = rsi_html(hist)
+            parts.append(h_r); S.extend(s_r); miss_all.extend(m_r)
+        except Exception as e:
+            parts.append(f"<h2>A1 RSI</h2><p class='err'>조회 실패: {e}</p>"); miss_all.append("RSI")
+
+    # ── A2 지수/심리 ──
+    if want("A2"):
+        run_points("A2 주요 제조국 제조업 PMI", "A2_PMI")
+        run_yf("A2 산업용 금속 (ETF 대용)", [("DBB", "산업금속 ETF(DBB)", 1)])
+        run_points("A2 산업용 금속지수 (LMEX·GSCI·BCOMIN)", "A2_METAL")
+        run_yf("A2 변동성·심리 (VIX)", [("^VIX", "VIX", 1)])
+        try:
+            fg, rating = cnn_fear_greed()
+            h, rows = block(f"A2 CNN Fear & Greed (현재 등급: {rating})", {"CNN Fear&Greed": fg})
+            parts.append(h); add_rows(rows)
+        except Exception as e:
+            parts.append(f"<h2>A2 CNN Fear & Greed</h2><p class='err'>조회 실패: {e}</p>"); miss_all.append("CNN Fear&Greed")
+        run_points("A2 AAII 투자자 심리", "A2_SENT")
+
+    # ── A3 금리 ──
+    if want("A3"):
+        rates = {}
+        for sid, nm in (("DGS10", "미 국채10년"), ("DGS3", "미 국채3년")):
+            try: rates[nm] = fred(sid)
+            except Exception as e: print("FRED 실패", sid, e)
+        for nm, code in ECOS_CODES.items():
+            try:
+                s = ecos(code)
+                if s is not None: rates[nm] = s
+            except Exception as e: print("ECOS 실패", nm, e)
+        if rates:
+            h, rows = block("A3 금리 (증감은 %p)", rates, diff=True, cols=4)
+            parts.append(h); add_rows(rows, diff=True)
+        else:
+            parts.append("<h2>A3 금리</h2><p class='err'>조회 실패</p>")
+
     # ── A4 현물 ──
-    run_fred("A4 에너지 현물 (일간, FRED/EIA)",
-             [("DCOILWTICO", "WTI(현물)"), ("DCOILBRENTEU", "브렌트(현물)"), ("DHHNGSP", "천연가스 HH(현물)"),
-              ("DHOILNYH", "난방유 NYH(현물)"), ("DDFUELNYH", "가스오일·디젤 NYH(현물, 대용)")])
-    try:
-        cs = crack_spread()
-        h, rows = block("A4 정제마진 대용: 미국 3-2-1 크랙스프레드 ($/bbl)", {"크랙스프레드(3-2-1)": cs}, cols=4)
-        parts.append(h); add_rows(rows)
-    except Exception as e:
-        parts.append(f"<h2>A4 크랙스프레드</h2><p class='err'>조회 실패: {e}</p>"); miss_all.append("크랙스프레드")
-    run_fred("A4 두바이유·곡물·금속 현물 (월간, IMF 시세 / 발표 1~2개월 지연)",
-             [("POILDUBUSDM", "두바이유(현물, 월평균)"), ("PMAIZMTUSDM", "옥수수(현물)"),
-              ("PCOTTINDUSDM", "면화(현물)"), ("PSUGAISAUSDM", "설탕(현물)"), ("PSOYBUSDM", "대두(현물)"),
-              ("PWHEAMTUSDM", "소맥(현물)"), ("PCOPPUSDM", "구리(현물)"), ("PIORECRUSDM", "철광석(현물)"),
-              ("PALUMUSDM", "알루미늄(현물)"), ("PZINCUSDM", "아연(현물)"), ("PNICKUSDM", "니켈(현물)")],
-             monthly=True)
-    run_yf("A4 귀금속·지수·운임·리튬(대용 ETF)",
-           [("XAUUSD=X", "금(현물)", 1), ("XAGUSD=X", "은(현물)", 1), ("^SOX", "반도체지수(SOX)", 1),
-            ("^TWII", "대만가권지수", 1), ("BDRY", "건화물 운임 ETF(BDRY, BDI 대용)", 1),
-            ("LIT", "리튬·배터리 ETF(LIT, 리튬 대용)", 1),
-            ("DBA", "곡물·농산물 ETF(DBA, 곡물지수 대용)", 1)])
-    run_points("A4 정제마진·운임·리튬·코발트", "A4")
+    if want("A4"):
+        run_fred("A4 에너지 현물 (일간, FRED/EIA)",
+                 [("DCOILWTICO", "WTI(현물)"), ("DCOILBRENTEU", "브렌트(현물)"), ("DHHNGSP", "천연가스 HH(현물)"),
+                  ("DHOILNYH", "난방유 NYH(현물)"), ("DDFUELNYH", "가스오일·디젤 NYH(현물, 대용)")])
+        try:
+            cs = crack_spread()
+            h, rows = block("A4 정제마진 대용: 미국 3-2-1 크랙스프레드 ($/bbl)", {"크랙스프레드(3-2-1)": cs}, cols=4)
+            parts.append(h); add_rows(rows)
+        except Exception as e:
+            parts.append(f"<h2>A4 크랙스프레드</h2><p class='err'>조회 실패: {e}</p>"); miss_all.append("크랙스프레드")
+        run_fred("A4 두바이유·곡물·금속 현물 (월간, IMF 시세 / 발표 1~2개월 지연)",
+                 [("POILDUBUSDM", "두바이유(현물, 월평균)"), ("PMAIZMTUSDM", "옥수수(현물)"),
+                  ("PCOTTINDUSDM", "면화(현물)"), ("PSUGAISAUSDM", "설탕(현물)"), ("PSOYBUSDM", "대두(현물)"),
+                  ("PWHEAMTUSDM", "소맥(현물)"), ("PCOPPUSDM", "구리(현물)"), ("PIORECRUSDM", "철광석(현물)"),
+                  ("PALUMUSDM", "알루미늄(현물)"), ("PZINCUSDM", "아연(현물)"), ("PNICKUSDM", "니켈(현물)")],
+                 monthly=True)
+        run_yf("A4 귀금속·지수·운임·리튬(대용 ETF)",
+               [("XAUUSD=X", "금(현물)", 1), ("XAGUSD=X", "은(현물)", 1), ("^SOX", "반도체지수(SOX)", 1),
+                ("^TWII", "대만가권지수", 1), ("BDRY", "건화물 운임 ETF(BDRY, BDI 대용)", 1),
+                ("LIT", "리튬·배터리 ETF(LIT, 리튬 대용)", 1),
+                ("DBA", "곡물·농산물 ETF(DBA, 곡물지수 대용)", 1)])
+        run_points("A4 정제마진·운임·리튬·코발트", "A4")
+
     # ── A5 선물 ──
-    run_yf("A5 에너지 선물",
-           [("CL=F", "WTI(선물)", 1), ("BZ=F", "브렌트(선물)", 1), ("RB=F", "휘발유(선물)", 1),
-            ("HO=F", "디젤·난방유·가스오일(HO, ULSD)", 1), ("NG=F", "천연가스(선물)", 1)])
-    run_yf("A5 곡물·농산물 선물",
-           [("ZC=F", "옥수수(선물)", 1), ("CT=F", "면화(선물)", 1), ("SB=F", "설탕(선물)", 1),
-            ("ZS=F", "대두(선물)", 1), ("ZW=F", "소맥(선물)", 1),
-            ("DBA", "곡물·농산물 ETF(DBA, 선물 바스켓)", 1)])
-    run_yf("A5 금속 선물",
-           [("GC=F", "금(선물)", 1), ("SI=F", "은(선물)", 1), ("HG=F", "구리(선물)", 1),
-            ("ALI=F", "알루미늄(선물)", 1), ("TIO=F", "철광석(선물)", 1)])
-    run_points("A5 그 외 선물 (두바이유·나프타·가스오일·LME·리튬·코발트)", "A5")
+    if want("A5"):
+        run_yf("A5 에너지 선물",
+               [("CL=F", "WTI(선물)", 1), ("BZ=F", "브렌트(선물)", 1), ("RB=F", "휘발유(선물)", 1),
+                ("HO=F", "디젤·난방유·가스오일(HO, ULSD)", 1), ("NG=F", "천연가스(선물)", 1)])
+        run_yf("A5 곡물·농산물 선물",
+               [("ZC=F", "옥수수(선물)", 1), ("CT=F", "면화(선물)", 1), ("SB=F", "설탕(선물)", 1),
+                ("ZS=F", "대두(선물)", 1), ("ZW=F", "소맥(선물)", 1),
+                ("DBA", "곡물·농산물 ETF(DBA, 선물 바스켓)", 1)])
+        run_yf("A5 금속 선물",
+               [("GC=F", "금(선물)", 1), ("SI=F", "은(선물)", 1), ("HG=F", "구리(선물)", 1),
+                ("ALI=F", "알루미늄(선물)", 1), ("TIO=F", "철광석(선물)", 1)])
+        run_points("A5 그 외 선물 (두바이유·나프타·가스오일·LME·리튬·코발트)", "A5")
+
     # ── A6 실물·섹터 ──
-    run_points("A6 한국 수출입·반도체 수출, 중국 투자·내수", "A6")
-    try:
-        h6, sect = yf_items("A6 미국 산업별 ETF (1일 등락순)", [(k, v, 1) for k, v in SECTORS.items()],
-                            sort_1d=True, cols=4)[:2]
-        parts.append(h6)
-    except Exception as e:
-        sect = []
-        parts.append(f"<h2>A6 산업별 ETF</h2><p class='err'>조회 실패: {e}</p>")
+    if want("A6"):
+        run_points("A6 한국 수출입·반도체 수출, 중국 투자·내수", "A6")
+        try:
+            h6, sect = yf_items("A6 미국 산업별 ETF (1일 등락순)", [(k, v, 1) for k, v in SECTORS.items()],
+                                sort_1d=True, cols=4)[:2]
+            parts.append(h6)
+        except Exception as e:
+            sect = []
+            parts.append(f"<h2>A6 산업별 ETF</h2><p class='err'>조회 실패: {e}</p>")
+
 
     # ── 카톡 요약 ──
     mode = os.environ.get("A_SUMMARY_MODE", "brief").strip().lower()
+    if only is not None:
+        mode = "full"          # 하위 대상은 항목이 적어 전부 보낸다
     lines = [s["text"] for s in S if mode == "full" or s["key"]]
     _now = dt.datetime.now(KST)
     lines.insert(0, f"기준 {_now:%m-%d} ({iso_wk(_now)})")
@@ -874,13 +909,21 @@ def kr_sections(df, label, d, hi_fetch, topn_hi=150):
   
     cand = df.sort_values("거래대금", ascending=False).head(topn_hi)
     start = (dt.datetime.strptime(d, "%Y%m%d") - dt.timedelta(days=365)).strftime("%Y%m%d")
-    hi_list = []
-    for t, row in cand.iterrows():
+    def _is_hi(item):
+        t, close = item
         try:
-            if row["종가"] >= hi_fetch(start, d, t)["종가"].max() * 0.9999:
-                hi_list.append(t)
+            return t if close >= hi_fetch(start, d, t)["종가"].max() * 0.9999 else None
         except Exception:
-            pass
+            return None
+    items = [(t, row["종가"]) for t, row in cand.iterrows()]
+    workers = max(1, int(os.environ.get("KR_THREADS", "6")))     # 1이면 예전처럼 순차
+    if workers == 1:
+        res_hi = [_is_hi(it) for it in items]
+    else:
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=workers) as ex:
+            res_hi = list(ex.map(_is_hi, items))
+    hi_list = [t for t in res_hi if t is not None]
     surge = df[(df["전일거래량"] > 0) & (df["거래대금"] >= 1e8)]
     html = (f"<h3>{label}</h3>"
             + df_html(df[df["등락률(%)"] >= 29.0].sort_values("등락률(%)", ascending=False)[cols], "상한가", None, True)
@@ -1125,22 +1168,27 @@ def chunk_text(text, limit=145):
         chunks.append(cur)
     return chunks
 
-FUNCS = {"A": target_A, "B": target_B, "C": target_C, "D": target_D, "E": target_E}
+FUNCS = {"A": target_A, "A1": lambda: target_A({"A1"}), "A2": lambda: target_A({"A2"}),
+         "A3": lambda: target_A({"A3"}), "B": target_B, "C": target_C, "D": target_D, "E": target_E}
 
 def nearest_slot(now):
     hhmm = now.hour * 100 + now.minute
-    return min(TARGETS_BY_SLOT, key=lambda s: abs(int(s) - hhmm))
+    def dist(sl):
+        v = int(sl)
+        d = abs(v - hhmm)
+        return min(d, abs(v - 2400 - hhmm)) if v >= 2400 else d      # 2400 = 자정(0000)
+    return min(TARGETS_BY_SLOT, key=dist)
 
-SLOT_START = {"0700": "0635", "0800": "0747", "0850": "0837", "0900": "0835",
-              "1000": "0947", "1230": "1217", "1400": "1347"}      # 호출(트리거) 예정 시각(KST)
 SUMM_FILE = pathlib.Path("out/summaries.json")
 
 def start_delay_min(slot):
     """호출 예정 시각(목표시각 - TRIGGER_LEAD_MIN분)보다 실행이 얼마나 늦게 시작했는지(분)."""
     if not should_wait(False):
         return None
-    lead = int(os.environ.get("TRIGGER_LEAD_MIN", "60"))
-    sched = slot_target(slot) - dt.timedelta(minutes=lead)
+    if os.environ.get("SCHEDULE") and slot in SLOT_LEAD:           # GitHub 예약 실행
+        sched = slot_target(slot) - dt.timedelta(minutes=SLOT_LEAD[slot])
+    else:                                                           # 외부 호출(cron-job.org)
+        sched = slot_target(slot) - dt.timedelta(minutes=int(os.environ.get("TRIGGER_LEAD_MIN", "60")))
     return int(round((dt.datetime.now(KST) - sched).total_seconds() / 60))
 
 ITEM_DIR = pathlib.Path("out")
@@ -1209,7 +1257,7 @@ def build(slot, targets, meta=None):
     else:
         ITEM_DIR.mkdir(exist_ok=True)
         # 일찍 호출돼도 데이터가 오래되지 않도록, 목표시각 BUILD_LEAD 전까지 대기한 뒤 수집한다
-        lead = int(os.environ.get("BUILD_LEAD_SEC") or (1200 if any(t in targets for t in "AB") else 480))
+        lead = int(os.environ.get("BUILD_LEAD_SEC") or SLOT_BUILD_LEAD_MIN.get(slot, 20) * 60)
         pre = (slot_target(slot) - dt.datetime.now(KST)).total_seconds() - lead
         if should_wait(False) and 0 < pre <= 4 * 3600:
             print(f"[대기] 수집 시작({lead // 60}분 전)까지 {int(pre)}초 대기", flush=True)
@@ -1217,10 +1265,23 @@ def build(slot, targets, meta=None):
         to_target = (slot_target(slot) - dt.datetime.now(KST)).total_seconds()
         min_b = float(os.environ.get("MIN_BUDGET_SEC", "240"))      # 이미 늦었어도 최소 이만큼은 수집
         max_b = float(os.environ.get("MAX_BUDGET_SEC", "2400"))
-        budget = min(max(to_target - 45, min_b), max_b)             # 목표시각 45초 전까지가 기본 한도
+        grace = float(os.environ.get("LATE_GRACE_MIN", "8")) * 60      # 정시보다 최대 이만큼 늦는 것은 허용(대상을 빠뜨리지 않음)
+        budget = min(max(to_target + grace, min_b), max_b)             # 목표시각 45초 전까지가 기본 한도
         print(f"[예산] 수집 제한 {int(budget)}초 (목표시각까지 {int(to_target)}초)", flush=True)
         res = run_workers(targets, lambda t: [sys.executable, os.path.abspath(__file__), "--worker", t, "--slot", slot],
                           time.time() + budget)
+        try:
+            tcsv = pathlib.Path("data/target_timing.csv")
+            tcsv.parent.mkdir(parents=True, exist_ok=True)
+            new_f = not tcsv.exists()
+            with tcsv.open("a", encoding="utf-8", newline="") as f:
+                w = csv.writer(f)
+                if new_f:
+                    w.writerow(["date", "slot", "lead_min", "target", "status", "sec"])
+                for t in targets:
+                    w.writerow([f"{slot_target(slot):%Y-%m-%d}", slot, run_lead(), t, res[t][0], res[t][1]])
+        except Exception as e:
+            print("대상별 시간 기록 실패(무시):", e, file=sys.stderr)
         for t in targets:
             st, sec = res[t]
             if st == "ok" and item_path(t).exists():
@@ -1248,7 +1309,11 @@ def should_wait(no_wait):
 
 def slot_target(slot):
     now = dt.datetime.now(KST)
-    return now.replace(hour=int(slot[:2]), minute=int(slot[2:]), second=0, microsecond=0)
+    hh, mm = int(slot[:2]), int(slot[2:])
+    base = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    if hh >= 24:       # 2400 = 자정. 낮·저녁에 시작한 실행은 '오늘 밤 자정', 새벽에 늦게 시작한 실행은 '방금 지난 자정'
+        return base if now.hour < 12 else base + dt.timedelta(days=1)
+    return base.replace(hour=hh, minute=mm)
 
 def wait_until_slot(slot, max_wait_min=60):
     """목표시각까지 남았으면 기다린다. 이미 지났으면(지연) 즉시 진행."""
@@ -1259,8 +1324,255 @@ def wait_until_slot(slot, max_wait_min=60):
     else:
         print(f"[대기 없음] 목표시각 대비 {int(-delta)}초 경과", flush=True)
 
+SENT_DIR = "data/sent"
+
+def _git(*args):
+    return subprocess.run(["git", *args], capture_output=True, text=True, timeout=120)
+
+def _claim_enabled():
+    return os.environ.get("GITHUB_ACTIONS") == "true" and os.environ.get("NO_CLAIM", "") != "1"
+
+def parse_slot_spec(raw):
+    """'0630' / '0630@30' / '2400@0' → (슬롯, 호출 리드 분 또는 None).
+    '@N' 은 '이 호출이 발송 N분 전(0=정시)'이라는 표시. 호출 본문에 slot 하나만 넣으면 되도록 한 것."""
+    m = re.fullmatch(r"\s*(\d{4})(?:@(\d{1,3}))?\s*", raw or "")
+    if not m:
+        return (raw or "").strip(), None
+    return m.group(1), (int(m.group(2)) if m.group(2) is not None else None)
+
+def apply_slot_spec(raw):
+    """슬롯 표기를 해석해 호출 방식(TRIGGER_LEAD_MIN)을 환경에 반영하고 순수 슬롯을 돌려준다."""
+    slot, lead = parse_slot_spec(raw)
+    if lead is not None:
+        os.environ["TRIGGER_LEAD_MIN"] = str(lead)
+        os.environ["WAIT_FOR_SLOT"] = "true"           # 워크플로우 wait 기본값이 false 여도 '@' 호출은 정시 발송
+        if lead == 0:                                  # 정시 호출은 수집 시간을 충분히 준다
+            os.environ["MIN_BUDGET_SEC"] = "1500"
+    return slot
+
+def run_lead():
+    """호출 방식: 발송 시각 몇 분 전에 호출했는지(기본 60, 정시 호출은 0)."""
+    return os.environ.get("TRIGGER_LEAD_MIN", "60").strip() or "60"
+
+def variant_label():
+    L = run_lead()
+    return "" if L == "60" else ("정시호출" if L == "0" else f"{L}분전호출")
+
+def _is_quiet():
+    return os.environ.get("QUIET_RUN", "").strip().lower() == "true"
+
+def _claim_file(slot):
+    suffix = "" if run_lead() == "60" else f"_L{run_lead()}"
+    return pathlib.Path(SENT_DIR) / f"{slot_target(slot):%Y%m%d}_{slot}{suffix}.txt"
+
+def slot_already_sent(slot):
+    """이미 다른 실행이 이 슬롯을 발송했는지(저장소의 표식 파일로 확인)."""
+    if not _claim_enabled():
+        return False
+    try:
+        _git("pull", "--rebase", "--autostash")
+    except Exception as e:
+        print("pull 실패(무시):", e)
+    return _claim_file(slot).exists()
+
+def claim_slot(slot):
+    """발송 직전에 표식 파일을 git push 로 선점. 이미 있으면 False(=보내지 않음).
+    두 실행이 동시에 와도 push 는 한쪽만 성공하므로 중복 발송이 생기지 않는다."""
+    if not _claim_enabled():
+        return True
+    f = _claim_file(slot)
+    try:
+        _git("config", "user.name", "market-bot")
+        _git("config", "user.email", "market-bot@users.noreply.github.com")
+        for i in range(6):
+            _git("pull", "--rebase", "--autostash")
+            if f.exists():
+                print(f"[중복] {slot} 은(는) 이미 다른 실행이 발송함 → 건너뜀", flush=True)
+                return False
+            f.parent.mkdir(parents=True, exist_ok=True)
+            f.write_text(f"{dt.datetime.now(KST).isoformat()} run={os.environ.get('GITHUB_RUN_ID', '')}\n", encoding="utf-8")
+            cutoff = (slot_target(slot) - dt.timedelta(days=14)).strftime("%Y%m%d")
+            for old in f.parent.glob("*.txt"):                  # 14일 지난 표식 정리
+                if old.name[:8] < cutoff:
+                    old.unlink()
+            _git("add", "-A", SENT_DIR)
+            _git("commit", "-m", f"claim {slot}")
+            if _git("push").returncode == 0:
+                print(f"[선점] {slot} 발송 권한 확보", flush=True)
+                return True
+            _git("reset", "--hard", "HEAD~1")                   # 다른 실행이 먼저 올림 → 되돌리고 재확인
+            time.sleep(1 + i)
+    except Exception as e:
+        print("선점 처리 오류(발송은 진행):", e)
+    print("[경고] 선점 확인 실패 → 누락 방지를 위해 발송 진행", flush=True)
+    return True
+
+TIMING_CSV = pathlib.Path("data/timing_log.csv")
+TIMING_COLS = ["date", "slot", "lead_min", "trigger", "mode", "start_delay_min", "build_sec", "done_at", "late_min"]
+
+def _num(v):
+    try:
+        return float(v)
+    except Exception:
+        return None
+
+def _timing_html(rows):
+    """호출 방식(lead)·슬롯별로 도착 지연을 비교하는 표."""
+    def stats(sel):
+        xs = [r for r in rows if sel(r)]
+        late = [x for x in (_num(r["late_min"]) for r in xs) if x is not None]
+        sd = [x for x in (_num(r["start_delay_min"]) for r in xs) if x is not None]
+        bs = [x for x in (_num(r["build_sec"]) for r in xs) if x is not None]
+        if not late:
+            return None
+        avg = lambda v: sum(v) / len(v) if v else float("nan")
+        return dict(n=len(late), sd=avg(sd), bs=avg(bs) / 60 if bs else float("nan"), late=avg(late), mx=max(late),
+                    p10=100 * sum(1 for x in late if x <= 10) / len(late),
+                    p30=100 * sum(1 for x in late if x <= 30) / len(late))
+    def fmt(v, f="{:+.0f}"):
+        return "-" if v != v else f.format(v)
+    def tr(label, st):
+        if not st:
+            return ""
+        return (f"<tr><td>{label}</td><td>{st['n']}</td><td>{fmt(st['sd'])}</td><td>{fmt(st['bs'], '{:.1f}')}</td>"
+                f"<td>{fmt(st['late'])}</td><td>{fmt(st['mx'])}</td><td>{st['p10']:.0f}%</td><td>{st['p30']:.0f}%</td></tr>")
+    head = ("<tr><th>구분</th><th>횟수</th><th>평균 시작지연(분)</th><th>평균 수집(분)</th>"
+            "<th>평균 도착(목표 대비 분)</th><th>최대 도착(분)</th><th>10분 이내</th><th>30분 이내</th></tr>")
+    names = lambda L: "정시 호출(발송시각에 호출)" if L == "0" else "기본(60분 전 호출)" if L == "60" else f"{L}분 전 호출"
+    leads = sorted({r["lead_min"] for r in rows}, key=lambda x: int(x) if x.isdigit() else 999)
+    t1 = "".join(tr(names(L), stats(lambda r, L=L: r["lead_min"] == L)) for L in leads)
+    slots = sorted({r["slot"] for r in rows})
+    t2 = "".join(tr(f"{sl} · {names(L)}", stats(lambda r, sl=sl, L=L: r["slot"] == sl and r["lead_min"] == L))
+                 for sl in slots for L in leads)
+    recent = "".join(
+        f"<tr><td>{r['date']}</td><td>{r['slot']}</td><td>{names(r['lead_min'])}</td><td>{r['trigger']}</td><td>{r['mode']}</td>"
+        f"<td>{r['start_delay_min'] or '-'}</td><td>{r['build_sec'] or '-'}</td><td>{r['done_at']}</td><td>{r['late_min']}</td></tr>"
+        for r in rows[-40:][::-1])
+    return (f"<!doctype html><html lang='ko'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
+            f"<style>{CSS}</style><title>호출 방식별 도착 지연 비교</title></head><body><h1>호출 방식별 도착 지연 비교</h1>"
+            f"<p class='muted'>도착(목표 대비) = 발송(또는 비교용 완료) 시각 - 슬롯 목표시각. 마이너스는 목표보다 빨리 끝남. "
+            f"시작지연 = 실제 시작 - 호출 예정시각. 최근 {min(len(rows), 40)}건 포함 총 {len(rows)}건.</p>"
+            f"<h2>호출 방식별 요약</h2><div class='scroll'><table>{head}{t1}</table></div>"
+            f"<h2>슬롯 × 호출 방식</h2><div class='scroll'><table>{head}{t2}</table></div>"
+            f"<h2>최근 기록</h2><div class='scroll'><table><tr><th>날짜</th><th>슬롯</th><th>호출 방식</th><th>트리거</th><th>구분</th>"
+            f"<th>시작지연</th><th>수집(초)</th><th>완료시각</th><th>도착(분)</th></tr>{recent}</table></div></body></html>")
+
+def record_timing(slot, meta, quiet):
+    """실행 결과(시작지연·수집시간·도착지연)를 data/timing_log.csv 에 쌓고 docs/timing.html 비교표를 갱신."""
+    now = dt.datetime.now(KST)
+    m = meta or {}
+    row = {"date": f"{slot_target(slot):%Y-%m-%d}", "slot": slot, "lead_min": run_lead(),
+           "trigger": "schedule" if os.environ.get("SCHEDULE") else "dispatch",
+           "mode": "quiet" if quiet else "sent",
+           "start_delay_min": "" if m.get("start_delay_min") is None else m["start_delay_min"],
+           "build_sec": m.get("build_sec", ""), "done_at": f"{now:%H:%M:%S}",
+           "late_min": round((now - slot_target(slot)).total_seconds() / 60)}
+    def write():
+        TIMING_CSV.parent.mkdir(parents=True, exist_ok=True)
+        new = not TIMING_CSV.exists()
+        with TIMING_CSV.open("a", encoding="utf-8", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=TIMING_COLS)
+            if new:
+                w.writeheader()
+            w.writerow(row)
+        with TIMING_CSV.open(encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        OUT.mkdir(parents=True, exist_ok=True)
+        (OUT / "timing.html").write_text(_timing_html(rows), encoding="utf-8")
+    if not _claim_enabled():
+        write()
+        return
+    _git("config", "user.name", "market-bot")
+    _git("config", "user.email", "market-bot@users.noreply.github.com")
+    for i in range(6):
+        _git("pull", "--rebase", "--autostash")
+        write()
+        _git("add", str(TIMING_CSV), str(OUT / "timing.html"))
+        _git("commit", "-m", f"timing {slot} L{run_lead()}")
+        if _git("push").returncode == 0:
+            return
+        _git("reset", "--hard", "HEAD~1")
+        time.sleep(1 + i)
+
+def deliver(slot, items, timed, meta):
+    """정시 대기 → (조용한 비교 실행이 아니면) 선점 → 발송 → 시간 기록."""
+    quiet = _is_quiet()
+    if timed:
+        wait_until_slot(slot)
+        if not quiet and not claim_slot(slot):      # 같은 방식의 실행이 이미 보냈다면 늦게 온 중복은 보내지 않음
+            return
+    if quiet:
+        print("[조용히] 비교용 실행: 카톡 발송 없이 시간만 기록", flush=True)
+    else:
+        send_all(slot, items, show_late=timed, meta=meta)
+    try:
+        record_timing(slot, meta, quiet)
+    except Exception as e:
+        print("시간 기록 실패(무시):", e, file=sys.stderr)
+
+def notify_channels():
+    """발송 채널. NOTIFY_CHANNELS(예: 'kakao', 'telegram', 'kakao,telegram') 가 있으면 그대로,
+    없으면 카카오 + (텔레그램 토큰·채팅ID 가 등록돼 있으면) 텔레그램."""
+    raw = (os.environ.get("NOTIFY_CHANNELS") or "").strip().lower()
+    if raw:
+        return [c.strip() for c in raw.replace("+", ",").split(",") if c.strip()]
+    ch = ["kakao"]
+    if os.environ.get("TELEGRAM_BOT_TOKEN") and os.environ.get("TELEGRAM_CHAT_ID"):
+        ch.append("telegram")
+    return ch
+
+def telegram_send(text):
+    """텔레그램 메시지 1건 발송(최대 4096자). 채팅ID 가 여러 개면(쉼표) 모두에게 보낸다. 성공 여부를 돌려준다.
+    주의: 요청 주소에 봇 토큰이 들어 있으므로 오류 내용(주소 포함)은 출력하지 않는다."""
+    tok = (os.environ.get("TELEGRAM_BOT_TOKEN") or "").strip()
+    chats = [c.strip() for c in (os.environ.get("TELEGRAM_CHAT_ID") or "").split(",") if c.strip()]
+    if not tok or not chats:
+        print("[텔레그램] TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID 가 없어 건너뜀", file=sys.stderr)
+        return False
+    ok = True
+    for cid in chats:
+        for attempt in (1, 2):
+            try:
+                r = requests.post(f"https://api.telegram.org/bot{tok}/sendMessage",
+                                  json={"chat_id": cid, "text": text[:4096], "disable_web_page_preview": True},
+                                  timeout=20)
+            except requests.RequestException as e:
+                print(f"[텔레그램] 전송 오류: {type(e).__name__}", file=sys.stderr)
+                ok = False
+                break
+            if r.status_code == 429 and attempt == 1:        # 너무 빠르게 보냄 → 안내된 시간만큼 쉬고 1회 재시도
+                try:
+                    time.sleep(min(30, int(r.json().get("parameters", {}).get("retry_after", 3))))
+                except Exception:
+                    time.sleep(3)
+                continue
+            print("telegram:", r.status_code, (r.text[:120] if not r.ok else ""))
+            if not r.ok:
+                ok = False
+            break
+    return ok
+
 def send_all(slot, items, show_late=False, meta=None):
-    token = kakao_access_token()
+    channels = [c for c in notify_channels() if c in ("kakao", "telegram")]
+    print(f"[채널] 사용: {', '.join(channels) if channels else '없음(NOTIFY_CHANNELS 값을 확인하세요)'}", flush=True)
+    # 텔레그램이 안 올 때 원인을 로그만으로 알 수 있게(값은 출력하지 않고 등록 여부만)
+    if "telegram" in channels:
+        n_chat = len([c for c in (os.environ.get("TELEGRAM_CHAT_ID") or "").split(",") if c.strip()])
+        has_tok = bool((os.environ.get("TELEGRAM_BOT_TOKEN") or "").strip())
+        print(f"[텔레그램] 토큰 {'등록됨' if has_tok else '없음(Secrets 이름/위치 확인)'} / 채팅ID {n_chat}개"
+              + ("" if (has_tok and n_chat) else " → 발송 불가"), flush=True)
+    elif (os.environ.get("NOTIFY_CHANNELS") or "").strip():
+        print(f"[텔레그램] NOTIFY_CHANNELS='{os.environ['NOTIFY_CHANNELS'].strip()}' 설정 때문에 텔레그램 제외", flush=True)
+    else:
+        print("[텔레그램] 제외됨: TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID 시크릿이 이 실행에 전달되지 않았습니다 "
+              "(Secrets 등록 또는 market.yml v8 교체 확인)", flush=True)
+    token, kakao_warn = None, ""
+    if "kakao" in channels:
+        try:
+            token = kakao_access_token()
+        except Exception as e:                       # 카카오 토큰 만료 등 → 다른 채널은 계속 진행
+            print(f"카카오 토큰 발급 실패: {type(e).__name__}", file=sys.stderr)
+            kakao_warn = "⚠ 카카오 토큰 오류로 카톡은 발송하지 못했습니다(토큰 갱신 필요)\n"
     late = int((dt.datetime.now(KST) - slot_target(slot)).total_seconds() // 60)
     # 정시 발송 모드(예약/외부 호출)일 때만 '지연' 표시. 수동 테스트에서는 표시하지 않음
     tag = ""
@@ -1269,21 +1581,28 @@ def send_all(slot, items, show_late=False, meta=None):
         sd, bs = m.get("start_delay_min"), m.get("build_sec")
         detail = f"(시작{sd:+d}·수집{round(bs / 60)})" if sd is not None and bs is not None else ""
         tag = f" +{late}분{detail}"      # 예: +25분(시작+20·수집5) = 시작이 20분 늦고 수집에 5분 걸림
+    vl = variant_label()
     for it in items:
         t, summ = it["t"], it["summ"]
         link = f"{PAGES_BASE}/{t}.html" if PAGES_BASE else None
-        parts = chunk_text(summ)
-        for i, body_txt in enumerate(parts, 1):
-            head = f"[{slot}{tag}] {TARGET_NAMES[t]} ({i}/{len(parts)})\n"
-            try:
-                kakao_send(token, head + body_txt, link)
-            except Exception as e:
-                print("카톡 발송 실패:", e, file=sys.stderr)
-        if link:
-            try:
-                kakao_send(token, f"[{slot}] {TARGET_NAMES[t]} 전체 리포트(그래프·상위50)\n{link}", link)
-            except Exception as e:
-                print("링크 발송 실패:", e, file=sys.stderr)
+        if token:
+            parts = chunk_text(summ)
+            for i, body_txt in enumerate(parts, 1):
+                head = f"[{slot}{(' ' + vl) if vl else ''}{tag}] {TARGET_NAMES[t]} ({i}/{len(parts)})\n"
+                try:
+                    kakao_send(token, head + body_txt, link)
+                except Exception as e:
+                    print("카톡 발송 실패:", e, file=sys.stderr)
+            if link:
+                try:
+                    kakao_send(token, f"[{slot}] {TARGET_NAMES[t]} 전체 리포트(그래프·상위50)\n{link}", link)
+                except Exception as e:
+                    print("링크 발송 실패:", e, file=sys.stderr)
+        if "telegram" in channels:       # 글자 수 제한이 넉넉해서 대상별로 한 번에(길면 나눠서) 보낸다
+            head = f"[{slot}{(' ' + vl) if vl else ''}{tag}] {TARGET_NAMES[t]}"
+            body = f"{head}\n{kakao_warn}{summ}" + (f"\n\n전체 리포트(그래프·상위50)\n{link}" if link else "")
+            for part in chunk_text(body, limit=3500):
+                telegram_send(part)
 
 def main():
     ap = argparse.ArgumentParser()
@@ -1294,6 +1613,8 @@ def main():
     ap.add_argument("--no-wait", action="store_true", help="목표시각 대기 없이 즉시 발송(수동 테스트용)")
     ap.add_argument("--worker", help="(내부용) 대상 1개만 수집해 out/item_<대상>.json 저장")
     a = ap.parse_args()
+    if a.slot:
+        a.slot = apply_slot_spec(a.slot)
     now = dt.datetime.now(KST)
     print(f"[시작] KST {now:%Y-%m-%d %H:%M:%S} / SCHEDULE='{os.environ.get('SCHEDULE', '')}'", flush=True)
 
@@ -1312,28 +1633,35 @@ def main():
         except Exception:                      # 수집 단계가 통째로 실패해도 침묵하지 않고 알린다
             slot = a.slot or SLOT_BY_CRON.get(os.environ.get("SCHEDULE", "")) or nearest_slot(now)
             data = {"slot": slot, "items": [{"t": t, "summ": "⚠ 수집 단계 실패 — Actions 로그 확인"}
-                                            for t in TARGETS_BY_SLOT.get(slot, "ABE")]}
+                                            for t in parse_targets(TARGETS_BY_SLOT.get(slot, "A,B,E"))]}
         slot = data["slot"]
-        timed = should_wait(a.no_wait)
-        if timed:
-            wait_until_slot(slot)
-        send_all(slot, data["items"], show_late=timed, meta=data)
+        if data.get("skipped"):
+            print(f"[건너뜀] {slot} 은(는) 이미 발송됨 → 발송 생략", flush=True)
+            return
+        deliver(slot, data["items"], should_wait(a.no_wait), data)
         return
 
     slot = a.slot or SLOT_BY_CRON.get(os.environ.get("SCHEDULE", "")) or nearest_slot(now)
     raw = (a.targets or "").strip().upper()
     if raw in ("", "AUTO"):
-        raw = TARGETS_BY_SLOT.get(slot, "ABE")
-    targets = raw.replace(",", "").replace(" ", "")
+        raw = TARGETS_BY_SLOT.get(slot, "A,B,E")
+    targets = parse_targets(raw)
     print(f"[슬롯] {slot} / 대상 {targets}", flush=True)
+    if should_wait(a.no_wait) and not _is_quiet() and slot_already_sent(slot):      # 늦게 시작한 중복 실행은 수집부터 생략
+        print(f"[건너뜀] {slot} 은(는) 이미 발송됨 → 수집·발송 생략", flush=True)
+        SUMM_FILE.parent.mkdir(exist_ok=True)
+        SUMM_FILE.write_text(json.dumps({"slot": slot, "items": [], "skipped": True}, ensure_ascii=False),
+                             encoding="utf-8")
+        return
     meta = {"start_delay_min": start_delay_min(slot)}
     items = build(slot, targets, meta)
     if a.build_only or a.no_send:
         return
-    timed = should_wait(a.no_wait)
-    if timed:
-        wait_until_slot(slot)
-    send_all(slot, items, show_late=timed, meta=meta)
+    try:                                   # build 가 기록한 수집 시간(build_sec)을 함께 넘김
+        meta = json.loads(SUMM_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        pass
+    deliver(slot, items, should_wait(a.no_wait), meta)
 
 if __name__ == "__main__":
     main()
