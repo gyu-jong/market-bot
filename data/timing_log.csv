@@ -202,3 +202,4 @@ date,slot,lead_min,trigger,mode,start_delay_min,build_sec,done_at,late_min
 2026-11-16,0930,0,dispatch,sent,1,202,09:34:22,4
 2026-11-16,1030,30,dispatch,sent,1,223,10:30:04,0
 2026-11-16,1030,0,dispatch,sent,1,198,10:34:20,4
+2026-11-16,1300,30,dispatch,sent,1,642,13:00:04,0
