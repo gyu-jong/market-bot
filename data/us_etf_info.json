@@ -1894,5 +1894,913 @@
   "tags": [
    "원자재"
   ]
+ },
+ "UNHG": {
+  "name": "Leverage Shares 2X Long UNH Daily ETF",
+  "cat": "Industrials",
+  "fam": "Themes ETF Trust",
+  "sum": "The fund is an actively managed ETF. The fund invests at least 80% of its net assets (plus borrowings for investment purposes) in financial instruments with economic characteristics that, in combination, provide 200% daily leveraged exposure to the price of UNH, consistent with the fund’s investment",
+  "kr": "레버리지·업종/테마 · Leverage Shares 2X Long UNH Daily ETF (Industrials)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "업종/테마"
+  ]
+ },
+ "AAAU": {
+  "name": "Goldman Sachs Physical Gold ETF",
+  "cat": "Commodities Focused",
+  "fam": "Goldman Sachs",
+  "sum": "The trust holds London Bars and Physical Gold of other specifications without numismatic value. It receives gold deposited by Authorized Participants in exchange for the creation of Baskets and delivers gold to Authorized Participants in exchange for Baskets surrendered to it for redemption.",
+  "kr": "원자재 · Goldman Sachs Physical Gold ETF (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "FWD": {
+  "name": "AB Disruptors ETF",
+  "cat": "Global Large-Stock Growth",
+  "fam": "AllianceBernstein",
+  "sum": "The fund is an actively-managed exchange-traded fund (“ETF”). The adviser seeks to achieve the fund’s investment objective by investing, under normal circumstances, in a global portfolio of equity securities. The fund invests in companies of all market capitalizations, and invests globally in compan",
+  "kr": "해외/글로벌 · AB Disruptors ETF (Global Large-Stock Growth)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "VRIG": {
+  "name": "Invesco Variable Rate Investment Grade ETF",
+  "cat": "Ultrashort Bond",
+  "fam": "Invesco",
+  "sum": "The fund invests at least 80% of its net assets (plus any borrowings for investment purposes) in a portfolio of investment-grade, variable rate or floating rate debt securities. At least 80% of its net assets (plus any borrowings for investment purposes) will be invested in Variable Rate Instruments",
+  "kr": "단기채/현금성 · Invesco Variable Rate Investment Grade ETF (Ultrashort Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "SGOL": {
+  "name": "abrdn Physical Gold Shares ETF",
+  "cat": "Commodities Focused",
+  "fam": "Aberdeen Standard Investments",
+  "sum": "The Shares are intended to constitute a simple and cost-effective means of making an investment similar to an investment in gold. An investment in physical gold requires expensive and sometimes complicated arrangements in connection with the assay, transportation, warehousing and insurance of the me",
+  "kr": "원자재 · abrdn Physical Gold Shares ETF (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "FXU": {
+  "name": "First Trust Utilities AlphaDEX Fund",
+  "cat": "Utilities",
+  "fam": "First Trust",
+  "sum": "The fund will normally invest at least 90% of its net assets (including investment borrowings) in the securities that comprise the index. The index is a modified equal-dollar weighted index to objectively identify and select stocks from the Russell 1000® Index in the utilities sector that may genera",
+  "kr": "업종/테마 · First Trust Utilities AlphaDEX Fund (Utilities)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "SPCM": {
+  "name": "Tradr 2X Long SpaceX Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "AXS",
+  "sum": "Under normal market circumstances, the fund will maintain at least 80% exposure to financial instruments that provide two times leveraged exposure to the daily performance of SpaceX. SpaceX designs, manufacturers, and launches advanced rockets and spacecraft that are intended to be fully reusable tr",
+  "kr": "레버리지 · Tradr 2X Long SpaceX Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "SPAX": {
+  "name": "T-REX 2X Long SPCX Daily Target ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Rex",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in financial instruments that are designed to provide, in the aggregate, 200% exposure to the price performance of SpaceX on a daily basis. The fund manager will attempt to achi",
+  "kr": "레버리지 · T-REX 2X Long SPCX Daily Target ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "GDXU": {
+  "name": "MicroSectors Gold Miners 3X Leveraged ETNs",
+  "cat": "Trading--Leveraged Commodities",
+  "fam": "BMO Capital Markets",
+  "kr": "레버리지·원자재 · MicroSectors Gold Miners 3X Leveraged ETNs (Trading--Leveraged Commodities)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "원자재"
+  ]
+ },
+ "SPAL": {
+  "name": "GraniteShares 2x Long SpaceX Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Graniteshares",
+  "sum": "The fund will aim to primarily obtain its notional exposure against the Underlying Stock through swap agreements. The fund manager has adopted a policy to have at least 80% of its investment exposure to financial instruments with economic characteristics that should have 2 times the performance of t",
+  "kr": "레버리지 · GraniteShares 2x Long SpaceX Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "LOFF": {
+  "name": "Direxion Daily SpaceX Bull 2X ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in the securities of SpaceX and financial instruments, such as swap agreements and options, that, in combination, provide 2X daily leveraged exposure to SpaceX, consistent with ",
+  "kr": "레버리지 · Direxion Daily SpaceX Bull 2X ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "SPCU": {
+  "name": "Defiance Daily Target 2X Long SPCX ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Defiance ETFs LLC",
+  "sum": "It has adopted a policy to have at least 80% exposure to financial instruments with economic characteristics that should perform 2X the daily performance of the Underlying Security’s shares. The fund is non-diversified.",
+  "kr": "레버리지 · Defiance Daily Target 2X Long SPCX ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "SPCF": {
+  "name": "Proshares Ultra Spacex",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "ProShares",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of the fund’s assets in, or provide exposure to, financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target.",
+  "kr": "레버리지 · Proshares Ultra Spacex (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "ZCSH": {
+  "name": "The Zcash ETF",
+  "cat": "Digital Assets",
+  "fam": "Grayscale",
+  "sum": "The Trust’s investment objective is for the Shares (based on ZEC per Share) to reflect the value of the ZEC held by the Trust, determined by reference to the index Price, less the Trust’s expenses and other liabilities.",
+  "kr": "The Zcash ETF (Digital Assets)",
+  "src": "rule",
+  "tags": []
+ },
+ "SPCH": {
+  "name": "Leverage Shares 2X Long SPCX Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Themes ETF Trust",
+  "sum": "The fund is an actively managed ETF. It invests at least 80% of its net assets (plus borrowings for investment purposes) in the Underlying Security and financial instruments with economic characteristics that, in combination, provide 200% daily leveraged exposure to the price of the Underlying Secur",
+  "kr": "레버리지 · Leverage Shares 2X Long SPCX Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "JNUG": {
+  "name": "Direxion Daily Junior Gold Miners Index Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The index tracks the performance of domestic and foreign, including developing and emerging, small- and mid-capitalization companies that are involved in the gold and silver mining industry. The fund invests at least 80% of its net assets in financial instruments, such as swap agreements, securities",
+  "kr": "레버리지·원자재 · Direxion Daily Junior Gold Miners Index Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "원자재"
+  ]
+ },
+ "WDCX": {
+  "name": "Tradr 2X Long WDC Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "AXS",
+  "sum": "Under normal market circumstances, the fund will maintain at least 80% exposure to financial instruments that provide two times leveraged exposure to the daily performance of WDC. It is non-diversified.",
+  "kr": "레버리지 · Tradr 2X Long WDC Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "NUGT": {
+  "name": "Direxion Daily Gold Miners Index Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The index is comprised of publicly traded common stocks, ADRs or global depositary receipts of companies that operate globally in both developed and emerging markets, and the index provider defines as involved primarily in mining for gold and, to a lesser extent, in mining for silver. The fund inves",
+  "kr": "레버리지·원자재 · Direxion Daily Gold Miners Index Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "원자재"
+  ]
+ },
+ "AVL": {
+  "name": "Direxion Daily AVGO Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in the securities of AVGO and financial instruments, such as swap agreements and options, that, in combination, provide 2X daily leveraged exposure to AVGO, consistent with the ",
+  "kr": "레버리지 · Direxion Daily AVGO Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "AVGX": {
+  "name": "Defiance Daily Target 2X Long AVGO ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Defiance ETFs LLC",
+  "sum": "The fund is an actively managed exchange traded fund (“ETF”) that attempts to achieve two times (200%) the daily percentage change in the share price of the underlying security by employing derivatives, namely swap agreements and/or listed options contracts. The fund is non-diversified.",
+  "kr": "레버리지 · Defiance Daily Target 2X Long AVGO ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "AVGG": {
+  "name": "Leverage Shares 2X Long AVGO Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Themes ETF Trust",
+  "sum": "The fund invests at least 80% of its net assets (plus borrowings for investment purposes) in financial instruments with economic characteristics that, in combination, provide 200% daily leveraged exposure to the price of AVGO, consistent with the fund’s investment objective. The fund is non-diversif",
+  "kr": "레버리지 · Leverage Shares 2X Long AVGO Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "AGQ": {
+  "name": "ProShares Ultra Silver",
+  "cat": "Trading--Leveraged Commodities",
+  "fam": "ProShares",
+  "sum": "The fund seeks to meet its investment objective by investing, under normal market conditions, in any one of, or combinations of, Financial Instruments (including swap agreements, futures contracts, forward contracts and option contracts) based on the benchmark. The types and mix of Financial Instrum",
+  "kr": "레버리지·원자재 · ProShares Ultra Silver (Trading--Leveraged Commodities)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "원자재"
+  ]
+ },
+ "BSOL": {
+  "name": "Bitwise Solana Staking ETF",
+  "cat": "Digital Assets",
+  "fam": "Bitwise Investments",
+  "sum": "In seeking to achieve its primary investment objective, the Trust will hold Solana and establish its net asset value (“NAV”) by reference to the CME CF Solana – Dollar Reference Rate – New York Variant (“Pricing Benchmark”). The Trust is sponsored and managed by Bitwise Investment Advisers, LLC (the",
+  "kr": "Bitwise Solana Staking ETF (Digital Assets)",
+  "src": "rule",
+  "tags": []
+ },
+ "SILJ": {
+  "name": "Amplify Junior Silver Miners ETF",
+  "cat": "Equity Precious Metals",
+  "fam": "Amplify ETFs",
+  "sum": "The index tracks the performance of the equity securities (or corresponding American Depositary Receipts (“ADRs”) or Global Depositary Receipts (“GDRs”)) of companies actively engaged in silver mining industry (“Silver Companies”). The fund invests at least 80% of its total assets in the component s",
+  "kr": "원자재 · Amplify Junior Silver Miners ETF (Equity Precious Metals)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "YANG": {
+  "name": "Direxion Daily FTSE China Bear 3X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of the fund’s net assets (plus borrowing for investment purposes) in financial instruments, that, in combination, provide 3X daily inverse (opposite) or short exposure to the index or to ETFs that track the index, consistent with the fund’s ",
+  "kr": "레버리지·인버스·해외/글로벌 · Direxion Daily FTSE China Bear 3X Shares (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스",
+   "해외/글로벌"
+  ]
+ },
+ "DFEN": {
+  "name": "Direxion Daily Aerospace & Defense Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets (plus borrowing for investment purposes) in financial instruments, such as swap agreements, securities of the index, and exchange-traded funds (\"ETFs\") that track the index, that, in combination, provide 3X daily leveraged exposure to the index, consis",
+  "kr": "레버리지 · Direxion Daily Aerospace & Defense Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "SVIX": {
+  "name": "-1x Short VIX Futures ETF",
+  "cat": "Trading--Inverse Equity",
+  "fam": "VS TRUST",
+  "sum": "The index measures the daily inverse performance of a portfolio of first and second month VIX futures contracts. This theoretical portfolio is rolled each day to maintain a consistent time to maturity of the futures contracts. The index is calculated daily at 4:00 p.m. (Eastern time) and at a value ",
+  "kr": "인버스 · -1x Short VIX Futures ETF (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "인버스"
+  ]
+ },
+ "SLVR": {
+  "name": "Sprott Silver Miners & Physical Silver ETF",
+  "cat": "Equity Precious Metals",
+  "fam": "Sprott",
+  "sum": "The fund will, under normal circumstances, invest at least 80% of the value of its total assets in securities of the index. The index is designed to track the performance of companies that derive at least 50% of their revenue and/or assets from mining, production, development, or exploration of silv",
+  "kr": "원자재 · Sprott Silver Miners & Physical Silver ETF (Equity Precious Metals)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "SLVP": {
+  "name": "iShares MSCI Global Silver and Metals Miners ETF",
+  "cat": "Equity Precious Metals",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of the underlying index and in investments that have economic characteristics that are substantially identical to the component securities of the underlying index. The index has been developed by MSCI Inc. (the \"in",
+  "kr": "원자재·해외/글로벌 · iShares MSCI Global Silver and Metals Miners ETF (Equity Precious Metals)",
+  "src": "rule",
+  "tags": [
+   "원자재",
+   "해외/글로벌"
+  ]
+ },
+ "GDXJ": {
+  "name": "VanEck Junior Gold Miners ETF",
+  "cat": "Equity Precious Metals",
+  "fam": "VanEck",
+  "sum": "The fund normally invests at least 80% of its total assets in securities that comprise the index. The index includes companies that generate at least 50% of their revenues from gold and/or silver mining/royalties/streaming or have mining projects with the potential to generate at least 50% of their ",
+  "kr": "원자재 · VanEck Junior Gold Miners ETF (Equity Precious Metals)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "GUSH": {
+  "name": "Direxion Daily S&P Oil & Gas Exp. & Prod. Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The index measures the performance of the domestic companies included in the integrated oil and gas, oil and gas exploration and production and oil and gas refining and marketing sub-industries as classified by the GICS. The fund invests at least 80% of its net assets in financial instruments, such ",
+  "kr": "레버리지·원자재 · Direxion Daily S&P Oil & Gas Exp. & Prod. Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "원자재"
+  ]
+ },
+ "SIL": {
+  "name": "Global X Silver Miners ETF",
+  "cat": "Equity Precious Metals",
+  "fam": "Global X Funds",
+  "sum": "The fund invests at least 80% of its total assets in the securities of the underlying index and in American Depositary Receipts (\"ADRs\") and Global Depositary Receipts (\"GDRs\") based on the securities in the underlying index. The underlying index is designed to measure broad-based equity market perf",
+  "kr": "원자재·해외/글로벌 · Global X Silver Miners ETF (Equity Precious Metals)",
+  "src": "rule",
+  "tags": [
+   "원자재",
+   "해외/글로벌"
+  ]
+ },
+ "NCLD": {
+  "name": "Roundhill Neocloud ETF",
+  "cat": "Technology",
+  "fam": "Roundhill Investments",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets (plus borrowings for investment purposes) in equity securities (which may include depositary receipts) or financial instruments (i.e., swap agreements or forward contracts) that provide exposure to Neocloud Companies. For pu",
+  "kr": "업종/테마 · Roundhill Neocloud ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "EWZS": {
+  "name": "iShares MSCI Brazil Small-Cap ETF",
+  "cat": "Focused Region",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of the underlying index and in investments that have economic characteristics that are substantially identical to the component securities of the underlying index. The index is a free float-adjusted market capitali",
+  "kr": "해외/글로벌 · iShares MSCI Brazil Small-Cap ETF (Focused Region)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "WGMI": {
+  "name": "CoinShares Bitcoin Mining and Digital Power ETF",
+  "cat": "Equity Digital Assets",
+  "fam": "CoinShares",
+  "sum": "The fund is an actively-managed exchange-traded fund (“ETF”) that will invest at least 80% of its net assets (plus borrowings for investment purposes) in securities of Bitcoin Mining and Digital Power Companies. The fund’s selection universe includes common stock and American Depositary Receipts (“A",
+  "kr": "암호화폐 · CoinShares Bitcoin Mining and Digital Power ETF (Equity Digital Assets)",
+  "src": "rule",
+  "tags": [
+   "암호화폐"
+  ]
+ },
+ "XRP": {
+  "name": "Bitwise XRP ETF",
+  "cat": "Digital Assets",
+  "fam": "Bitwise Investments",
+  "sum": "In seeking to achieve its investment objective, the trust will hold XRP and establish its net asset value (“NAV”) by reference to the CME CF XRP – Dollar Reference Rate – New York Variant (“Pricing Benchmark”). The trust is sponsored and managed by Bitwise Investment Advisers, LLC (the “Sponsor”).",
+  "kr": "Bitwise XRP ETF (Digital Assets)",
+  "src": "rule",
+  "tags": []
+ },
+ "BHYP": {
+  "name": "Bitwise Hyperliquid ETF",
+  "cat": "Digital Assets",
+  "fam": "Bitwise Investments",
+  "sum": "The Trust will hold Hyperliquid and establish its net asset value (“NAV”) by reference to the CF Hyperliquid-Dollar U.S. Settlement Price (“Pricing Benchmark”).",
+  "kr": "Bitwise Hyperliquid ETF (Digital Assets)",
+  "src": "rule",
+  "tags": []
+ },
+ "GDXY": {
+  "name": "YieldMax Gold Miners Option Income Strategy ETF",
+  "cat": "Commodities Focused",
+  "fam": "YieldMax ETFs",
+  "sum": "The fund is an actively managed ETF that seeks current income while providing indirect exposure to the share price of the Underlying Security, subject to participation in a portion of potential investment gains. The fund is non-diversified.",
+  "kr": "커버드콜/옵션수익·배당/인컴·원자재 · YieldMax Gold Miners Option Income Strategy ETF (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴",
+   "원자재"
+  ]
+ },
+ "FAZ": {
+  "name": "Direxion Daily Financial Bear 3X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of the fund’s net assets in financial instruments, that, in combination, provide 3X daily inverse (opposite) or short exposure to the index or to ETFs that track the index, consistent with the fund’s investment objective. The index includes securities of companies from ",
+  "kr": "레버리지·인버스·업종/테마 · Direxion Daily Financial Bear 3X Shares (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스",
+   "업종/테마"
+  ]
+ },
+ "BABX": {
+  "name": "GraniteShares 2x Long BABA Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Graniteshares",
+  "sum": "The fund is an actively managed exchange traded fund that attempts to replicate 2 times (200%) the daily percentage change of the underlying stock by entering financial instruments such as swaps and options on the underlying stock as well as directly purchasing the underlying stock. It is non-divers",
+  "kr": "레버리지 · GraniteShares 2x Long BABA Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "SPCG": {
+  "name": "Tradr 2X Short SpaceX Daily ETF",
+  "cat": "Trading--Inverse Equity",
+  "fam": "AXS",
+  "sum": "Under normal market circumstances, the fund will maintain at least 80% exposure to financial instruments that provide two times inverse leveraged exposure to the daily performance of SpaceX. SpaceX designs, manufacturers, and launches advanced rockets and spacecraft that are intended to be fully reu",
+  "kr": "레버리지·인버스 · Tradr 2X Short SpaceX Daily ETF (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "APPX": {
+  "name": "Tradr 2X Long APP Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "AXS",
+  "sum": "Under normal market circumstances, the fund will maintain at least 80% exposure to financial instruments that provide two times leveraged exposure to the daily performance of APP. The Advisor attempts to consistently apply leverage to increase the fund’s exposure to 200% of APP, and expects to rebal",
+  "kr": "레버리지 · Tradr 2X Long APP Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "SSPC": {
+  "name": "Leverage Shares 2X Short SPCX Daily ETF",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Themes ETF Trust",
+  "sum": "The fund is an actively managed ETF. It invests at least 80% of its net assets (plus borrowings for investment purposes) in the Underlying Security and financial instruments with economic characteristics that, in combination, provide -200% daily inverse leveraged exposure to the price of the Underly",
+  "kr": "레버리지·인버스 · Leverage Shares 2X Short SPCX Daily ETF (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "MRNX": {
+  "name": "Defiance Daily Target 2X Long MRNA ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Defiance ETFs LLC",
+  "sum": "The fund is an actively managed exchange traded fund (“ETF”) that attempts to achieve two times (200%) the daily percentage change in the share price of the underlying security by employing derivatives, namely swap agreements and/or listed options contracts. The fund is non-diversified.",
+  "kr": "레버리지 · Defiance Daily Target 2X Long MRNA ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "SPCQ": {
+  "name": "Defiance Daily Target 2X Short SPCX ETF",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Defiance ETFs LLC",
+  "sum": "It has adopted a policy to have at least 80% of its net assets, plus borrowings for investment purposes, in financial instruments with economic characteristics that should provide 2 times the inverse exposure to the daily performance of the Underlying Security. The fund is non-diversified.",
+  "kr": "레버리지·인버스 · Defiance Daily Target 2X Short SPCX ETF (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "SNK": {
+  "name": "GraniteShares 2x Short SpaceX Daily ETF",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Graniteshares",
+  "sum": "The fund is an actively managed exchange traded fund that attempts to replicate 2x the inverse (-200%) daily percentage change of the Underlying Stock by entering into financial instruments such as swaps and options on the Underlying Stock.",
+  "kr": "레버리지·인버스 · GraniteShares 2x Short SpaceX Daily ETF (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "MRNY": {
+  "name": "YieldMax MRNA Option Income Strategy ETF",
+  "fam": "YieldMax ETFs",
+  "sum": "The fund advisor will employ the fund's investment strategy as the fund relates to MRNA regardless of whether there are periods of adverse market, economic, or other conditions and will take temporary defensive positions during such periods. The fund is non-diversified.",
+  "kr": "커버드콜/옵션수익·배당/인컴 · YieldMax MRNA Option Income Strategy ETF",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ]
+ },
+ "WCLD": {
+  "name": "WisdomTree Cloud Computing Fund",
+  "cat": "Technology",
+  "fam": "WisdomTree",
+  "sum": "Under normal circumstances, at least 80% of the fund’s total assets (exclusive of collateral held from securities lending) will be invested in component securities of the index and investments that have economic characteristics that are substantially identical to the economic characteristics of such",
+  "kr": "업종/테마 · WisdomTree Cloud Computing Fund (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "CURE": {
+  "name": "Direxion Daily Healthcare Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets in financial instruments, that, in combination, provide 3X daily leveraged exposure to the index, consistent with the fund's investment objective. The index includes domestic companies from the healthcare sector, which includes: pharmaceuticals; health",
+  "kr": "레버리지·업종/테마 · Direxion Daily Healthcare Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "업종/테마"
+  ]
+ },
+ "WCBR": {
+  "name": "WisdomTree Cybersecurity Fund",
+  "cat": "Technology",
+  "fam": "WisdomTree",
+  "sum": "The index is designed to provide exposure to equity securities of exchange-listed companies globally, which are primarily involved in cybersecurity and security-oriented technology that generate a meaningful part of their revenue from cybersecurity activities and are experiencing revenue growth. To ",
+  "kr": "업종/테마 · WisdomTree Cybersecurity Fund (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "BUG": {
+  "name": "Global X Cybersecurity ETF",
+  "cat": "Technology",
+  "fam": "Global X Funds",
+  "sum": "The fund invests at least 80% of its total assets in the securities of the underlying index and in American Depositary Receipts (\"ADRs\") and Global Depositary Receipts (\"GDRs\") based on the securities in the underlying index. The underlying index is designed to provide exposure to exchange-listed co",
+  "kr": "업종/테마·해외/글로벌 · Global X Cybersecurity ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마",
+   "해외/글로벌"
+  ]
+ },
+ "IHAK": {
+  "name": "iShares Cybersecurity and Tech ETF",
+  "cat": "Technology",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of the index and in investments that have economic characteristics that are substantially identical to the component securities of the index and may invest up to 20% of its assets in certain futures, options and sw",
+  "kr": "업종/테마 · iShares Cybersecurity and Tech ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "MSFU": {
+  "name": "Direxion Daily MSFT Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund will enter into one or more swap agreements with major global financial institutions whereby the fund and the global financial institution will agree to exchange the return earned on an investment by the fund invests in MSFT that is equal, on a daily basis, to 200% of the value of the fund'",
+  "kr": "레버리지 · Direxion Daily MSFT Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "CWEB": {
+  "name": "Direxion Daily CSI China Internet Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The index is designed to measure the performance of the investable universe of publicly traded China-based companies whose primary business or businesses are in the Internet and Internet-related sectors. The fund invests at least 80% of its net assets in financial instruments, such as swap agreement",
+  "kr": "레버리지·해외/글로벌 · Direxion Daily CSI China Internet Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "해외/글로벌"
+  ]
+ },
+ "XSW": {
+  "name": "State Street SPDR S&P Software & Services ETF",
+  "cat": "Technology",
+  "fam": "State Street Investment Management",
+  "sum": "In seeking to track the performance of the S&P Software & Services Select Industry Index (the \"index\"), the fund employs a sampling strategy. It generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index. The index represents the software and se",
+  "kr": "업종/테마 · State Street SPDR S&P Software & Services ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "YINN": {
+  "name": "Direxion Daily FTSE China Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus borrowing for investment purposes) in financial instruments, such as swap agreements, securities of the index, and exchange-traded funds (\"ETFs\") that track the index, that, in combination, provide 3X daily leveraged ",
+  "kr": "레버리지·해외/글로벌 · Direxion Daily FTSE China Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "해외/글로벌"
+  ]
+ },
+ "ORCX": {
+  "name": "Defiance Daily Target 2X Long ORCL ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Defiance ETFs LLC",
+  "sum": "The fund is an actively managed exchange traded fund (“ETF”) that attempts to achieve two times (200%) the daily percentage change in the share price of the underlying security by employing derivatives, namely swap agreements and/or listed options contracts. The fund is non-diversified.",
+  "kr": "레버리지 · Defiance Daily Target 2X Long ORCL ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "IGV": {
+  "name": "iShares Expanded Tech-Software Sector ETF",
+  "cat": "Technology",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index. The index measures the performance of U.S.-traded ",
+  "kr": "업종/테마 · iShares Expanded Tech-Software Sector ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "HACK": {
+  "name": "Amplify Cybersecurity ETF",
+  "cat": "Technology",
+  "fam": "Amplify ETFs",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its net assets in the securities of companies that comprise the index. In pursuing this investment strategy, the fund invests 80% of its net assets in companies actively involved in providing cyber security technology and services, in ",
+  "kr": "업종/테마 · Amplify Cybersecurity ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "DRIP": {
+  "name": "Direxion Daily S&P Oil & Gas Exp. & Prod. Bear 2X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The index measures the performance of the domestic companies included in the integrated oil and gas, oil and gas exploration and production and oil and gas refining and marketing sub-industries as classified by the GICS. The fund invests at least 80% of its net assets in financial instruments, that,",
+  "kr": "레버리지·인버스·원자재 · Direxion Daily S&P Oil & Gas Exp. & Prod. Bear 2X Shares (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스",
+   "원자재"
+  ]
+ },
+ "SKYY": {
+  "name": "First Trust Cloud Computing ETF",
+  "cat": "Technology",
+  "fam": "First Trust",
+  "sum": "The fund will normally invest at least 90% of its net assets (including investment borrowings) in the common stocks and depositary receipts that comprise the index. The index is designed to track the performance of companies involved in the cloud computing industry.",
+  "kr": "업종/테마 · First Trust Cloud Computing ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "KOID": {
+  "name": "KraneShares Global Humanoid Robotics and Physical AI Index ETF",
+  "cat": "Technology",
+  "fam": "KraneShares",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its net assets in securities of the underlying index and other instruments that have economic characteristics similar to those in the underlying index. The index is an equal weighted index designed to measure the performance of compani",
+  "kr": "업종/테마·해외/글로벌 · KraneShares Global Humanoid Robotics and Physical AI Index ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마",
+   "해외/글로벌"
+  ]
+ },
+ "ERY": {
+  "name": "Direxion Daily Energy Bear 2X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The index is provided by S&P Dow Jones Indices and includes domestic companies from the energy sector which includes the following industries: oil, gas and consumable fuels; and energy equipment and services. The fund invests at least 80% of the fund’s net assets in financial instruments, that, in c",
+  "kr": "레버리지·인버스·업종/테마 · Direxion Daily Energy Bear 2X Shares (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스",
+   "업종/테마"
+  ]
+ },
+ "AVS": {
+  "name": "Direxion Daily AVGO Bear 1X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of the fund’s net assets (plus borrowings for investment purposes) in financial instruments, including swap agreements and options, that, in combination, provide 1X daily inverse (opposite) or short exposure to AVGO, consistent with the fund",
+  "kr": "인버스 · Direxion Daily AVGO Bear 1X Shares (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "인버스"
+  ]
+ },
+ "HOOW": {
+  "name": "Roundhill HOOD WeeklyPay ETF",
+  "cat": "Trading--Miscellaneous",
+  "fam": "Roundhill Investments",
+  "sum": "The fund is actively managed and seeks to achieve its investment objectives by investing in total return swap agreements and common stock that in aggregate return approximately 1.2 times (120%) the calendar week total return of common shares of HOOD while making weekly distribution payments to share",
+  "kr": "Roundhill HOOD WeeklyPay ETF (Trading--Miscellaneous)",
+  "src": "rule",
+  "tags": []
+ },
+ "KWEB": {
+  "name": "KraneShares CSI China Internet ETF",
+  "cat": "Greater China Region",
+  "fam": "KraneShares",
+  "sum": "The fund will invest at least 80% of its net assets in instruments in its underlying index or in instruments that have economic characteristics similar to those in the underlying index. The index is designed to measure the equity market performance of investable publicly traded \"China-based companie",
+  "kr": "해외/글로벌 · KraneShares CSI China Internet ETF (Greater China Region)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "SGOV": {
+  "name": "iShares 0-3 Month Treasury Bond ETF",
+  "cat": "Ultrashort Bond",
+  "fam": "iShares",
+  "sum": "The index measures the performance of public obligations of the U.S. Treasury that have a remaining maturity of less than or equal to three months. The fund will invest at least 80% of its assets in the component securities of the underlying index, and the fund will invest at least 90% of its assets",
+  "kr": "단기채/현금성 · iShares 0-3 Month Treasury Bond ETF (Ultrashort Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "XLU": {
+  "name": "State Street Utilities Select Sector SPDR ETF",
+  "cat": "Utilities",
+  "fam": "State Street Investment Management",
+  "sum": "In seeking to track the performance of the index, the fund employs a replication strategy. It generally invests substantially all, but at least 95%, of its total assets in the securities comprising the index. The index includes securities of companies from the following industries: electric utilitie",
+  "kr": "업종/테마 · State Street Utilities Select Sector SPDR ETF (Utilities)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "GBND": {
+  "name": "Goldman Sachs Core Bond ETF",
+  "cat": "Intermediate Core Bond",
+  "fam": "Goldman Sachs",
+  "sum": "The fund invests, under normal circumstances, at least 80% of its net assets plus any borrowings for investment purposes (measured at the time of purchase) (“Net Assets”) in core fixed income securities. Core fixed income securities are fixed income securities that are rated investment grade (i.e., ",
+  "kr": "채권·원자재 · Goldman Sachs Core Bond ETF (Intermediate Core Bond)",
+  "src": "rule",
+  "tags": [
+   "채권",
+   "원자재"
+  ]
+ },
+ "GLL": {
+  "name": "ProShares UltraShort Gold",
+  "cat": "Trading--Inverse Commodities",
+  "fam": "ProShares",
+  "sum": "The fund seeks to meet its investment objective by investing under normal market conditions in any one of, or combinations of, Financial Instruments (including swap agreements, futures contracts and forward contracts) based on the fund’s benchmark.",
+  "kr": "레버리지·인버스·원자재 · ProShares UltraShort Gold (Trading--Inverse Commodities)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스",
+   "원자재"
+  ]
+ },
+ "RWR": {
+  "name": "State Street SPDR Dow Jones REIT ETF",
+  "cat": "Real Estate",
+  "fam": "State Street Investment Management",
+  "sum": "The fund generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index. The index is designed to provide a measure of real estate securities that serve as proxies for direct real estate investing, in part by excluding securities whose value is not ",
+  "kr": "업종/테마 · State Street SPDR Dow Jones REIT ETF (Real Estate)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "EBND": {
+  "name": "State Street SPDR Bloomberg Emerging Markets Local Bond ETF",
+  "cat": "Emerging-Markets Local-Currency Bond",
+  "fam": "State Street Investment Management",
+  "sum": "The fund generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index and in securities that the Adviser determines have economic characteristics that are substantially identical to the economic characteristics of the securities that comprise the ",
+  "kr": "채권·해외/글로벌 · State Street SPDR Bloomberg Emerging Markets Local Bond ETF (Emerging-Markets Local-Currency Bond)",
+  "src": "rule",
+  "tags": [
+   "채권",
+   "해외/글로벌"
+  ]
+ },
+ "DBO": {
+  "name": "Invesco DB Oil Fund",
+  "cat": "Commodities Focused",
+  "fam": "Invesco",
+  "sum": "The fund pursues its investment objective by investing in a portfolio of exchange-traded futures on the index Commodity. The single index Commodity consists of Light, Sweet Crude Oil (WTI). It invests in futures contracts in an attempt to track its corresponding index.",
+  "kr": "원자재 · Invesco DB Oil Fund (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "IAUM": {
+  "name": "iShares Gold Trust Micro",
+  "cat": "Commodities Focused",
+  "fam": "iShares",
+  "sum": "The Advisor intends to constitute a simple and cost-effective means of making an investment similar to an investment in gold. An investment in physical gold requires expensive and sometimes complicated arrangements in connection with the assay, transportation, warehousing and insurance of the metal.",
+  "kr": "원자재 · iShares Gold Trust Micro (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "OUNZ": {
+  "name": "VanEck Merk Gold Trust",
+  "cat": "Commodities Focused",
+  "fam": "Merk Funds",
+  "kr": "원자재 · VanEck Merk Gold Trust (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "XBB": {
+  "name": "BondBloxx BB Rated USD High Yield Corporate Bond ETF",
+  "cat": "High Yield Bond",
+  "fam": "BondBloxx Investment Management",
+  "sum": "The fund will invest at least 80% of its net assets in high-yield, below-investment grade bonds denominated in U.S. dollars of corporate issuers, either directly or indirectly (e.g., through derivatives).",
+  "kr": "채권 · BondBloxx BB Rated USD High Yield Corporate Bond ETF (High Yield Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "GLDM": {
+  "name": "SPDR Gold MiniShares",
+  "cat": "Commodities Focused",
+  "fam": "State Street Investment Management",
+  "sum": "The Shares are designed for investors who want a cost-effective and convenient way to invest in gold. Advantages of investing in the Shares include ease and flexibility of investment and expenses.",
+  "kr": "원자재 · SPDR Gold MiniShares (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "IWC": {
+  "name": "iShares Micro-Cap ETF",
+  "cat": "Small Blend",
+  "fam": "iShares",
+  "sum": "The underlying index is a float-adjusted capitalization-weighted index and includes equity securities issued by issuers with total market capitalizations ranging from approximately $1 million to $3.2 billion, although this range may change from time to time. BFA uses a representative sampling indexi",
+  "kr": "iShares Micro-Cap ETF (Small Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "GNR": {
+  "name": "State Street SPDR S&P Global Natural Resources ETF",
+  "cat": "Natural Resources",
+  "fam": "State Street Investment Management",
+  "sum": "The fund generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index and in depositary receipts based on securities comprising the index. The index is comprised of 90 of the largest U.S. and foreign publicly-traded companies, based on market capi",
+  "kr": "해외/글로벌 · State Street SPDR S&P Global Natural Resources ETF (Natural Resources)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "METD": {
+  "name": "Direxion Daily META Bear 1X ETF",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of the fund’s net assets (plus borrowings for investment purposes) in financial instruments, including swap agreements and options, that, in combination, provide 1X daily inverse (opposite) or short exposure to META, consistent with the fund",
+  "kr": "인버스 · Direxion Daily META Bear 1X ETF (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "인버스"
+  ]
+ },
+ "IAU": {
+  "name": "iShares Gold Trust",
+  "cat": "Commodities Focused",
+  "fam": "iShares",
+  "sum": "The Trust seeks to reflect such performance before payment of the Trust’s expenses and liabilities. It is not actively managed. The Trust does not engage in any activities designed to obtain a profit from, or to ameliorate losses caused by, changes in the price of gold. The advisor intends to consti",
+  "kr": "원자재 · iShares Gold Trust (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
  }
 }
