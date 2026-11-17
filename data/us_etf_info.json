@@ -2802,5 +2802,611 @@
   "tags": [
    "원자재"
   ]
+ },
+ "MKTN": {
+  "name": "Federated Hermes MDT Market Neutral ETF",
+  "cat": "Equity Market Neutral",
+  "fam": "Federated",
+  "sum": "The fund manager seeks to achieve its objective by selecting long positions in publicly traded common stocks which the fund’s quantitative model predicts will achieve above-market returns, and short positions in publicly traded common stocks which the fund’s quantitative model predicts will achieve ",
+  "kr": "Federated Hermes MDT Market Neutral ETF (Equity Market Neutral)",
+  "src": "rule",
+  "tags": []
+ },
+ "TRUT": {
+  "name": "Vaneck Technology Trusector ETF",
+  "cat": "Technology",
+  "fam": "VanEck",
+  "sum": "The fund is an actively managed exchange-traded fund that seeks to achieve its investment objective by investing, under normal market circumstances, at least 80% of its total assets in equity securities of information technology-related companies or instruments that provide exposure to information t",
+  "kr": "업종/테마 · Vaneck Technology Trusector ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "JPIB": {
+  "name": "JPMorgan International Bond Opportunities ETF",
+  "cat": "Global Bond-USD Hedged",
+  "fam": "JPMorgan",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its assets in bonds. \"Assets\" means net assets plus the amount of borrowings for investment purposes. The fund's assets are invested primarily in debt securities of issuers located in countries other than the United States. It may inve",
+  "kr": "채권·해외/글로벌 · JPMorgan International Bond Opportunities ETF (Global Bond-USD Hedged)",
+  "src": "rule",
+  "tags": [
+   "채권",
+   "해외/글로벌"
+  ]
+ },
+ "XTEN": {
+  "name": "Bondbloxx Bloomberg Ten Year Target Duration US Treasury ETF",
+  "cat": "Long Government",
+  "fam": "BondBloxx Investment Management",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its net assets (plus the amount of any borrowings for investment purposes) in a portfolio of U.S. Treasury securities that collectively have an average duration of approximately 10 years, either directly or indirectly (e.g., through de",
+  "kr": "채권 · Bondbloxx Bloomberg Ten Year Target Duration US Treasury ETF (Long Government)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "CLOA": {
+  "name": "iShares AAA CLO Active ETF",
+  "cat": "Securitized Bond - Focused",
+  "fam": "iShares",
+  "sum": "The fund seeks to achieve its investment objective by investing, under normal circumstances, at least 80% of its assets in U.S. dollar-denominated CLOs that are, at the time of purchase, rated AAA (or equivalent) by at least one of the major rating agencies or, if unrated, determined by the fund man",
+  "kr": "채권 · iShares AAA CLO Active ETF (Securitized Bond - Focused)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "SDOW": {
+  "name": "ProShares UltraPro Short Dow30",
+  "cat": "Trading--Inverse Equity",
+  "fam": "ProShares",
+  "sum": "The fund invests in financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target. The index is designed to measure the performance of some of the largest U.S. companies. Under normal circumstances, the fund will obtain inverse l",
+  "kr": "레버리지·인버스 · ProShares UltraPro Short Dow30 (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "TZA": {
+  "name": "Direxion Daily Small Cap Bear 3X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets in financial instruments, including swap agreements, futures contracts, or short positions, that, in combination, provide 3X daily inverse or short exposure to the index or to ETFs that track the index, consistent with the fund’s investment objective. ",
+  "kr": "레버리지·인버스 · Direxion Daily Small Cap Bear 3X Shares (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "DRV": {
+  "name": "Direxion Daily Real Estate Bear 3X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of the fund’s net assets in financial instruments, that, in combination, provide 3X daily inverse (opposite) or short exposure to the index or to ETFs that track the index, consistent with the fund’s investment objective. The index is provided by S&P Dow Jones Indices a",
+  "kr": "레버리지·인버스·업종/테마 · Direxion Daily Real Estate Bear 3X Shares (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스",
+   "업종/테마"
+  ]
+ },
+ "SRTY": {
+  "name": "ProShares UltraPro Short Russell2000",
+  "cat": "Trading--Inverse Equity",
+  "fam": "ProShares",
+  "sum": "The fund invests in financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target. The index is a measure of small-cap U.S. stock market performance. Under normal circumstances, the fund will obtain inverse leveraged exposure to ",
+  "kr": "레버리지·인버스 · ProShares UltraPro Short Russell2000 (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "AVGU": {
+  "name": "GraniteShares 2x Long AVGO Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Graniteshares",
+  "sum": "The fund is an actively managed exchange traded fund that attempts to replicate 2 times (200%) the daily percentage change the underlying stock by entering into financial instruments such as swaps and options on the underlying stock as well as directly purchasing the underlying stock. The fund is no",
+  "kr": "레버리지 · GraniteShares 2x Long AVGO Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "BOIL": {
+  "name": "ProShares Ultra Bloomberg Natural Gas",
+  "cat": "Trading--Leveraged Commodities",
+  "fam": "ProShares",
+  "sum": "The fund seeks to meet its investment objective by investing normally in Natural Gas futures contracts. It may also invest in swaps if the market for a specific futures contract experiences emergencies (e.g., natural disaster, terrorist attack, or an act of God) or disruptions (e.g., a trading halt ",
+  "kr": "레버리지·원자재 · ProShares Ultra Bloomberg Natural Gas (Trading--Leveraged Commodities)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "원자재"
+  ]
+ },
+ "DXD": {
+  "name": "ProShares UltraShort Dow30",
+  "cat": "Trading--Inverse Equity",
+  "fam": "ProShares",
+  "sum": "The index is a price-weighted index and includes 30 large-cap, \"blue-chip\" U.S. stocks, excluding utility and transportation companies. Under normal circumstances, the fund will obtain inverse leveraged exposure to at least 80% of its total assets in components of the index or in instruments with si",
+  "kr": "레버리지·인버스 · ProShares UltraShort Dow30 (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "TWM": {
+  "name": "ProShares UltraShort Russell2000",
+  "cat": "Trading--Inverse Equity",
+  "fam": "ProShares",
+  "sum": "The fund invests in financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target. The index is designed to measure the performance of the small-cap segment of the U.S. markets. Under normal circumstances, the fund will obtain in",
+  "kr": "레버리지·인버스 · ProShares UltraShort Russell2000 (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "SOFX": {
+  "name": "Defiance Daily Target 2X Long SOFI ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Defiance ETFs LLC",
+  "sum": "The fund is an actively managed exchange traded fund (“ETF”) that attempts to achieve two times (200%) the daily percentage change in the share price of the underlying security by employing derivatives, namely swap agreements and/or listed options contracts. The fund is non-diversified.",
+  "kr": "레버리지 · Defiance Daily Target 2X Long SOFI ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "MSTY": {
+  "name": "Yieldmax MSTR Option Income Strategy ETF",
+  "fam": "YieldMax ETFs",
+  "sum": "The fund is an actively managed ETF that seeks current income while maintaining the opportunity for exposure to the share price of the common stock of MicroStrategy Incorporated, subject to a limit on potential investment gains. The fund is non-diversified.",
+  "kr": "커버드콜/옵션수익·배당/인컴 · Yieldmax MSTR Option Income Strategy ETF",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ]
+ },
+ "WEBL": {
+  "name": "Direxion Daily Dow Jones Internet Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets in financial instruments, such as swap agreements, securities of the index, and ETFs that track the index, that, in combination, provide 3X daily leveraged exposure to the index, consistent with the fund's investment object",
+  "kr": "레버리지 · Direxion Daily Dow Jones Internet Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "FAS": {
+  "name": "Direxion Daily Financial Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets in financial instruments, such as swap agreements, securities of the index, and ETFs that track the index, that, in combination, provide 3X daily leveraged exposure to the index, consistent with the fund's investment objective. The index includes secur",
+  "kr": "레버리지·업종/테마 · Direxion Daily Financial Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "업종/테마"
+  ]
+ },
+ "NAIL": {
+  "name": "Direxion Daily Homebuilders & Supplies Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets in financial instruments, that, in combination, provide 3X daily leveraged exposure to the index, consistent with the fund's investment objective. The index measures U.S. companies in the home construction sector and defines homebuilder & supplier comp",
+  "kr": "레버리지 · Direxion Daily Homebuilders & Supplies Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "DPST": {
+  "name": "Direxion Daily Regional Banks Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets in financial instruments, such as swap agreements, securities of the index, and ETFs that track the index, that, in combination, provide 3X daily leveraged exposure to the index, consistent with the fund's investment objective. The index is a modified ",
+  "kr": "레버리지 · Direxion Daily Regional Banks Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "TAN": {
+  "name": "Invesco Solar ETF",
+  "fam": "Invesco",
+  "sum": "The fund will generally invest at least 90% of its total assets in the securities that comprise the underlying index. Strictly in accordance with its guidelines and mandated procedures, MAC Indexing LLC, has contracted with S&P DJI Netherlands B.V. to calculate and administer the underlying index, w",
+  "kr": "Invesco Solar ETF",
+  "src": "rule",
+  "tags": []
+ },
+ "UDOW": {
+  "name": "ProShares UltraPro Dow30",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "ProShares",
+  "sum": "The fund invests in financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target. The index is designed to measure the performance of some of the largest U.S. companies. Under normal circumstances, the fund will obtain leveraged",
+  "kr": "레버리지 · ProShares UltraPro Dow30 (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "PLTU": {
+  "name": "Direxion Daily PLTR Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in the securities of PLTR and financial instruments, such as swap agreements and options, that, in combination, provide 2X daily leveraged exposure to PLTR, consistent with the ",
+  "kr": "레버리지 · Direxion Daily PLTR Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "PTIR": {
+  "name": "GraniteShares 2x Long PLTR Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Graniteshares",
+  "sum": "The fund is an actively managed exchange traded fund that attempts to replicate 2 times (200%) the daily percentage change of the underlying stock by entering into financial instruments such as swaps and options on the underlying stock as well as directly purchasing the underlying stock. The fund wi",
+  "kr": "레버리지 · GraniteShares 2x Long PLTR Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "UTSL": {
+  "name": "Direxion Daily Utilities Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets in financial instruments, such as swap agreements, securities of the index, and exchange-traded funds (\"ETFs\") that track the index, that, in combination, provide 3X daily leveraged exposure to the index, consistent with the fund's investment objective",
+  "kr": "레버리지·업종/테마 · Direxion Daily Utilities Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "업종/테마"
+  ]
+ },
+ "HOOY": {
+  "name": "YieldMax HOOD Option Income Strategy ETF",
+  "fam": "YieldMax ETFs",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its net assets, plus borrowings for investment purposes, in securities and financial instruments that provide indirect exposure to HOOD. The fund is non-diversified.",
+  "kr": "커버드콜/옵션수익·배당/인컴 · YieldMax HOOD Option Income Strategy ETF",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ]
+ },
+ "DRN": {
+  "name": "Direxion Daily Real Estate Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets in financial instruments, such as swap agreements, securities of the index, and ETFs that track the index, that, in combination, provide 3X daily leveraged exposure to the index, consistent with the fund's investment objective. The index is provided by",
+  "kr": "레버리지·업종/테마 · Direxion Daily Real Estate Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "업종/테마"
+  ]
+ },
+ "PALU": {
+  "name": "Direxion Daily PANW Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in the securities of PANW and financial instruments, such as swap agreements and options, that, in combination, provide 2X daily leveraged exposure to PANW, consistent with the ",
+  "kr": "레버리지 · Direxion Daily PANW Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "SPYU": {
+  "name": "MAX S&P 500 4X Leveraged ETN",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Bank of Montreal",
+  "sum": "The notes are intended to be daily trading tools for sophisticated investors to manage daily trading risks as part of an overall diversified portfolio. They are designed to achieve their stated investment objectives on a daily basis. The notes are designed to reflect a 4x leveraged long exposure to ",
+  "kr": "레버리지 · MAX S&P 500 4X Leveraged ETN (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "TNA": {
+  "name": "Direxion Daily Small Cap Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets in financial instruments, such as swap agreements, securities of the index, and exchange-traded funds (\"ETFs\") that track the index, that, in combination, provide 3X daily leveraged exposure to the index, consistent with the fund's investment objective",
+  "kr": "레버리지 · Direxion Daily Small Cap Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "URTY": {
+  "name": "ProShares UltraPro Russell2000",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "ProShares",
+  "sum": "The fund invests in financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target. The index is designed to measure the performance of the small-cap segment of the U.S. markets. Under normal circumstances, the fund will obtain le",
+  "kr": "레버리지 · ProShares UltraPro Russell2000 (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "CONY": {
+  "name": "YieldMax COIN Option Income Strategy ETF",
+  "fam": "YieldMax ETFs",
+  "sum": "The fund will employ its investment strategy as it relates to COIN regardless of whether there are periods of adverse market, economic, or other conditions and will not seek to take temporary defensive positions during such periods. The fund is non-diversified.",
+  "kr": "커버드콜/옵션수익·배당/인컴 · YieldMax COIN Option Income Strategy ETF",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ]
+ },
+ "GOVT": {
+  "name": "iShares U.S. Treasury Bond ETF",
+  "cat": "Intermediate Government",
+  "fam": "iShares",
+  "sum": "The fund will invest at least 80% of its assets in the component securities of the underlying index and will invest at least 90% of its assets in U.S. Treasury securities that BFA believes will help the fund track the underlying index. The underlying index includes publicly-issued U.S. Treasury secu",
+  "kr": "채권 · iShares U.S. Treasury Bond ETF (Intermediate Government)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "IXN": {
+  "name": "iShares Global Tech ETF",
+  "cat": "Technology",
+  "fam": "iShares",
+  "sum": "The fund seeks to track the investment results of the S&P Global 1200 Information Technology 4.5/22.5/45 Capped IndexTM, which is designed to measure the performance of global equities in the information technology sector. The underlying index is a subset of the S&P Global 1200, which is designed to",
+  "kr": "업종/테마·해외/글로벌 · iShares Global Tech ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마",
+   "해외/글로벌"
+  ]
+ },
+ "FLDR": {
+  "name": "Fidelity Low Duration Bond Factor ETF",
+  "cat": "Ultrashort Bond",
+  "fam": "Fidelity Investments",
+  "sum": "The fund normally invests at least 80% of assets in securities included in the index. The index is designed to optimize the balance of interest rate risk and credit risk such that both returns and risk measures may be improved relative to traditional U.S. investment grade floating rate note indices.",
+  "kr": "단기채/현금성 · Fidelity Low Duration Bond Factor ETF (Ultrashort Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "VPLS": {
+  "name": "Vanguard Core-Plus Bond ETF",
+  "cat": "Intermediate Core-Plus Bond",
+  "fam": "Vanguard",
+  "sum": "The Target Index includes U.S. government and agencyobligations, corporate bonds, mortgage-backed securities, asset-backedsecurities, and emerging market bonds, all denominated in the U.S. dollar andwith maturities of at least one year. Under normal circumstances, the fundinvests at least 80% of its",
+  "kr": "채권 · Vanguard Core-Plus Bond ETF (Intermediate Core-Plus Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "FEMB": {
+  "name": "First Trust Emerging Markets Local Currency Bond ETF",
+  "cat": "Emerging-Markets Local-Currency Bond",
+  "fam": "First Trust",
+  "sum": "Under normal market conditions, the fund seeks to achieve its investment objective by investing at least 80% of its net assets (including investment borrowings) in bonds, notes and bills issued or guaranteed by entities incorporated or domiciled in emerging market countries (collectively, \"Bonds\") t",
+  "kr": "채권·해외/글로벌 · First Trust Emerging Markets Local Currency Bond ETF (Emerging-Markets Local-Currency Bond)",
+  "src": "rule",
+  "tags": [
+   "채권",
+   "해외/글로벌"
+  ]
+ },
+ "BBUS": {
+  "name": "JPMorgan BetaBuilders U.S. Equity ETF",
+  "cat": "Large Blend",
+  "fam": "JPMorgan",
+  "sum": "The underlying index is a free float adjusted market capitalization weighted index which consists of equity securities primarily traded in the United States. The underlying index targets 85% of those stocks by market capitalization, and primarily includes large- and mid-cap companies. The fund will ",
+  "kr": "JPMorgan BetaBuilders U.S. Equity ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "IQQ": {
+  "name": "iShares Nasdaq 100 ETF",
+  "cat": "Large Growth",
+  "fam": "iShares",
+  "sum": "The fund seeks to track the investment results of the Nasdaq-100 Index (the “underlying index”), which measures the performance of securities of the 100 largest domestic and international non-financial companies listed on the Nasdaq Stock Market based on a company's full market capitalization, which",
+  "kr": "iShares Nasdaq 100 ETF (Large Growth)",
+  "src": "rule",
+  "tags": []
+ },
+ "FDN": {
+  "name": "First Trust Dow Jones Internet Index Fund",
+  "cat": "Technology",
+  "fam": "First Trust",
+  "sum": "The fund will normally invest at least 90% of its net assets (including investment borrowings) in the securities that comprise the index. The index is designed to measure the performance of the largest and most actively traded securities issued by U.S. companies in the Internet industry. The index i",
+  "kr": "업종/테마 · First Trust Dow Jones Internet Index Fund (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "PLTY": {
+  "name": "YieldMax PLTR Option Income Strategy ETF",
+  "fam": "YieldMax ETFs",
+  "sum": "Under normal circumstances, the Fund will invest at least 80% of its net assets, plus borrowings for investment purposes, in securities and financial instruments that provide indirect exposure to PLTR. The fund is non-diversified.",
+  "kr": "커버드콜/옵션수익·배당/인컴 · YieldMax PLTR Option Income Strategy ETF",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ]
+ },
+ "LGOV": {
+  "name": "First Trust Long Duration Opportunities ETF",
+  "cat": "Long Government",
+  "fam": "First Trust",
+  "sum": "Under normal market conditions, the fund will invest at least 80% of its net assets (including investment borrowings) in a portfolio of investment-grade debt securities issued or guaranteed by the U.S. government, its agencies or government-sponsored entities, including publicly-issued U.S. Treasury",
+  "kr": "채권 · First Trust Long Duration Opportunities ETF (Long Government)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "FTRB": {
+  "name": "Federated Hermes Total Return Bond ETF",
+  "cat": "Intermediate Core-Plus Bond",
+  "fam": "Federated",
+  "sum": "The fund pursues its investment objective by investing primarily in U.S. dollar denominated, investment-grade, fixed-income securities. In addition, the fund may invest in high-yield, non-U.S. dollar denominated, and emerging market fixed-income securities when Federated Investment Management Compan",
+  "kr": "채권 · Federated Hermes Total Return Bond ETF (Intermediate Core-Plus Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "EUV": {
+  "name": "Corgi Lithography & Semiconductor Photonics ETF",
+  "cat": "Technology",
+  "fam": "Corgi Funds",
+  "sum": "The fund is an ETF that seeks to meet its objective by having adviser's actively manage the fund and, under ordinary market conditions, invest at least 80% of its net assets in a portfolio of companies materially involved in the development, deployment, and operation of photonics and light-based tec",
+  "kr": "업종/테마 · Corgi Lithography & Semiconductor Photonics ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "JIRE": {
+  "name": "JPMorgan International Research Enhanced Equity ETF",
+  "cat": "Foreign Large Blend",
+  "fam": "JPMorgan",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its assets in equity securities. It seeks to outperform the MSCI EAFE Index over time while maintaining similar risk characteristics, including sector and geographic risks. In implementing its strategy, the fund primarily invests in securi",
+  "kr": "해외/글로벌 · JPMorgan International Research Enhanced Equity ETF (Foreign Large Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "JIVE": {
+  "name": "Jpmorgan International Value ETF",
+  "cat": "Foreign Large Value",
+  "fam": "JPMorgan",
+  "sum": "The fund invests primarily in equity securities and equity-related instruments of foreign companies, including foreign subsidiaries of U.S. companies. The fund may invest in issuers located in both developed foreign and emerging market countries. Developed foreign countries include Australia, Canada",
+  "kr": "해외/글로벌 · Jpmorgan International Value ETF (Foreign Large Value)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "GOOY": {
+  "name": "YieldMax GOOGL Option Income Strategy ETF",
+  "fam": "YieldMax ETFs",
+  "sum": "The fund will employ its investment strategy as it relates to GOOGL regardless of whether there are periods of adverse market, economic, or other conditions and will not seek to take temporary defensive positions during such periods. The fund is non-diversified.",
+  "kr": "커버드콜/옵션수익·배당/인컴 · YieldMax GOOGL Option Income Strategy ETF",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ]
+ },
+ "HYLB": {
+  "name": "Xtrackers USD High Yield Corporate Bond ETF",
+  "cat": "High Yield Bond",
+  "fam": "Xtrackers",
+  "sum": "The fund will normally invest at least 80% of its net assets, plus the amount of any borrowings for investment purposes, in high yield corporate bonds. The index comprised of U.S. dollar-denominated high yield corporate bonds. It will concentrate its investments (i.e., hold 25% or more of its total ",
+  "kr": "채권 · Xtrackers USD High Yield Corporate Bond ETF (High Yield Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "YYY": {
+  "name": "Amplify CEF High Income ETF",
+  "cat": "Tactical Allocation",
+  "fam": "Amplify ETFs",
+  "sum": "The fund will normally invest at least 80% of its net assets in securities of the index. Because the index is comprised of securities issued by other investment companies, the fund operates in a manner that is commonly referred to as a \"fund of funds,\" meaning that it invests its assets in shares of",
+  "kr": "배당/인컴 · Amplify CEF High Income ETF (Tactical Allocation)",
+  "src": "rule",
+  "tags": [
+   "배당/인컴"
+  ]
+ },
+ "JBND": {
+  "name": "Jpmorgan Active Bond ETF",
+  "cat": "Intermediate Core Bond",
+  "fam": "JPMorgan",
+  "sum": "The fund seeks to outperform (based on the fund’s total return, gross of fees) the Bloomberg U.S. Aggregate Bond Index (the benchmark) over a market cycle, typically a 3-5 year time horizon. As a matter of non-fundamental policy, under normal circumstances, the fund will invest at least 80% of its a",
+  "kr": "채권 · Jpmorgan Active Bond ETF (Intermediate Core Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "IWV": {
+  "name": "iShares Russell 3000 ETF",
+  "cat": "Large Blend",
+  "fam": "iShares",
+  "sum": "The underlying index is a float-adjusted capitalization-weighted index of the approximately 2,939 largest public issuers domiciled in the U.S. and its territories, as determined by Russell. BFA uses a representative sampling indexing strategy to manage the fund.",
+  "kr": "iShares Russell 3000 ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "PSC": {
+  "name": "Principal U.S. Small-Cap ETF",
+  "cat": "Small Blend",
+  "fam": "Principal Funds",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets, plus any borrowings for investment purposes, in equity securities of U.S. companies with small market capitalizations. For this fund, companies with small market capitalizations are those with market capitalizations within ",
+  "kr": "Principal U.S. Small-Cap ETF (Small Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "MFSI": {
+  "name": "MFS Active International ETF",
+  "cat": "Foreign Large Blend",
+  "fam": "MFS",
+  "sum": "The fund normally invests the fund’s assets primarily in common stocks and depositary receipts. Common stocks and depositary receipts are equity securities that represent an ownership interest (or right to acquire an ownership interest) in a company or other issuer. It normally invests the fund's as",
+  "kr": "해외/글로벌 · MFS Active International ETF (Foreign Large Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "HMOP": {
+  "name": "Hartford Municipal Opportunities ETF",
+  "cat": "Muni National Interm",
+  "fam": "Hartford Mutual Funds",
+  "sum": "The fund seeks to achieve its investment objective by investing in investment grade and non-investment grade municipal securities that the sub-adviser, Wellington Management, considers to be attractive from a yield perspective while considering total return. At least 80% of the fund’s net assets mus",
+  "kr": "채권 · Hartford Municipal Opportunities ETF (Muni National Interm)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "SPSB": {
+  "name": "State Street SPDR Portfolio Short Term Corporate Bond Index ETF",
+  "cat": "Short-Term Bond",
+  "fam": "State Street Investment Management",
+  "sum": "The fund generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index and in securities that the Adviser determines have economic characteristics that are substantially identical to the economic characteristics of the securities that comprise the ",
+  "kr": "단기채/현금성 · State Street SPDR Portfolio Short Term Corporate Bond Index ETF (Short-Term Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "PTRB": {
+  "name": "PGIM Total Return Bond ETF",
+  "cat": "Intermediate Core-Plus Bond",
+  "fam": "PGIM",
+  "sum": "The fund seeks to achieve its objective through a mix of current income and capital appreciation. The fund invests, under normal circumstances, at least 80% of its investable assets in bonds. The fund's sub-adviser allocates assets among different debt securities, including (but not limited to) U.S.",
+  "kr": "채권 · PGIM Total Return Bond ETF (Intermediate Core-Plus Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
  }
 }
