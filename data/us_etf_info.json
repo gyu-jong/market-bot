@@ -3883,5 +3883,355 @@
   "kr": "JPMorgan Active Value ETF (Large Value)",
   "src": "rule",
   "tags": []
+ },
+ "NVDD": {
+  "name": "Direxion Daily NVDA Bear 1X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of the it’s net assets (plus borrowings for investment purposes) in financial instruments, including swap agreements and options, that, in combination, provide 1X daily inverse (opposite) or short exposure to NVDA, consistent with the fund’s",
+  "kr": "인버스 · Direxion Daily NVDA Bear 1X Shares (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "인버스"
+  ]
+ },
+ "BFLX": {
+  "name": "iShares Flexible Equity Active ETF",
+  "fam": "BlackRock Asset Management Ireland - ETF",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its net assets (plus any borrowings for investment purposes) in equity securities and derivatives that provide investment exposure to such securities or to one or more market risk factors associated with such securities. It’s 80% polic",
+  "kr": "iShares Flexible Equity Active ETF",
+  "src": "rule",
+  "tags": []
+ },
+ "RSPH": {
+  "name": "Invesco S&P 500 Equal Weight Health Care ETF",
+  "cat": "Health",
+  "fam": "Invesco",
+  "sum": "The underlying index, which is composed of securities of all companies included in the S&P 500® Index that are classified as members of the health care sector, as defined according to the Global Industry Classification Standard (“GICS®”). The fund generally invests in all of the securities comprisin",
+  "kr": "업종/테마 · Invesco S&P 500 Equal Weight Health Care ETF (Health)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "IEUR": {
+  "name": "iShares Core MSCI Europe ETF",
+  "cat": "Europe Stock",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index. The index is a free float-adjusted market capitali",
+  "kr": "해외/글로벌 · iShares Core MSCI Europe ETF (Europe Stock)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "BDVL": {
+  "name": "iShares Disciplined Volatility Equity Active ETF",
+  "cat": "Global Large-Stock Blend",
+  "fam": "BlackRock",
+  "sum": "The fund will, under normal circumstances, invest at least 80% of its net assets (plus borrowings for investment purposes) in equity securities. It seeks to achieve its investment objective by investing in both equity and fixed-income securities, including money market securities and other short-ter",
+  "kr": "해외/글로벌 · iShares Disciplined Volatility Equity Active ETF (Global Large-Stock Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "GMEU": {
+  "name": "T-Rex 2X Long GME Daily Target ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Rex",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in financial instruments that are designed to provide, in the aggregate, 200% exposure to the price performance of GME on a daily basis. The fund is non-diversified.",
+  "kr": "레버리지 · T-Rex 2X Long GME Daily Target ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "UNG": {
+  "name": "United States Natural Gas Fund, LP",
+  "cat": "Commodities Focused",
+  "fam": "USCF Investments",
+  "sum": "The fund invests primarily in futures contracts for natural gas that are traded on the NYMEX, ICE Futures Europe and ICE Futures U.S. (together, “ICE Futures”) or other U.S. and foreign exchanges. The Benchmark Futures Contract is the futures contract on natural gas as traded on the New York Mercant",
+  "kr": "원자재 · United States Natural Gas Fund, LP (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "CIBR": {
+  "name": "First Trust NASDAQ Cybersecurity ETF",
+  "cat": "Technology",
+  "fam": "First Trust",
+  "sum": "The fund will normally invest at least 90% of its net assets (including investment borrowings) in the common stocks and depositary receipts that comprise the index. The index includes securities of companies classified as \"cyber security\" companies by CTA. The fund is non-diversified.",
+  "kr": "업종/테마 · First Trust NASDAQ Cybersecurity ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "GDMN": {
+  "name": "WisdomTree Efficient Gold Plus Gold Miners Strategy Fund",
+  "cat": "Multi-Asset Overlay",
+  "fam": "WisdomTree",
+  "sum": "The fund invests, either directly or through a wholly-owned subsidiary, in a portfolio comprised of (i) U.S.-listed gold futures contracts and (ii) global equity securities issued by companies that derive at least 50% of their revenue from the gold mining business. The fund will invest in a represen",
+  "kr": "원자재 · WisdomTree Efficient Gold Plus Gold Miners Strategy Fund (Multi-Asset Overlay)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "NVDU": {
+  "name": "Direxion Daily Nvda Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in the securities of NVDA and financial instruments, such as swap agreements and options, that, in combination, provide 2X daily leveraged exposure to NVDA, consistent with the ",
+  "kr": "레버리지 · Direxion Daily Nvda Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "NVDG": {
+  "name": "Leverage Shares 2X Long NVDA Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Themes ETF Trust",
+  "sum": "The fund is an actively managed ETF. It invests at least 80% of its net assets (plus borrowings for investment purposes) in financial instruments with economic characteristics, that, in combination, provide 200% daily leveraged exposure to NVDA, consistent with the fund’s investment objective. The f",
+  "kr": "레버리지 · Leverage Shares 2X Long NVDA Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "SLVO": {
+  "name": "UBS ETRACS Silver Shares Covered Call ETN",
+  "cat": "Commodities Focused",
+  "fam": "UBS AG",
+  "sum": "The index measures the return of a “covered call” strategy on the shares of the iShares® Silver Trust (the “SLV Shares”) by reflecting changes in the price of the SLV Shares and the notional option premiums received from the notional sale of monthly call options on the SLV Shares less notional trans",
+  "kr": "커버드콜/옵션수익·원자재 · UBS ETRACS Silver Shares Covered Call ETN (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "원자재"
+  ]
+ },
+ "LLYX": {
+  "name": "Defiance Daily Target 2X Long LLY ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Defiance ETFs LLC",
+  "sum": "The fund is an actively managed exchange traded fund (“ETF”) that attempts to achieve two times (200%) the daily percentage change in the share price of the underlying security by employing derivatives, namely swap agreements and/or listed options contracts. The fund is non-diversified.",
+  "kr": "레버리지 · Defiance Daily Target 2X Long LLY ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "BNDX": {
+  "name": "Vanguard Total International Bond Index Fund ETF Shares",
+  "cat": "Global Bond-USD Hedged",
+  "fam": "Vanguard",
+  "sum": "The fund employs an indexing investment approach designed to track the performance of the Bloomberg Global Aggregate ex-USD Float Adjusted RIC Capped Index (USD Hedged). This index provides a broad-based measure of the global, investment-grade, fixed-rate bond markets. It is non-diversified.",
+  "kr": "채권·해외/글로벌 · Vanguard Total International Bond Index Fund ETF Shares (Global Bond-USD Hedged)",
+  "src": "rule",
+  "tags": [
+   "채권",
+   "해외/글로벌"
+  ]
+ },
+ "LQD": {
+  "name": "iShares iBoxx $ Investment Grade Corporate Bond ETF",
+  "cat": "Corporate Bond",
+  "fam": "iShares",
+  "sum": "The fund will invest at least 80% of its assets in the component securities of the underlying index, and it will invest at least 90% of its assets in fixed income securities of the types included in the underlying index that the advisor believes will help the fund track the underlying index. The und",
+  "kr": "채권 · iShares iBoxx $ Investment Grade Corporate Bond ETF (Corporate Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "PGF": {
+  "name": "Invesco Financial Preferred ETF",
+  "cat": "Preferred Stock",
+  "fam": "Invesco",
+  "sum": "Under normal circumstances, at least 80% of the value of its net assets, plus the amount of any borrowings for investment purposes, in preferred securities of companies in the financials sector, and in derivatives and other investments that have economic characteristics similar to preferred securiti",
+  "kr": "업종/테마 · Invesco Financial Preferred ETF (Preferred Stock)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "IXJ": {
+  "name": "iShares Global Healthcare ETF",
+  "cat": "Health",
+  "fam": "iShares",
+  "sum": "The fund seeks to track the investment results of the S&P Global 1200 Health Care (Sector) Capped IndexTM (the “underlying index”), which measures the performance of companies that S&P Dow Jones Indices LLC (the “index provider” or “SPDJI”), a subsidiary of S&P Global, Inc., deems to be a part of th",
+  "kr": "업종/테마·해외/글로벌 · iShares Global Healthcare ETF (Health)",
+  "src": "rule",
+  "tags": [
+   "업종/테마",
+   "해외/글로벌"
+  ]
+ },
+ "INRO": {
+  "name": "iShares U.S. Industry Rotation Active ETF",
+  "cat": "Large Blend",
+  "fam": "BlackRock",
+  "sum": "Under normal circumstances, the fund seeks to invest at least 80% of its net assets plus the amount of any borrowings for investment purposes in U.S.-listed equity securities and derivatives that have similar economic characteristics to such securities. The fund is non-diversified.",
+  "kr": "iShares U.S. Industry Rotation Active ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "EVSM": {
+  "name": "Eaton Vance Short Duration Municipal Income ETF",
+  "cat": "Muni National Short",
+  "fam": "Eaton Vance ETFs",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets (plus the amount of any borrowings for investment purposes) in municipal securities, the interest on which is exempt from regular federal income tax.",
+  "kr": "단기채/현금성 · Eaton Vance Short Duration Municipal Income ETF (Muni National Short)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "BSCQ": {
+  "name": "Invesco BulletShares 2026 Corporate Bond ETF",
+  "cat": "Target Maturity",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 80% of its total assets in securities that comprise the underlying index. The underlying index seeks to measure the performance of a portfolio of U.S. dollar-denominated investment grade corporate bonds with maturities or, in some cases, \"effective maturities\"",
+  "kr": "채권 · Invesco BulletShares 2026 Corporate Bond ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "SMTH": {
+  "name": "ALPS Smith Core Plus Bond ETF",
+  "cat": "Intermediate Core-Plus Bond",
+  "fam": "ALPS",
+  "sum": "The fund pursues its investment objective by investing, under normal circumstances, at least 80% of its net assets (plus any borrowings for investment purposes) in bonds. Bonds include, but are not limited to, government notes and bonds, corporate bonds, convertible bonds, commercial and residential",
+  "kr": "채권 · ALPS Smith Core Plus Bond ETF (Intermediate Core-Plus Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "BDYN": {
+  "name": "iShares Dynamic Equity Active ETF",
+  "cat": "Global Large-Stock Blend",
+  "fam": "BlackRock",
+  "sum": "The fund will, under normal circumstances, invest at least 80% of its net assets (plus borrowings for investment purposes) in equity securities. It seeks to achieve its investment objective by investing in both equity and fixed-income securities, including money market securities and other short-ter",
+  "kr": "해외/글로벌 · iShares Dynamic Equity Active ETF (Global Large-Stock Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "MMIN": {
+  "name": "NYLI MacKay Muni Insured ETF",
+  "cat": "Muni National Long",
+  "fam": "New York Life Investment Management LLC",
+  "sum": "The fund will, under normal circumstances, invest at least 80% of its assets (net assets plus the amount of any borrowings for investment purposes) in: (i) debt securities whose interest is, in the opinion of bond counsel for the issuer at the time of issuance, exempt from federal income tax (“Munic",
+  "kr": "NYLI MacKay Muni Insured ETF (Muni National Long)",
+  "src": "rule",
+  "tags": []
+ },
+ "BILZ": {
+  "name": "PIMCO Ultra Short Government Active Exchange-Traded Fund",
+  "cat": "Ultrashort Bond",
+  "fam": "PIMCO",
+  "sum": "The fund invests 100% of its total assets in (i) cash, (ii) U.S. government securities, such as U.S. Treasury bills, notes, and other obligations issued by, or guaranteed as to principal and interest by, the U.S. government (including its agencies and instrumentalities), and (iii) repurchase agreeme",
+  "kr": "단기채/현금성 · PIMCO Ultra Short Government Active Exchange-Traded Fund (Ultrashort Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "CNEQ": {
+  "name": "Alger Concentrated Equity ETF",
+  "cat": "Large Growth",
+  "fam": "Alger",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets, plus any borrowings for investment purposes, in equity securities of large-cap companies that the Manager believes demonstrate promising growth potential. The fund manager intends to invest a substantial portion of its asse",
+  "kr": "Alger Concentrated Equity ETF (Large Growth)",
+  "src": "rule",
+  "tags": []
+ },
+ "SPHQ": {
+  "name": "Invesco S&P 500 Quality ETF",
+  "cat": "Large Blend",
+  "fam": "Invesco",
+  "sum": "In selecting constituent securities for the underlying index, the index provider calculates the quality score of each security in the S&P 500® Index, then selects the 100 stocks with the highest quality score for inclusion in the underlying index. Under normal circumstances, the fund will invest at ",
+  "kr": "Invesco S&P 500 Quality ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "UWM": {
+  "name": "ProShares Ultra Russell2000",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "ProShares",
+  "sum": "The fund invests in financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target. The index is designed to measure the performance of the small-cap segment of the U.S. markets. Under normal circumstances, the fund will obtain le",
+  "kr": "레버리지 · ProShares Ultra Russell2000 (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "DFAI": {
+  "name": "Dimensional International Core Equity Market ETF",
+  "cat": "Foreign Large Blend",
+  "fam": "Dimensional Fund Advisors",
+  "sum": "The fund will invest in companies of all sizes, with increased exposure to smaller capitalization, lower relative price, and higher profitability companies as compared to their representation in the International Universe. As a non-fundamental policy, under normal circumstances, it will invest at le",
+  "kr": "해외/글로벌 · Dimensional International Core Equity Market ETF (Foreign Large Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "IEZ": {
+  "name": "iShares U.S. Oil Equipment & Services ETF",
+  "cat": "Equity Energy",
+  "fam": "iShares",
+  "sum": "The index measures the performance of the oil equipment and services sector of the U.S. equity market. The fund generally will invest at least 80% of its assets in the component securities of its underlying index and may invest up to 20% of its assets in certain futures, options and swap contracts, ",
+  "kr": "원자재·업종/테마 · iShares U.S. Oil Equipment & Services ETF (Equity Energy)",
+  "src": "rule",
+  "tags": [
+   "원자재",
+   "업종/테마"
+  ]
+ },
+ "FELG": {
+  "name": "Fidelity Enhanced Large Cap Growth ETF",
+  "cat": "Large Growth",
+  "fam": "Fidelity Investments",
+  "sum": "The will normally invests at least 80% of assets in common stocks included in the Russell 1000® Growth Index. The Russell 1000® Growth Index is a market capitalization-weighted index designed to measure the performance of the large-cap growth segment of the U.S. equity market. The fund is non-divers",
+  "kr": "Fidelity Enhanced Large Cap Growth ETF (Large Growth)",
+  "src": "rule",
+  "tags": []
+ },
+ "PBUS": {
+  "name": "Invesco MSCI USA ETF",
+  "cat": "Large Blend",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 90% of its total assets in the securities that comprise the underlying index. Strictly in accordance with its guidelines and mandated procedures, MSCI Inc. (the “index provider”) compiles, maintains and calculates the underlying index, which is designed to mea",
+  "kr": "Invesco MSCI USA ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "WTV": {
+  "name": "WisdomTree U.S. Value Fund",
+  "cat": "Mid-Cap Value",
+  "fam": "WisdomTree",
+  "sum": "The fund invests, under normal circumstances, at least 80% of its net assets, plus any borrowings for investment purposes, in securities of companies domiciled in the U.S. or listed on a U.S. exchange that exhibit value characteristics and/or investments that have economic characteristics that are s",
+  "kr": "WisdomTree U.S. Value Fund (Mid-Cap Value)",
+  "src": "rule",
+  "tags": []
+ },
+ "SCHQ": {
+  "name": "Schwab Long-Term U.S. Treasury ETF",
+  "cat": "Long Government",
+  "fam": "Schwab ETFs",
+  "sum": "To pursue its goal, the fund generally invests in securities that are included in the index. The index includes all publicly issued, U.S. Treasury securities that have a remaining maturity of ten or more years, are rated investment grade, and have $300 million or more of outstanding face value. It i",
+  "kr": "채권 · Schwab Long-Term U.S. Treasury ETF (Long Government)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
  }
 }
