@@ -3408,5 +3408,480 @@
   "tags": [
    "채권"
   ]
+ },
+ "BWET": {
+  "name": "Breakwave Tanker Shipping ETF",
+  "cat": "Commodities Focused",
+  "fam": "Amplify ETFs",
+  "sum": "Freight Futures reflect market expectations for the future cost of transporting crude oil. Each Reference index is published each United Kingdom business day by the London-based Baltic Exchange Ltd. and measures the charter rate for shipping crude oil in a specific size category of cargo ship and fo",
+  "kr": "Breakwave Tanker Shipping ETF (Commodities Focused)",
+  "src": "rule",
+  "tags": []
+ },
+ "VONV": {
+  "name": "Vanguard Russell 1000 Value Index Fund ETF Shares",
+  "cat": "Large Value",
+  "fam": "Vanguard",
+  "sum": "The fund advisor employs an indexing investment approach designed to track the performance of the Russell 1000® Value Index. The index is designed to measure the performance of large-capitalization value stocks in the United States. The Advisor attempts to replicate the target index by investing all",
+  "kr": "Vanguard Russell 1000 Value Index Fund ETF Shares (Large Value)",
+  "src": "rule",
+  "tags": []
+ },
+ "IYE": {
+  "name": "iShares U.S. Energy ETF",
+  "cat": "Equity Energy",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index. The underlying index measures the performance of t",
+  "kr": "업종/테마 · iShares U.S. Energy ETF (Equity Energy)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "BUFQ": {
+  "name": "FT Vest Laddered Nasdaq Buffer ETF",
+  "cat": "Defined Outcome",
+  "fam": "First Trust",
+  "sum": "The fund seeks to achieve its investment objective by providing investors with large-cap equity market exposure while attempting to limit downside risk through a laddered portfolio of four FT Cboe Vest Nasdaq-100® Buffer ETFs. The Underlying ETFs invest substantially all of their assets in FLEX Opti",
+  "kr": "FT Vest Laddered Nasdaq Buffer ETF (Defined Outcome)",
+  "src": "rule",
+  "tags": []
+ },
+ "CRWL": {
+  "name": "GraniteShares 2x Long CRWD Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Graniteshares",
+  "sum": "The fund is an actively managed exchange traded fund that attempts to replicate 2x (200%) the daily percentage change of the underlying stock by entering into financial instruments such as swaps and options on the underlying stock as well as directly purchasing the underlying stock. The fund is non-",
+  "kr": "레버리지 · GraniteShares 2x Long CRWD Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "AMZU": {
+  "name": "Direxion Daily AMZN Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund will enter into one or more swap agreements with major global financial institutions whereby the fund and the global financial institution will agree to exchange the return earned on an investment by The fund invests in AMZN that is equal, on a daily basis, to 200% of the value of the fund'",
+  "kr": "레버리지 · Direxion Daily AMZN Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "AMDW": {
+  "name": "Roundhill AMD WeeklyPay ETF",
+  "cat": "Trading--Miscellaneous",
+  "fam": "Roundhill Investments",
+  "sum": "The fund is actively managed and seeks to achieve its investment objectives by investing in total return swap agreements and common stock that in aggregate return approximately 1.2 times (120%) the calendar week total return of common shares of AMD while making weekly distribution payments to shareh",
+  "kr": "Roundhill AMD WeeklyPay ETF (Trading--Miscellaneous)",
+  "src": "rule",
+  "tags": []
+ },
+ "TSLT": {
+  "name": "T-Rex 2X Long Tesla Daily Target ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Rex",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in financial instruments that are designed to provide, in the aggregate, 200% exposure to the price performance of TSLA on a daily basis. The fund is non-diversified.",
+  "kr": "레버리지 · T-Rex 2X Long Tesla Daily Target ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "TSLG": {
+  "name": "Leverage Shares 2X Long TSLA Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Themes ETF Trust",
+  "sum": "The fund invests at least 80% of its net assets (plus borrowings for investment purposes) in financial instruments with economic characteristics, that, in combination, provide 200% daily leveraged exposure to the price of TSLA, consistent with the fund’s investment objective. The fund is non-diversi",
+  "kr": "레버리지 · Leverage Shares 2X Long TSLA Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "GGLL": {
+  "name": "Direxion Daily GOOGL Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund will enter into one or more swap agreements with major global financial institutions whereby the fund and the global financial institution will agree to exchange the return earned on an investment by The fund invests in GOOGL that is equal, on a daily basis, to 200% of the value of the fund",
+  "kr": "레버리지 · Direxion Daily GOOGL Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "ARKG": {
+  "name": "ARK Genomic Revolution ETF",
+  "cat": "Health",
+  "fam": "ARK ETF Trust",
+  "sum": "The fund is an actively-managed exchange-traded fund (\"ETF\") that will invest under normal circumstances primarily (at least 80% of its assets) in domestic and foreign equity securities of companies across multiple sectors, including healthcare, information technology, materials, energy and consumer",
+  "kr": "업종/테마 · ARK Genomic Revolution ETF (Health)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "TSLR": {
+  "name": "Graniteshares 2x Long TSLA Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Graniteshares",
+  "sum": "The fund is an actively managed ETF that attempts to replicate 2 times (200%) the daily percentage change of the underlying stock by entering into financial instruments such as swaps and options on the underlying stock, as well as directly purchasing the underlying stock; at the end of each trading ",
+  "kr": "레버리지 · Graniteshares 2x Long TSLA Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "AMDY": {
+  "name": "YieldMax AMD Option Income Strategy ETF",
+  "fam": "YieldMax ETFs",
+  "sum": "The fund advisor will seek to employ the fund's investment strategy as it relates to AMD regardless of whether there are periods of adverse market, economic, or other conditions and will not seek to take temporary defensive positions during such periods. The fund is non-diversified.",
+  "kr": "커버드콜/옵션수익·배당/인컴 · YieldMax AMD Option Income Strategy ETF",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ]
+ },
+ "FNGU": {
+  "name": "MicroSectors FANG+ 3X Leveraged",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "BMO Capital Markets",
+  "sum": "The index, which is the same index that the FNGU ETNs are linked to, is an equally-weighted equity index that tracks the performance of 10 highly-traded growth stocks of technology and tech-enabled companies in the technology, media & communications and consumer discretionary sectors.",
+  "kr": "레버리지 · MicroSectors FANG+ 3X Leveraged (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "COPX": {
+  "name": "Global X Copper Miners ETF",
+  "fam": "Global X Funds",
+  "sum": "The fund invests at least 80% of its total assets in the securities of the underlying index and in American Depositary Receipts (\"ADRs\") and Global Depositary Receipts (\"GDRs\") based on the securities in the underlying index. The underlying index is designed to measure broad-based equity market perf",
+  "kr": "원자재·해외/글로벌 · Global X Copper Miners ETF",
+  "src": "rule",
+  "tags": [
+   "원자재",
+   "해외/글로벌"
+  ]
+ },
+ "ICOP": {
+  "name": "iShares Copper and Metals Mining ETF",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index and may invest up to 20% of its assets in certain f",
+  "kr": "원자재 · iShares Copper and Metals Mining ETF",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "CPER": {
+  "name": "United States Copper Index Fund, LP",
+  "cat": "Commodities Focused",
+  "fam": "USCF Investments",
+  "sum": "The fund seeks to achieve its investment objective by investing in the Benchmark Component Copper Futures Contracts. The SCI is designed to reflect the performance of the investment returns from a portfolio of copper futures contracts on the Commodity Exchange, Inc. exchange (\"COMEX\").",
+  "kr": "원자재 · United States Copper Index Fund, LP (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "EZA": {
+  "name": "iShares MSCI South Africa ETF",
+  "cat": "Focused Region",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index. The underlying index is designed to measure the pe",
+  "kr": "iShares MSCI South Africa ETF (Focused Region)",
+  "src": "rule",
+  "tags": []
+ },
+ "PSLV": {
+  "name": "Sprott Physical Silver Trust",
+  "kr": "원자재 · Sprott Physical Silver Trust",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "UGL": {
+  "name": "ProShares Ultra Gold",
+  "cat": "Trading--Leveraged Commodities",
+  "fam": "ProShares",
+  "sum": "The fund seeks to meet its investment objective by investing, under normal market conditions, in any one of, or combinations of, Financial Instruments (including swap agreements, futures contracts, forward contracts and option contracts) based on the benchmark. The types and mix of Financial Instrum",
+  "kr": "레버리지·원자재 · ProShares Ultra Gold (Trading--Leveraged Commodities)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "원자재"
+  ]
+ },
+ "SIVR": {
+  "name": "abrdn Physical Silver Shares ETF",
+  "cat": "Commodities Focused",
+  "fam": "Aberdeen Standard Investments",
+  "sum": "The shares are intended to constitute a simple and cost-effective means of making an investment similar to an investment in silver. An investment in physical silver requires expensive and sometimes complicated arrangements in connection with the assay, transportation, warehousing and insurance of th",
+  "kr": "원자재 · abrdn Physical Silver Shares ETF (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "PPLT": {
+  "name": "abrdn Physical Platinum Shares ETF",
+  "cat": "Commodities Focused",
+  "fam": "Aberdeen Standard Investments",
+  "sum": "The fund designed for investors who want a cost-effective and convenient way to invest in platinum with minimal credit risk. Advantages of investing in the Shares include Ease and Flexibility of Investment, Expenses, Minimal Credit Risk.",
+  "kr": "abrdn Physical Platinum Shares ETF (Commodities Focused)",
+  "src": "rule",
+  "tags": []
+ },
+ "PICK": {
+  "name": "iShares MSCI Global Metals & Mining Producers ETF",
+  "fam": "iShares",
+  "sum": "The fund will invest at least 80% of its assets in the component securities of the index and in investments that have economic characteristics that are substantially identical to the component securities of the index. The index measure the combined performance of equities of companies in both develo",
+  "kr": "원자재·해외/글로벌 · iShares MSCI Global Metals & Mining Producers ETF",
+  "src": "rule",
+  "tags": [
+   "원자재",
+   "해외/글로벌"
+  ]
+ },
+ "TSLQ": {
+  "name": "Tradr 2X Short TSLA Daily ETF",
+  "cat": "Trading--Inverse Equity",
+  "fam": "AXS",
+  "sum": "Under normal market circumstances, the fund will maintain at least 80% exposure to financial instruments that provide inverse exposure to two times the daily performance of TSLA. It is an actively-managed exchange-traded fund (“ETF”) that seeks to achieve on a daily basis, before fees and expenses, ",
+  "kr": "레버리지·인버스 · Tradr 2X Short TSLA Daily ETF (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "UCO": {
+  "name": "ProShares Ultra Bloomberg Crude Oil",
+  "cat": "Trading--Leveraged Commodities",
+  "fam": "ProShares",
+  "sum": "The fund seeks to meet its investment objective by investing, under normal market conditions, in any one of, or combinations of, Financial Instruments (including swap agreements, futures contracts, forward contracts, and option contracts) based on WTI sweet, light crude oil. It will not invest direc",
+  "kr": "레버리지·원자재 · ProShares Ultra Bloomberg Crude Oil (Trading--Leveraged Commodities)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "원자재"
+  ]
+ },
+ "TSDD": {
+  "name": "Graniteshares 2x Short TSLA Daily ETF",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Graniteshares",
+  "sum": "The fund is an actively managed exchange traded fund that attempts to replicate 2x the inverse (-200%) daily percentage change of the underlying stock by entering into financial instruments such as swaps and options on the underlying stock; at the end of each trading day, the notional exposure again",
+  "kr": "레버리지·인버스 · Graniteshares 2x Short TSLA Daily ETF (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "IAUI": {
+  "name": "NEOS Gold High Income ETF",
+  "cat": "Commodities Focused",
+  "fam": "Neos Funds",
+  "sum": "The fund seeks to track the price of gold by investing up to 25% of the fund’s assets in exchange-traded Gold ETPs (the “Gold ETPs”) primarily through a controlled foreign corporation and directly investing in Gold ETPs. The fund may invest up to 25% of its total assets in the Cayman Subsidiary, con",
+  "kr": "배당/인컴·원자재 · NEOS Gold High Income ETF (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "배당/인컴",
+   "원자재"
+  ]
+ },
+ "GLTR": {
+  "name": "abrdn Physical Precious Metals Basket Shares ETF",
+  "cat": "Commodities Focused",
+  "fam": "Aberdeen Standard Investments",
+  "sum": "The Shares are intended to offer investors an opportunity to participate in the gold, silver, platinum and palladium markets through an investment in securities. The Shares are intended to provide institutional and retail investors with a simple and cost-efficient means, with minimal credit risk, of",
+  "kr": "원자재 · abrdn Physical Precious Metals Basket Shares ETF (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "CEF": {
+  "name": "Sprott Physical Gold and Silver Trust",
+  "kr": "원자재 · Sprott Physical Gold and Silver Trust",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "BTCI": {
+  "name": "NEOS ETF Trust - NEOS Bitcoin High Income ETF",
+  "kr": "암호화폐·배당/인컴 · NEOS ETF Trust - NEOS Bitcoin High Income ETF",
+  "src": "rule",
+  "tags": [
+   "암호화폐",
+   "배당/인컴"
+  ]
+ },
+ "NVDX": {
+  "name": "T-Rex 2X Long NVIDIA Daily Target ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Rex",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in financial instruments that are designed to provide, in the aggregate, 200% exposure to the price performance of NVDA on a daily basis. The fund is non-diversified.",
+  "kr": "레버리지 · T-Rex 2X Long NVIDIA Daily Target ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "IVOO": {
+  "name": "Vanguard S&P Mid-Cap 400 Index Fund ETF Shares",
+  "cat": "Mid-Cap Blend",
+  "fam": "Vanguard",
+  "sum": "The target index measures the performance of mid-size companies in the United States. Under normal circumstances, the fund invests at least 80% of its net assets, plus the amount of any borrowings for investment purposes, in the stocks that make up the target index.",
+  "kr": "Vanguard S&P Mid-Cap 400 Index Fund ETF Shares (Mid-Cap Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "GARP": {
+  "name": "iShares Trust - iShares MSCI USA Quality GARP ETF",
+  "kr": "iShares Trust - iShares MSCI USA Quality GARP ETF",
+  "src": "rule",
+  "tags": []
+ },
+ "BSCS": {
+  "name": "Invesco BulletShares 2028 Corporate Bond ETF",
+  "cat": "Target Maturity",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 80% of its total assets in securities that comprise the underlying index. The underlying index seeks to measure the performance of a portfolio of U.S. dollar-denominated investment grade corporate bonds with maturities or, in some cases, \"effective maturities\"",
+  "kr": "채권 · Invesco BulletShares 2028 Corporate Bond ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "AVIV": {
+  "name": "Avantis International Large Cap Value ETF",
+  "cat": "Foreign Large Value",
+  "fam": "Avantis Investors",
+  "sum": "Under normal market conditions, the fund will invest at least 80% of its assets in equity securities of large capitalization companies. Additionally, it will invest at least 40% (unless the portfolio managers deem market conditions unfavorable, in which case the fund would invest at least 30%) of it",
+  "kr": "해외/글로벌 · Avantis International Large Cap Value ETF (Foreign Large Value)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "LAZR": {
+  "name": "Tema Photonics & Optical ETF",
+  "cat": "Technology",
+  "fam": "Tema ETFs",
+  "sum": "The fund is an actively managed ETF that under normal circumstances seeks to achieve its investment objective by investing at least 80% of its net assets, which include borrowings for investment purposes, in domestic and foreign, common and preferred stocks and American Depositary Receipts (“ADRs”) ",
+  "kr": "업종/테마 · Tema Photonics & Optical ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "SETM": {
+  "name": "Sprott Critical Materials ETF",
+  "fam": "Sprott",
+  "sum": "The fund invests at least 80% of its total assets in securities of the index. The index is designed to track the performance of companies that derive at least 50% of their revenue and/or assets from (i) mining, exploration, development, production, recycling, refining, or smelting of energy transiti",
+  "kr": "업종/테마 · Sprott Critical Materials ETF",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "RPV": {
+  "name": "Invesco S&P 500 Pure Value ETF",
+  "cat": "Mid-Cap Value",
+  "fam": "Invesco",
+  "sum": "The underlying index is composed of a subset of securities from the S&P 500® Index that exhibit strong value characteristics. Under normal circumstances, the fund will invest at least 80% of the value of its net assets, plus the amount of any borrowings for investment purposes, in the components of ",
+  "kr": "Invesco S&P 500 Pure Value ETF (Mid-Cap Value)",
+  "src": "rule",
+  "tags": []
+ },
+ "IJT": {
+  "name": "iShares S&P Small-Cap 600 Growth ETF",
+  "cat": "Small Growth",
+  "fam": "iShares",
+  "sum": "The fund seeks to track the investment results of the S&P SmallCap 600 Growth IndexTM (the “underlying index”), which measures the performance of the small-capitalization growth sector of the U.S. equity market. It is a subset of the S&P SmallCap 600® (the “Parent Index”) and consists of those stock",
+  "kr": "iShares S&P Small-Cap 600 Growth ETF (Small Growth)",
+  "src": "rule",
+  "tags": []
+ },
+ "CRAK": {
+  "name": "VanEck Oil Refiners ETF",
+  "cat": "Equity Energy",
+  "fam": "VanEck",
+  "sum": "The fund normally invests at least 80% of its total assets in securities that comprise the fund's benchmark index. The index includes equity securities and depositary receipts of companies in the global oil refining segment. To be initially eligible for the Oil Refiners Index, companies must generat",
+  "kr": "원자재·업종/테마 · VanEck Oil Refiners ETF (Equity Energy)",
+  "src": "rule",
+  "tags": [
+   "원자재",
+   "업종/테마"
+  ]
+ },
+ "KSA": {
+  "name": "iShares MSCI Saudi Arabia ETF",
+  "cat": "Focused Region",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of the index and in investments that have economic characteristics that are substantially identical to the component securities of the index. The index is a free float-adjusted market capitalization-weighted index ",
+  "kr": "iShares MSCI Saudi Arabia ETF (Focused Region)",
+  "src": "rule",
+  "tags": []
+ },
+ "IYH": {
+  "name": "iShares U.S. Healthcare ETF",
+  "cat": "Health",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index. The underlying index measures the performance of the healthcare sector of the U.S. equity market. The fund is non-diversified.",
+  "kr": "업종/테마 · iShares U.S. Healthcare ETF (Health)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "LVHI": {
+  "name": "Franklin International Low Volatility High Dividend Index ETF",
+  "cat": "Foreign Large Value",
+  "fam": "Franklin Templeton, Inc",
+  "sum": "The underlying index seeks to provide more stable income through investments in stocks of profitable companies in developed markets outside of the United States with relatively high dividend yields or anticipated dividend yields and lower price and earnings volatility, while mitigating exposure to e",
+  "kr": "배당/인컴·해외/글로벌 · Franklin International Low Volatility High Dividend Index ETF (Foreign Large Value)",
+  "src": "rule",
+  "tags": [
+   "배당/인컴",
+   "해외/글로벌"
+  ]
+ },
+ "IDV": {
+  "name": "iShares International Select Dividend ETF",
+  "cat": "Foreign Large Value",
+  "fam": "iShares",
+  "sum": "The fund seeks to track the investment results of the Dow Jones EPAC Select Dividend Index (the “underlying index”), which is provided by S&P Dow Jones Indices LLC (the “index provider” or “SPDJI”). The underlying index measures the performance of 100 high dividend-paying companies in the EPAC regio",
+  "kr": "배당/인컴·해외/글로벌 · iShares International Select Dividend ETF (Foreign Large Value)",
+  "src": "rule",
+  "tags": [
+   "배당/인컴",
+   "해외/글로벌"
+  ]
+ },
+ "BUFR": {
+  "name": "FT Vest Laddered Buffer ETF",
+  "cat": "Defined Outcome",
+  "fam": "First Trust",
+  "sum": "The fund seeks to achieve its investment objective by providing investors with U.S. large-cap equity market exposure while attempting to limit downside risk through a laddered portfolio of twelve FT Vest U.S. Equity Buffer ETFs. Under normal market conditions, it will invest substantially all of its",
+  "kr": "FT Vest Laddered Buffer ETF (Defined Outcome)",
+  "src": "rule",
+  "tags": []
+ },
+ "JAVA": {
+  "name": "JPMorgan Active Value ETF",
+  "cat": "Large Value",
+  "fam": "JPMorgan",
+  "sum": "The adviser seeks to meet its objective by investing primarily in equities, including common stock, preferred securities and bonds which are convertible to common stock, that the adviser identifies to be attractively valued given their growth potential over a long-term time horizon. The securities h",
+  "kr": "JPMorgan Active Value ETF (Large Value)",
+  "src": "rule",
+  "tags": []
  }
 }
