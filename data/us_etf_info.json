@@ -4483,5 +4483,320 @@
   "tags": [
    "해외/글로벌"
   ]
+ },
+ "ROM": {
+  "name": "ProShares Ultra Technology",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "ProShares",
+  "sum": "The fund invests in financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target. The index is designed to measure the performance of information technology companies included in the S&P 500 Index. Under normal circumstances, th",
+  "kr": "레버리지·업종/테마 · ProShares Ultra Technology (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "업종/테마"
+  ]
+ },
+ "DEM": {
+  "name": "WisdomTree Emerging Markets High Dividend Fund",
+  "cat": "Diversified Emerging Mkts",
+  "fam": "WisdomTree",
+  "sum": "The fund invests at least 80% of its net assets, plus any borrowings for investment purposes, in constituents of the index that have economic characteristics that are substantially similar to the economic characteristics of such constituents. The index is a modified capitalization-weighted index tha",
+  "kr": "배당/인컴·해외/글로벌 · WisdomTree Emerging Markets High Dividend Fund (Diversified Emerging Mkts)",
+  "src": "rule",
+  "tags": [
+   "배당/인컴",
+   "해외/글로벌"
+  ]
+ },
+ "SLYV": {
+  "name": "State Street SPDR S&P 600 Small Cap Value ETF",
+  "cat": "Small Value",
+  "fam": "State Street Investment Management",
+  "sum": "The fund generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index. The index measures the performance of the small-capitalization value segment of the U.S. equity market. It may purchase a subset of the securities in the index in an effort to ",
+  "kr": "State Street SPDR S&P 600 Small Cap Value ETF (Small Value)",
+  "src": "rule",
+  "tags": []
+ },
+ "GSLC": {
+  "name": "Goldman Sachs ActiveBeta U.S. Large Cap Equity ETF",
+  "cat": "Large Blend",
+  "fam": "Goldman Sachs",
+  "sum": "The index is designed to deliver exposure to equity securities of large capitalization U.S. issuers. The fund seeks to achieve its investment objective by investing at least 80% of its assets (exclusive of collateral held from securities lending) in securities included in its underlying index, in de",
+  "kr": "원자재 · Goldman Sachs ActiveBeta U.S. Large Cap Equity ETF (Large Blend)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "IBTM": {
+  "name": "iShares iBonds Dec 2032 Term Treasury ETF",
+  "cat": "Target Maturity",
+  "fam": "iShares",
+  "sum": "The index is market value-weighted based on amounts outstanding reduced by amounts held by the Federal Reserve SOMA. The fund will invest at least 80% of its assets in the component securities of the index, and the fund will invest at least 90% of its assets in U.S. Treasury securities that BFA beli",
+  "kr": "채권 · iShares iBonds Dec 2032 Term Treasury ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "AMAU": {
+  "name": "Leverage Shares 2X Long AMAT Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Themes ETF Trust",
+  "sum": "It is an actively managed ETF. The fund invests at least 80% of its net assets (plus borrowings for investment purposes) in the Underlying Security and financial instruments with economic characteristics that, in combination, provide 200% daily leveraged exposure to the price of the Underlying Secur",
+  "kr": "레버리지 · Leverage Shares 2X Long AMAT Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "FBL": {
+  "name": "GraniteShares 2x Long META Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Graniteshares",
+  "sum": "The fund is an actively managed exchange traded fund that attempts to replicate 2 times (200%) the daily percentage change of the underlying stock by entering into financial instruments such as swaps and options on the underlying stock as well as directly purchasing the underlying stock. The fund wi",
+  "kr": "레버리지 · GraniteShares 2x Long META Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "METU": {
+  "name": "Direxion Daily META Bull 2X ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in the securities of META and financial instruments, such as swap agreements and options, that, in combination, provide 2X daily leveraged exposure to META, consistent with the ",
+  "kr": "레버리지 · Direxion Daily META Bull 2X ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "CAOS": {
+  "name": "Alpha Architect Tail Risk ETF",
+  "cat": "Equity Hedged",
+  "fam": "Alpha Architect",
+  "sum": "The fund is an actively managed exchange-traded fund (“ETF”). The fund will invest, under normal circumstances, in a portfolio of options contracts on securities that are linked to the performance of an index whose value is based on companies with market capitalizations that qualify them as “large c",
+  "kr": "Alpha Architect Tail Risk ETF (Equity Hedged)",
+  "src": "rule",
+  "tags": []
+ },
+ "FXI": {
+  "name": "iShares China Large-Cap ETF",
+  "cat": "Greater China Region",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index. The index designed to measure the performance of t",
+  "kr": "해외/글로벌 · iShares China Large-Cap ETF (Greater China Region)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "GQGU": {
+  "name": "GQG US Equity ETF",
+  "cat": "Large Blend",
+  "fam": "GQG Partners LLC",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets, plus any borrowings for investment purposes, in equity securities of U.S. companies. The equity securities in which the fund invests are primarily publicly traded common stocks but may also include warrants and preferred st",
+  "kr": "GQG US Equity ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "VOX": {
+  "name": "Vanguard Communication Services Index Fund ETF Shares",
+  "cat": "Communications",
+  "fam": "Vanguard",
+  "sum": "The fund employs an indexing investment approach designed to track the performance of the index, an index made up of stocks of large, mid-size and small U.S. companies within the communication services sector, as classified under the GICS. The Advisor attempts to replicate the target index by seekin",
+  "kr": "Vanguard Communication Services Index Fund ETF Shares (Communications)",
+  "src": "rule",
+  "tags": []
+ },
+ "BUCK": {
+  "name": "Simplify Treasury Option Income ETF",
+  "cat": "Ultrashort Bond",
+  "fam": "Simplify Asset Management",
+  "sum": "The fund’s investment adviser seeks to fulfill the fund’s investment objective by using two income strategies: (1) an interest income strategy and (2) an income generating option strategy. The fund invests primarily in interest income producing U.S. Treasury securities such as bills, notes, and bond",
+  "kr": "단기채/현금성·커버드콜/옵션수익 · Simplify Treasury Option Income ETF (Ultrashort Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성",
+   "커버드콜/옵션수익"
+  ]
+ },
+ "TDTT": {
+  "name": "Northern Trust iBoxx 3-Year Target Duration TIPS ETF",
+  "cat": "Short-Term Inflation-Protected Bond",
+  "fam": "Northern Trust",
+  "sum": "The underlying index reflects the performance of a selection of inflation protected public obligations of the U.S. treasury, commonly known as \"TIPS,\" with a targeted average modified adjusted duration, as defined by the S&P Dow Jones Indices LLC as the index provider, of approximately three years. ",
+  "kr": "단기채/현금성 · Northern Trust iBoxx 3-Year Target Duration TIPS ETF (Short-Term Inflation-Protected Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "CQQQ": {
+  "name": "Invesco China Technology ETF",
+  "cat": "Greater China Region",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 90% of its total assets in securities that comprise the underlying index, as well as ADRs and GDRs that represent securities in the underlying index. Strictly in accordance with its guidelines and mandated procedures, the index provider compiles, maintains, an",
+  "kr": "업종/테마·해외/글로벌 · Invesco China Technology ETF (Greater China Region)",
+  "src": "rule",
+  "tags": [
+   "업종/테마",
+   "해외/글로벌"
+  ]
+ },
+ "HEFA": {
+  "name": "iShares Currency Hedged MSCI EAFE ETF",
+  "cat": "Foreign Large Blend",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities (including indirect investments through the underlying fund) and other instruments of the underlying index and in investments that have economic characteristics that are substantially identical to the component sec",
+  "kr": "iShares Currency Hedged MSCI EAFE ETF (Foreign Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "ESGV": {
+  "name": "Vanguard ESG U.S. Stock ETF",
+  "cat": "Large Blend",
+  "fam": "Vanguard",
+  "sum": "The adviser attempts to replicate the target index by investing all, or substantially all, of its assets in the stocks that make up the index, holding each stock in approximately the same proportion as its weighting in the index. The index, which is market capitalization-weighted, is composed of lar",
+  "kr": "Vanguard ESG U.S. Stock ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "IXC": {
+  "name": "iShares Global Energy ETF",
+  "cat": "Equity Energy",
+  "fam": "iShares",
+  "sum": "The fund generally invests at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index and may invest up to 20% of its assets in certain futur",
+  "kr": "업종/테마·해외/글로벌 · iShares Global Energy ETF (Equity Energy)",
+  "src": "rule",
+  "tags": [
+   "업종/테마",
+   "해외/글로벌"
+  ]
+ },
+ "GEM": {
+  "name": "Goldman Sachs ActiveBeta Emerging Markets Equity ETF",
+  "cat": "Diversified Emerging Mkts",
+  "fam": "Goldman Sachs",
+  "sum": "The fund seeks to achieve its investment objective by investing at least 80% of its assets in securities included in its underlying index, in depositary receipts representing securities included in its underlying index and in underlying stocks in respect of depositary receipts included in its underl",
+  "kr": "원자재·해외/글로벌 · Goldman Sachs ActiveBeta Emerging Markets Equity ETF (Diversified Emerging Mkts)",
+  "src": "rule",
+  "tags": [
+   "원자재",
+   "해외/글로벌"
+  ]
+ },
+ "EVTR": {
+  "name": "Eaton Vance Total Return Bond ETF",
+  "cat": "Intermediate Core-Plus Bond",
+  "fam": "Eaton Vance ETFs",
+  "sum": "Under normal circumstances, at least 80% of the fund’s net assets (plus the amount of any borrowings for investment purposes) will be invested in fixed-income securities. The fund invests primarily in a diversified mix of U.S. dollar-denominated investment grade fixed-income securities, including U.",
+  "kr": "채권 · Eaton Vance Total Return Bond ETF (Intermediate Core-Plus Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "DVYE": {
+  "name": "iShares Emerging Markets Dividend ETF",
+  "cat": "Diversified Emerging Mkts",
+  "fam": "iShares",
+  "sum": "The index measures the performance of 100 leading dividend-paying emerging market companies, selected according to indicated annual dividend yield, subject to screening and buffering criteria and weighting constraints. Under normal circumstances, the fund will not invest less than 80% of the value o",
+  "kr": "배당/인컴·해외/글로벌 · iShares Emerging Markets Dividend ETF (Diversified Emerging Mkts)",
+  "src": "rule",
+  "tags": [
+   "배당/인컴",
+   "해외/글로벌"
+  ]
+ },
+ "VSGX": {
+  "name": "Vanguard ESG International Stock ETF",
+  "cat": "Foreign Large Blend",
+  "fam": "Vanguard",
+  "sum": "The fund invests by sampling the index, meaning that it holds a broadly diversified collection of securities that, in the aggregate, approximates the full index in terms of key characteristics. The index, which is market capitalization-weighted, is composed of large-, mid-, and small-cap stocks of c",
+  "kr": "해외/글로벌 · Vanguard ESG International Stock ETF (Foreign Large Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "IDNA": {
+  "name": "iShares Genomics Immunology and Healthcare ETF",
+  "cat": "Health",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of the index and in investments that have economic characteristics that are substantially identical to the component securities of the index and may invest up to 20% of its assets in certain futures, options and sw",
+  "kr": "업종/테마 · iShares Genomics Immunology and Healthcare ETF (Health)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "JHMM": {
+  "name": "John Hancock Multifactor Mid Cap ETF",
+  "cat": "Mid-Cap Blend",
+  "fam": "John Hancock",
+  "sum": "The fund normally invests at least 80% of its net assets (plus any borrowings for investment purposes) in securities that compose the fund's index. The index is designed to comprise a subset of securities in the U.S. Universe issued by companies whose market capitalizations are between the 200th and",
+  "kr": "John Hancock Multifactor Mid Cap ETF (Mid-Cap Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "BSVO": {
+  "name": "EA Bridgeway Omni Small-Cap Value ETF",
+  "cat": "Small Value",
+  "fam": "Bridgeway",
+  "sum": "The fund seeks to achieve its investment objective by investing primarily in a broad and diverse group of small-cap stocks that the Sub-Adviser determines are value stocks. Under normal circumstances, the fund invests 80% of its net assets (plus borrowings for investment purposes) in equity or equit",
+  "kr": "EA Bridgeway Omni Small-Cap Value ETF (Small Value)",
+  "src": "rule",
+  "tags": []
+ },
+ "BSJR": {
+  "name": "Invesco BulletShares 2027 High Yield Corporate Bond ETF",
+  "cat": "Target Maturity",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 80% of its total assets in securities that comprise the underlying index. The underlying index seeks to measure the performance of a portfolio of U.S. dollar-denominated high yield corporate bonds (commonly known as \"junk bonds\") with maturities or, in some ca",
+  "kr": "채권 · Invesco BulletShares 2027 High Yield Corporate Bond ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "SPIP": {
+  "name": "State Street SPDR Portfolio TIPS Index ETF",
+  "cat": "Inflation-Protected Bond",
+  "fam": "State Street Investment Management",
+  "sum": "The fund generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index and in securities that the adviser determines have economic characteristics that are substantially identical to the economic characteristics of the securities that comprise the ",
+  "kr": "채권 · State Street SPDR Portfolio TIPS Index ETF (Inflation-Protected Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "SFLO": {
+  "name": "Victoryshares Small Cap Free Cash Flow ETF",
+  "cat": "Small Value",
+  "fam": "Victory Capital Management Inc.",
+  "sum": "Under normal circumstances, the fund seeks to achieve its investment objective by investing at least 80% of its assets in securities in the index and at least 80% of its assets in equity securities with small market capitalizations. The index is designed to deliver exposure to equity securities of U",
+  "kr": "Victoryshares Small Cap Free Cash Flow ETF (Small Value)",
+  "src": "rule",
+  "tags": []
+ },
+ "SBIL": {
+  "name": "Simplify Government Money Market ETF",
+  "cat": "Money Market-Taxable",
+  "fam": "Simplify Asset Management Inc.",
+  "sum": "The fund operates as a “government money market fund” pursuant to Rule 2a-7 under the Investment Company Act of 1940, as amended, and is subject to related restrictions on its portfolio composition. Consequently, the fund invests at least 99.5% of its total assets in (i) cash, (ii) U.S. government s",
+  "kr": "Simplify Government Money Market ETF (Money Market-Taxable)",
+  "src": "rule",
+  "tags": []
+ },
+ "TMSL": {
+  "name": "T. Rowe Price Small-Mid Cap ETF",
+  "cat": "Mid-Cap Blend",
+  "fam": "T. Rowe Price",
+  "sum": "The fund normally invests at least 80% of its net assets (including any borrowings for investment purposes) in assets issued by small- or mid-cap companies. The fund may at times invest significantly in certain sectors, such as the information technology sector.",
+  "kr": "T. Rowe Price Small-Mid Cap ETF (Mid-Cap Blend)",
+  "src": "rule",
+  "tags": []
  }
 }
