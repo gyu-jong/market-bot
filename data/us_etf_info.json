@@ -4245,5 +4245,243 @@
    "암호화폐",
    "업종/테마"
   ]
+ },
+ "QID": {
+  "name": "ProShares UltraShort QQQ",
+  "cat": "Trading--Inverse Equity",
+  "fam": "ProShares",
+  "sum": "The fund invests in financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target. The index is designed to measure the performance of 100 of the largest Nasdaq-listed non-financial companies. Under normal circumstances, the fund",
+  "kr": "레버리지·인버스 · ProShares UltraShort QQQ (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "SOLZ": {
+  "name": "Solana ETF",
+  "cat": "Digital Assets",
+  "fam": "Volatility Shares LLC",
+  "sum": "SOL is a digital asset that is created and transmitted through the operations of the peer-to-peer network (the “Solana Network”), a decentralized network of computers that operates on cryptographic protocols. Under normal circumstances, the fund will invest at least 80% of the value of its net asset",
+  "kr": "Solana ETF (Digital Assets)",
+  "src": "rule",
+  "tags": []
+ },
+ "IYC": {
+  "name": "iShares US Consumer Discretionary ETF",
+  "cat": "Consumer Cyclical",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index. The underlying index measures the performance of the consumer discretionary sector of the U.S. equity market, as defined by FTSE Russell.",
+  "kr": "업종/테마 · iShares US Consumer Discretionary ETF (Consumer Cyclical)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "SPRX": {
+  "name": "Spear Alpha ETF",
+  "cat": "Technology",
+  "fam": "Spear",
+  "sum": "The fund is an actively-managed exchange-traded fund (“ETF”) that will invest primarily in equity securities, including common stock or American depositary receipts (“ADRs”) of companies that Spear Advisors LLC (the “Adviser”) believes are poised to benefit from breakthrough innovation in industrial",
+  "kr": "업종/테마 · Spear Alpha ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "LYTE": {
+  "name": "Roundhill Photonics & Optics ETF",
+  "cat": "Technology",
+  "fam": "Roundhill Investments",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets (plus borrowings for investment purposes) in equity securities (which may include depositary receipts) or financial instruments (i.e., swap agreements or forward contracts) that provide exposure to Photonic and Optical Compa",
+  "kr": "업종/테마 · Roundhill Photonics & Optics ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "CRWG": {
+  "name": "Leverage Shares 2X Long CRWV Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Themes ETF Trust",
+  "sum": "The fund is an actively managed ETF. The fund invests at least 80% of its net assets (plus borrowings for investment purposes) in financial instruments with economic characteristics that, in combination, provide 200% daily leveraged exposure to the price of CRWV, consistent with the fund’s investmen",
+  "kr": "레버리지 · Leverage Shares 2X Long CRWV Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "GOOX": {
+  "name": "T-Rex 2X Long Alphabet Daily Target ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Rex",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in financial instruments that are designed to provide, in the aggregate, 200% exposure to the price performance of GOOG on a daily basis. The fund is non-diversified.",
+  "kr": "레버리지 · T-Rex 2X Long Alphabet Daily Target ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "TECL": {
+  "name": "Direxion Daily Technology Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets (plus borrowing for investment purposes) in financial instruments, such as swap agreements, securities of the index, and exchange-traded funds (\"ETFs\") that track the index, that, in combination, provide 3X daily leveraged exposure to the index, consis",
+  "kr": "레버리지·업종/테마 · Direxion Daily Technology Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "업종/테마"
+  ]
+ },
+ "USD": {
+  "name": "ProShares Ultra Semiconductors",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "ProShares",
+  "sum": "The fund invests in financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target. The index is designed to measure the stock performance of U.S. companies in the semiconductors sub-sector. Under normal circumstances, the fund wi",
+  "kr": "레버리지·업종/테마 · ProShares Ultra Semiconductors (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "업종/테마"
+  ]
+ },
+ "MSFD": {
+  "name": "Direxion Daily MSFT Bear 1X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of the it’s net assets (plus borrowings for investment purposes) in financial instruments, including swap agreements and options, that, in combination, provide 1X daily inverse (opposite) or short exposure to MSFT, consistent with the fund’s",
+  "kr": "인버스 · Direxion Daily MSFT Bear 1X Shares (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "인버스"
+  ]
+ },
+ "RSPS": {
+  "name": "Invesco S&P 500 Equal Weight Consumer Staples ETF",
+  "cat": "Consumer Defensive",
+  "fam": "Invesco",
+  "sum": "The underlying index is composed of all of the components of the S&P 500® Consumer Staples Index, an index that contains the common stocks of all companies included in the S&P 500® Index that are classified as members of the consumer staples sector, as defined according to the Global Industry Classi",
+  "kr": "업종/테마 · Invesco S&P 500 Equal Weight Consumer Staples ETF (Consumer Defensive)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "BIL": {
+  "name": "State Street SPDR Bloomberg 1-3 Month T-Bill ETF",
+  "cat": "Ultrashort Bond",
+  "fam": "State Street Investment Management",
+  "sum": "Under normal market conditions, the fund will invest at least 80% of its net assets (plus the amount of borrowings for investment purposes) in the securities comprising the index it seeks to track. The index is designed to measure the performance of public obligations of the U.S. Treasury that have ",
+  "kr": "단기채/현금성 · State Street SPDR Bloomberg 1-3 Month T-Bill ETF (Ultrashort Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "DISK": {
+  "name": "Tema Memory ETF",
+  "cat": "Technology",
+  "fam": "Tema ETFs",
+  "sum": "The fund is an actively managed ETF that under normal circumstances seeks to achieve its investment objective by investing at least 80% of its net assets, which include borrowings for investment purposes, in domestic and foreign, common and preferred stocks and American Depositary Receipts (“ADRs”) ",
+  "kr": "업종/테마 · Tema Memory ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "FEPI": {
+  "name": "REX FANG & Innovation Equity Premium Income ETF",
+  "fam": "Rex",
+  "sum": "The fund is an actively managed exchange-traded fund (“ETF”) that seeks current income while maintaining the opportunity for exposure to the share price (i.e., the price returns) of the securities of the companies comprising the Solactive FANG Innovation Index. The fund advisor seeks to employ the f",
+  "kr": "커버드콜/옵션수익·배당/인컴 · REX FANG & Innovation Equity Premium Income ETF",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ]
+ },
+ "PREF": {
+  "name": "Principal Spectrum Preferred Securities Active ETF",
+  "cat": "Preferred Stock",
+  "fam": "Principal Funds",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets, plus any borrowings for investment purposes, in preferred securities. Examples of preferred securities include preferred stock, certain depositary receipts, and various types of junior subordinated debt. In particular, the ",
+  "kr": "Principal Spectrum Preferred Securities Active ETF (Preferred Stock)",
+  "src": "rule",
+  "tags": []
+ },
+ "AIPI": {
+  "name": "REX AI Equity Premium Income ETF",
+  "fam": "Rex",
+  "sum": "The fund, under normal market conditions, invests at least 80% of its net assets (plus any borrowings for investment purposes) in securities comprising the BITA AI Leaders Select Index. It seeks to employ its investment strategy regardless of whether there are periods of adverse market, economic, or",
+  "kr": "커버드콜/옵션수익·배당/인컴 · REX AI Equity Premium Income ETF",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ]
+ },
+ "EWM": {
+  "name": "iShares MSCI Malaysia ETF",
+  "cat": "Focused Region",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index. The underlying index is designed to measure the pe",
+  "kr": "iShares MSCI Malaysia ETF (Focused Region)",
+  "src": "rule",
+  "tags": []
+ },
+ "URNJ": {
+  "name": "Sprott Junior Uranium Miners ETF",
+  "fam": "Sprott",
+  "sum": "The fund will, under normal circumstances, invest at least 80% of its total assets in securities of the index. The index is designed to track the performance of companies that derive at least 50% of their revenue and/or assets from (i) mining, exploration, development, and production of uranium; (ii",
+  "kr": "원자재 · Sprott Junior Uranium Miners ETF",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "AIS": {
+  "name": "VistaShares Artificial Intelligence Supercycle ETF",
+  "cat": "Technology",
+  "fam": "VistaShares Advisors LLC",
+  "sum": "The fund is an actively managed exchange-traded fund (“ETF”) that seeks to achieve its investment objective by investing in a portfolio of global AI companies. The Sub-Adviser seeks to invest the fund’s assets to achieve returns similar to those of the BITA VistaShares Artificial Intelligence Superc",
+  "kr": "업종/테마 · VistaShares Artificial Intelligence Supercycle ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "JMST": {
+  "name": "JPMorgan Ultra-Short Municipal Income ETF",
+  "cat": "Muni National Short",
+  "fam": "JPMorgan",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its assets in municipal securities, the income from which is exempt from federal income tax. For purposes of this policy, \"Assets\" means net assets, plus the amount of borrowings for investment purposes. Up to 100% of the fund's assets may",
+  "kr": "채권 · JPMorgan Ultra-Short Municipal Income ETF (Muni National Short)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "AFIF": {
+  "name": "Anfield Universal Fixed Income ETF",
+  "cat": "Multisector Bond",
+  "fam": "Anfield",
+  "sum": "The fund is an actively managed exchange-traded fund (\"ETF\") that normally invests at least 80% of its net assets, including any borrowings for investment purposes, in a diversified portfolio of fixed income instruments. The principal investments of the fund include corporate bonds, U.S. government ",
+  "kr": "채권 · Anfield Universal Fixed Income ETF (Multisector Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "IDMO": {
+  "name": "Invesco S&P International Developed Momentum ETF",
+  "cat": "Foreign Large Blend",
+  "fam": "Invesco",
+  "sum": "The fund will invest at least 90% of its total assets in the securities that comprise the underlying index. Strictly in accordance with its guidelines and mandated procedures, the index provider compiles, maintains and calculates the underlying index, which is composed of constituents of the S&P Wor",
+  "kr": "해외/글로벌 · Invesco S&P International Developed Momentum ETF (Foreign Large Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
  }
 }
