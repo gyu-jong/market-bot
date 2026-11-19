@@ -4233,5 +4233,17 @@
   "tags": [
    "채권"
   ]
+ },
+ "ARKF": {
+  "name": "ARK Blockchain & Fintech Innovation ETF",
+  "cat": "Technology",
+  "fam": "ARK ETF Trust",
+  "sum": "The fund is an actively-managed ETF that will invest under normal circumstances primarily (at least 80% of its assets) in domestic and foreign equity securities of companies that are engaged in the fund's investment theme of financial technology (\"Fintech\") innovation. A company is deemed to be enga",
+  "kr": "암호화폐·업종/테마 · ARK Blockchain & Fintech Innovation ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "암호화폐",
+   "업종/테마"
+  ]
  }
 }
