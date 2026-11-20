@@ -4896,6 +4896,255 @@
  "CLOU": {
   "kr": "이름 조회 실패",
   "src": "rule",
+  "tags": [
+   "업종/테마",
+   "해외/글로벌"
+  ],
+  "name": "Global X Cloud Computing ETF",
+  "cat": "Technology",
+  "fam": "Global X Funds",
+  "sum": "The fund invests at least 80% of its total assets in the securities of the underlying index and in American Depositary Receipts (\"ADRs\") and Global Depositary Receipts (\"GDRs\") based on the securities in the underlying index. The underlying index is designed to provide exposure to exchange-listed co"
+ },
+ "ALAI": {
+  "name": "Alger AI Enablers & Adopters ETF",
+  "cat": "Technology",
+  "fam": "Alger",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets, plus any borrowings for investment purposes, in equity securities of companies of any market capitalization that the advisor believes will benefit from artificial intelligence,demonstrate promising growth potential,and are ",
+  "kr": "업종/테마 · Alger AI Enablers & Adopters ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "AVNM": {
+  "name": "Avantis All International Markets Equity ETF",
+  "cat": "Foreign Large Blend",
+  "fam": "Avantis Investors",
+  "sum": "The fund is a “fund of funds,” meaning that it seeks to achieve its objective by investing in other Avantis exchange-traded funds (ETFs) (collectively, the underlying funds). The underlying funds represent a broadly diversified basket of equity securities that seek to select or overweight securities",
+  "kr": "해외/글로벌 · Avantis All International Markets Equity ETF (Foreign Large Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "CGUI": {
+  "name": "Capital Group Ultra Short Income ETF",
+  "cat": "Ultrashort Bond",
+  "fam": "Capital Group",
+  "sum": "The fund will invest at least 80% of its assets in bonds and other debt securities that accrue income, which may be represented by derivatives. Under normal circumstances, the fund will invest primarily in investment grade, U.S. dollar denominated short-term debt, including: high-quality, short-term",
+  "kr": "단기채/현금성 · Capital Group Ultra Short Income ETF (Ultrashort Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "NVII": {
+  "name": "REX NVDA Enhanced Growth & Income ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Rex",
+  "sum": "The fund, under normal market conditions, will invest at least 80% of its net assets (plus any borrowings for investment purposes) in shares of NVDA, investments that provide exposure to NVDA or income-producing investments. The fund is non-diversified.",
+  "kr": "레버리지·배당/인컴 · REX NVDA Enhanced Growth & Income ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "배당/인컴"
+  ]
+ },
+ "SCHX": {
+  "name": "Schwab U.S. Large-Cap ETF",
+  "cat": "Large Blend",
+  "fam": "Schwab ETFs",
+  "sum": "To pursue its goal, the fund generally invests in stocks that are included in the Dow Jones U.S. Large-Cap Total Stock Market Index. The index includes the large-cap portion of the Dow Jones U.S. Total Stock Market Index actually available to investors in the marketplace. The Dow Jones U.S. Large-Ca",
+  "kr": "Schwab U.S. Large-Cap ETF (Large Blend)",
+  "src": "rule",
   "tags": []
+ },
+ "XLK": {
+  "name": "State Street Technology Select Sector SPDR ETF",
+  "cat": "Technology",
+  "fam": "State Street Investment Management",
+  "sum": "In seeking to track the performance of the index, the fund employs a replication strategy, which means that the fund typically invests in substantially all of the securities represented in the index in approximately the same proportions as the index. It generally invests substantially all, but at le",
+  "kr": "업종/테마 · State Street Technology Select Sector SPDR ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "RONB": {
+  "name": "Baron First Principles ETF",
+  "cat": "Large Growth",
+  "fam": "Baron Capital Group, Inc.",
+  "sum": "The fund is a non-diversified fund that, under normal circumstances, invests primarily in equity securities (including depositary receipts) of U.S. growth companies of any market capitalization. It is non-diversified.",
+  "kr": "Baron First Principles ETF (Large Growth)",
+  "src": "rule",
+  "tags": []
+ },
+ "CLIP": {
+  "name": "Global X 1-3 Month T-Bill ETF",
+  "cat": "Ultrashort Bond",
+  "fam": "Global X Funds",
+  "sum": "The fund invests at least 80% of its total assets, plus borrowings for investment purposes (if any), in the securities of the underlying index. The underlying index is designed to measure the performance of public obligations of the U.S. Treasury that have a remaining maturity of greater than or equ",
+  "kr": "단기채/현금성·해외/글로벌 · Global X 1-3 Month T-Bill ETF (Ultrashort Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성",
+   "해외/글로벌"
+  ]
+ },
+ "GXPC": {
+  "name": "Global X Purecap MSCI Communication Services ETF",
+  "cat": "Communications",
+  "fam": "Global X Funds",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets, plus the amount of any borrowings for investment purposes, in the Communication Services sector. The underlying index is designed to track the performance of U.S. securities included in the MSCI USA Index that fall within t",
+  "kr": "해외/글로벌 · Global X Purecap MSCI Communication Services ETF (Communications)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "SFLR": {
+  "name": "Innovator Equity Managed Floor ETF",
+  "cat": "Equity Hedged",
+  "fam": "Innovator ETFs",
+  "sum": "The fund is an actively managed ETF that seeks to provide capital appreciation through participation in the large-capitalization U.S. equity markets while limiting the potential for maximum losses. The Advisor intends to invest in a diversified portfolio of equity securities that are included in the",
+  "kr": "Innovator Equity Managed Floor ETF (Equity Hedged)",
+  "src": "rule",
+  "tags": []
+ },
+ "XONE": {
+  "name": "Bondbloxx Bloomberg One Year Target Duration US Treasury ETF",
+  "cat": "Short Government",
+  "fam": "BondBloxx Investment Management",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its net assets (plus the amount of any borrowings for investment purposes) in a portfolio of U.S. Treasury securities that collectively have an average duration of approximately 1 year, either directly or indirectly (e.g., through deri",
+  "kr": "채권 · Bondbloxx Bloomberg One Year Target Duration US Treasury ETF (Short Government)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "IBDW": {
+  "name": "iShares iBonds Dec 2031 Term Corporate ETF",
+  "cat": "Target Maturity",
+  "fam": "iShares",
+  "sum": "The index is composed of U.S. dollar-denominated, taxable, investment-grade corporate bonds scheduled to mature between January 1, 2031 and December 15, 2031, inclusive. The fund will invest at least 80% of its assets in the component instruments of the underlying index, and will invest at least 90%",
+  "kr": "채권 · iShares iBonds Dec 2031 Term Corporate ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "IYM": {
+  "name": "iShares U.S. Basic Materials ETF",
+  "cat": "Natural Resources",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index. The underlying index measures the performance of the basic materials sector of the U.S. equity market. The fund is non-diversified.",
+  "kr": "업종/테마 · iShares U.S. Basic Materials ETF (Natural Resources)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "FPA": {
+  "name": "First Trust Asia Pacific Ex-Japan AlphaDEX Fund",
+  "cat": "Pacific/Asia ex-Japan Stk",
+  "fam": "First Trust",
+  "sum": "The fund will normally invest at least 90% of its net assets (including investment borrowings) in the securities that comprise the index. The index is designed to select stocks from the NASDAQ Asia Pacific Ex-Japan Index that may generate positive alpha, or risk-adjusted returns, relative to traditi",
+  "kr": "해외/글로벌 · First Trust Asia Pacific Ex-Japan AlphaDEX Fund (Pacific/Asia ex-Japan Stk)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "PNOV": {
+  "name": "Innovator U.S. Equity Power Buffer ETF - November",
+  "cat": "Defined Outcome",
+  "fam": "Innovator ETFs",
+  "sum": "The fund invests under normal circumstances, at least 80% of its net assets (plus any borrowings for investment purposes) in investments that provide exposure to the SPDR ® S&P 500 ® ETF Trust. It is non-diversified.",
+  "kr": "Innovator U.S. Equity Power Buffer ETF - November (Defined Outcome)",
+  "src": "rule",
+  "tags": []
+ },
+ "PBW": {
+  "name": "Invesco WilderHill Clean Energy ETF",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 90% of its total assets in the securities that comprise the underlying index. The index is composed of stocks of publicly traded companies listed on a major exchange in the U.S. that are engaged in the business of the advancement of cleaner energy and conserva",
+  "kr": "업종/테마 · Invesco WilderHill Clean Energy ETF",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "PPH": {
+  "name": "VanEck Pharmaceutical ETF",
+  "cat": "Health",
+  "fam": "VanEck",
+  "sum": "The fund normally invests at least 80% of its total assets in securities that comprise the fund's benchmark index. The index includes common stocks and depositary receipts of U.S. exchange-listed companies in the pharmaceutical industry. Such companies may include medium-capitalization companies and",
+  "kr": "업종/테마 · VanEck Pharmaceutical ETF (Health)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "UFO": {
+  "name": "Procure Space ETF",
+  "cat": "Miscellaneous Sector",
+  "fam": "Procure ETF Trust II",
+  "sum": "The fund invests, under normal circumstances, at least 80% of its net assets in companies of the underlying index that receive at least 50% of their revenues or profits from space-related businesses. The underlying index is designed to serve as an equity benchmark for a globally traded portfolio of ",
+  "kr": "Procure Space ETF (Miscellaneous Sector)",
+  "src": "rule",
+  "tags": []
+ },
+ "QGRW": {
+  "name": "Wisdomtree U.S. Quality Growth Fund",
+  "cat": "Large Growth",
+  "fam": "WisdomTree",
+  "sum": "The fund invests, under normal circumstances, at least 80% of its net assets, plus any borrowings for investment purposes, in constituents of the index and/or investments that have economic characteristics that are substantially similar to the economic characteristics of such constituents. The index",
+  "kr": "Wisdomtree U.S. Quality Growth Fund (Large Growth)",
+  "src": "rule",
+  "tags": []
+ },
+ "IBDR": {
+  "name": "iShares iBonds Dec 2026 Term Corporate ETF",
+  "cat": "Target Maturity",
+  "fam": "iShares",
+  "sum": "The fund will invest at least 80% of its assets in the component instruments of the underlying index, and it will invest at least 90% of its assets in fixed income securities of the types included in the underlying index. The index consists of U.S. dollar-denominated, investment-grade securities pub",
+  "kr": "채권 · iShares iBonds Dec 2026 Term Corporate ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "IYW": {
+  "name": "iShares U.S. Technology ETF",
+  "cat": "Technology",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index. The underlying index measures the performance of the technology sector of the U.S. equity market, as defined by FTSE Russell. The fund is non-diversified.",
+  "kr": "업종/테마 · iShares U.S. Technology ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "SCHP": {
+  "name": "Schwab U.S. TIPS ETF",
+  "cat": "Inflation-Protected Bond",
+  "fam": "Schwab ETFs",
+  "sum": "The fund will invest at least 90% of its net assets in securities included in the index. The index includes all publicly-issued U.S. Treasury Inflation-Protected Securities (TIPS) that have at least one year remaining to maturity, are rated investment grade and have $500 million or more of outstandi",
+  "kr": "채권 · Schwab U.S. TIPS ETF (Inflation-Protected Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "HODL": {
+  "name": "VanEck Bitcoin ETF",
+  "cat": "Digital Assets",
+  "fam": "VanEck",
+  "sum": "In seeking to achieve its investment objective, the trust will hold bitcoin and will value its shares daily based on the reported MarketVectorTM Bitcoin Benchmark Rate and process all creations and redemptions in transactions with authorized participants.",
+  "kr": "암호화폐 · VanEck Bitcoin ETF (Digital Assets)",
+  "src": "rule",
+  "tags": [
+   "암호화폐"
+  ]
  }
 }
