@@ -4798,5 +4798,14 @@
   "kr": "T. Rowe Price Small-Mid Cap ETF (Mid-Cap Blend)",
   "src": "rule",
   "tags": []
+ },
+ "VOLT": {
+  "name": "Tema Electrification ETF",
+  "cat": "Mid-Cap Blend",
+  "fam": "Tema ETFs",
+  "sum": "Under normal circumstances, the fund seeks to achieve its investment objective by investing at least 80% of its net assets, which include borrowings for investment purposes, common and preferred stocks of publicly listed companies that are directly or indirectly economically tied to global electrifi",
+  "kr": "Tema Electrification ETF (Mid-Cap Blend)",
+  "src": "rule",
+  "tags": []
  }
 }
