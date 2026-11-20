@@ -1,0 +1,40 @@
+name: news
+
+on:
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "0700 or 1700"
+        required: true
+        default: "0700"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: news-${{ github.event.inputs.slot }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests feedparser trafilatura anthropic
+      - name: Run news bot
+        run: python news_bot.py "${{ github.event.inputs.slot }}"
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      - name: Save HTML archive
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add docs/news
+          git commit -m "news ${{ github.event.inputs.slot }}" || exit 0
+          git pull --rebase
+          git push
