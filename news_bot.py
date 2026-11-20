@@ -34,13 +34,72 @@ BATCH = 8                         # 요약 API 1회당 기사 수
 OUT_DIR = "docs/news"
 
 
-def gnews(q):
-    """구글뉴스 검색 RSS (최근 1일)"""
-    return f"https://news.google.com/rss/search?q={quote(q + ' when:1d')}&hl=ko&gl=KR&ceid=KR:ko"
+def gnews(q, days=1):
+    """구글뉴스 검색 RSS (최근 N일, 한국어)"""
+    return f"https://news.google.com/rss/search?q={quote(f'{q} when:{days}d')}&hl=ko&gl=KR&ceid=KR:ko"
 
 
-CARDIO_KW = ["심혈관", "심근경색", "협심증", "부정맥", "심방세동", "심부전", "고혈압", "혈압",
-             "콜레스테롤", "스타틴", "동맥경화", "뇌졸중", "혈전", "심장", "LDL", "중성지방"]
+def gnews_en(q, days=2):
+    """구글뉴스 검색 RSS (최근 N일, 영어) - AI 분야 보강용"""
+    return f"https://news.google.com/rss/search?q={quote(f'{q} when:{days}d')}&hl=en-US&gl=US&ceid=US:en"
+
+
+def hit(text, kws):
+    """포함된 키워드 개수 (영문 키워드는 단어 경계 기준, 한글은 부분 일치)"""
+    t = text.lower()
+    n = 0
+    for k in kws:
+        k = k.lower()
+        if k.isascii():
+            if re.search(r"(?<![a-z0-9])" + re.escape(k) + r"s?(?![a-z0-9])", t):
+                n += 1
+        elif k in t:
+            n += 1
+    return n
+
+
+# ---- 건강 분류: 0순위 = 혈당·혈압·혈관·콜레스테롤·노화 주제 + 음식/운동/생활습관 내용
+#                 1순위 = 체중관리·다이어트·수면   2순위 = 주제만 언급된 기사   그 외 제외
+H_TOPIC = ["혈당", "당뇨", "고혈압", "혈압", "동맥경화", "LDL", "콜레스테롤", "중성지방",
+           "심혈관", "혈관", "노화", "항노화", "저속노화"]
+H_LIFE = ["식단", "음식", "식품", "식이", "식습관", "저염", "지중해식", "섬유질", "오메가3",
+          "운동", "걷기", "근력", "유산소", "생활습관", "생활 습관", "금연", "금주", "스트레스"]
+H_WEIGHT = ["체중", "다이어트", "비만", "감량", "체지방", "수면", "불면", "숙면"]
+
+
+def classify_health(text):
+    topic, life, weight = hit(text, H_TOPIC), hit(text, H_LIFE), hit(text, H_WEIGHT)
+    if topic and life:
+        return 0
+    if weight:
+        return 1
+    if topic:
+        return 2
+    return None
+
+
+# ---- AI 분류: AI 관련 기사 중 API·연결(에이전트/MCP/자동화 등)은 0순위,
+#               서비스 변화·활용법은 1순위, 그 외는 제외
+A_MARK = ["AI", "인공지능", "LLM", "생성형", "챗GPT", "ChatGPT", "GPT", "제미나이", "Gemini",
+          "클로드", "Claude", "코파일럿", "Copilot", "오픈AI", "OpenAI", "앤트로픽", "Anthropic",
+          "딥시크", "DeepSeek", "Llama", "Mistral"]
+A_LINK = ["API", "SDK", "MCP", "에이전트", "agent", "워크플로", "workflow", "자동화", "automation",
+          "연동", "연결", "오케스트레이션", "멀티모델", "RAG", "플러그인", "커넥터", "n8n",
+          "Zapier", "LangChain", "엔드포인트", "integration"]
+A_SERVICE = ["출시", "업데이트", "서비스", "요금", "가격", "무료", "정책", "개편", "신규", "새 모델",
+             "버전", "launch", "release", "pricing", "update", "announce"]
+A_USE = ["활용", "사용법", "사용 방법", "가이드", "튜토리얼", "프롬프트", "노하우", "실무",
+         "tutorial", "guide", "how to"]
+
+
+def classify_ai(text):
+    if not hit(text, A_MARK):
+        return None
+    if hit(text, A_LINK):
+        return 0
+    if hit(text, A_SERVICE) or hit(text, A_USE):
+        return 1
+    return None
 
 # 피드 URL은 바뀔 수 있으니 실행 로그의 'FEED FAIL' 줄을 보고 교체하세요.
 CATEGORIES = [
@@ -57,13 +116,20 @@ CATEGORIES = [
                "https://www.hankyung.com/feed/finance",
                gnews("코스피 코스닥 증시"),
                gnews("ETF 나스닥 S&P500 미국 증시")]},
-    {"name": "건강(심혈관)", "n": 20, "boost": CARDIO_KW,
-     "feeds": [gnews("심혈관 심근경색 부정맥 심부전"),
-               gnews("고혈압 콜레스테롤 스타틴 혈관 건강"),
+    {"name": "건강", "n": 40, "max_age": 48, "classify": classify_health,
+     "feeds": [gnews("혈당 식단 운동 생활습관", 2),
+               gnews("고혈압 저염 운동 혈압 관리", 2),
+               gnews("동맥경화 LDL 콜레스테롤 식단 운동", 2),
+               gnews("노화 저속노화 항노화 생활습관", 2),
+               gnews("체중관리 다이어트 수면 관리", 2),
                "https://www.yna.co.kr/rss/health.xml"]},
-    {"name": "AI", "n": 30, "boost": [],
-     "feeds": [gnews("인공지능 AI 생성형"),
-               gnews("OpenAI Anthropic 엔비디아 AI 반도체"),
+    {"name": "AI", "n": 30, "max_age": 48, "classify": classify_ai,
+     "feeds": [gnews("AI API 출시 요금 업데이트", 2),
+               gnews("생성형 AI 활용법 업무 자동화", 2),
+               gnews("AI 에이전트 MCP 연동 워크플로", 2),
+               gnews("OpenAI Anthropic Gemini 새 모델 서비스", 2),
+               gnews_en("AI API pricing new model release"),
+               gnews_en("AI agents MCP workflow integration"),
                "https://www.hankyung.com/feed/it"]},
 ]
 
@@ -103,18 +169,21 @@ def read_feed(url):
 def collect(cat, seen):
     with ThreadPoolExecutor(4) as ex:
         lists = list(ex.map(read_feed, cat["feeds"]))
-    cutoff = time.time() - MAX_AGE_HOURS * 3600
+    cutoff = time.time() - cat.get("max_age", MAX_AGE_HOURS) * 3600
+    clf = cat.get("classify")
     cands, local = [], set()
     for it in (x for l in lists for x in l):
         k = norm_title(it["title"])
         if not k or k in seen or k in local or it["ts"] < cutoff:
             continue
+        tier = clf(it["title"] + " " + it["desc"]) if clf else 0
+        if tier is None:          # 분야 조건에 맞지 않는 기사는 제외
+            continue
         local.add(k)
         it["key"] = k
-        text = it["title"] + " " + it["desc"]
-        it["score"] = sum(kw in text for kw in cat["boost"])
+        it["tier"] = tier
         cands.append(it)
-    cands.sort(key=lambda x: (-x["score"], -x["ts"]))
+    cands.sort(key=lambda x: (x["tier"], -x["ts"]))   # 순위 우선, 같으면 최신순
     picked = cands[: cat["n"]]
     seen.update(x["key"] for x in picked)
     if len(picked) < cat["n"]:
