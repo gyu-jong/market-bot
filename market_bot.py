@@ -1052,13 +1052,12 @@ def target_A(only=None):
     mode = os.environ.get("A_SUMMARY_MODE", "brief").strip().lower()
     if only is not None:
         mode = "full"          # 하위 대상은 항목이 적어 전부 보낸다
-    res = [s["text"] for s in S if mode == "full" or s["key"]]
-    if sect:
-        res.append("섹터강세 " + ", ".join(f"{r[0]}{f_pct1(r[2]['1일'])}" for r in sect[:3]))
-        res.append("섹터약세 " + ", ".join(f"{r[0]}{f_pct1(r[2]['1일'])}" for r in sect[-3:]))
+    lines = [s["text"] for s in S if mode == "full" or s["key"]]
     _now = dt.datetime.now(KST)
-    lines = [f"기준 {_now:%m-%d} ({iso_wk(_now)})"] + cap_lines(res)     # 결과가 20개를 넘으면 20개까지만(나머지는 리포트)
+    lines.insert(0, f"기준 {_now:%m-%d} ({iso_wk(_now)})")
     if sect:
+        lines.append("섹터강세 " + ", ".join(f"{r[0]}{f_pct1(r[2]['1일'])}" for r in sect[:3]))
+        lines.append("섹터약세 " + ", ".join(f"{r[0]}{f_pct1(r[2]['1일'])}" for r in sect[-3:]))
         lines.append(EXPL_PREFIX + "※섹터 ETF=SPDR Select Sector 11종(S&P500을 업종별로 나눈 ETF, 합치면 S&P500)")
         by_kr = {v: k for k, v in SECTORS.items()}
         shown = list(dict.fromkeys([r[0] for r in sect[:3]] + [r[0] for r in sect[-3:]]))
@@ -2037,16 +2036,6 @@ def deliver(slot, items, timed, meta):
 
 ETF_NOTE_MARK = "─ ETF 설명 ─"
 EXPL_PREFIX = "[설명]"        # 이 표식이 붙은 줄은 설명 줄: 기본은 메시지에서 빼고 리포트(HTML)에만 둔다
-
-def cap_lines(lines):
-    """메시지에 싣는 결과 줄 수를 MESSAGE_MAX_RESULTS(기본 20)로 제한한다. 넘는 결과는 리포트(HTML)에서 보게 안내한다."""
-    try:
-        n = max(1, int(os.environ.get("MESSAGE_MAX_RESULTS") or 20))
-    except ValueError:                      # 숫자가 아닌 값이면 기본 20
-        n = 20
-    if len(lines) <= n:
-        return list(lines)
-    return list(lines[:n]) + [f"※나머지 {len(lines) - n}개는 리포트에서 확인"]
 
 def message_text(summ, channel):
     """채널별 메시지 본문. 설명 줄([설명] 표식)과 B 의 'ETF 설명' 구간은 ETF_NOTE_CHANNELS
