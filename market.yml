@@ -71,6 +71,8 @@ jobs:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}      # 텔레그램(선택)
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       NOTIFY_CHANNELS: ${{ vars.NOTIFY_CHANNELS }}      # kakao / telegram / kakao,telegram (비우면 텔레그램 시크릿이 있을 때 둘 다)
+      ETF_NOTE_CHANNELS: ${{ vars.ETF_NOTE_CHANNELS }}      # B 의 ETF 설명을 메시지에도 붙일 채널(비우면 HTML 에만): telegram / kakao / kakao,telegram
+      MESSAGE_MAX_RESULTS: ${{ vars.MESSAGE_MAX_RESULTS }}      # 메시지에 싣는 결과 줄 수 상한(비우면 20). 넘는 결과는 HTML 에서 확인
       GH_PAT: ${{ secrets.GH_PAT }}
       ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
