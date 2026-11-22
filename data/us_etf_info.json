@@ -5472,5 +5472,40 @@
   "tags": [
    "업종/테마"
   ]
+ },
+ "AIBD": {
+  "name": "Direxion Daily AI And Big Data Bear 2X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The index is designed by Solactive AG to represent the securities of companies from the United States that have business operations in the field of artificial intelligence (“AI”) applications and big data. The fund, under normal circumstances, invests at least 80% of the fund’s net assets in swap ag",
+  "kr": "레버리지·인버스 · Direxion Daily AI And Big Data Bear 2X Shares (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "TSMU": {
+  "name": "GraniteShares 2x Long TSM Daily ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Graniteshares",
+  "sum": "The fund is an actively managed exchange traded fund that attempts to replicate 2 times (200%) daily percentage change of the underlying stock by entering into financial instruments such as swaps and options on the underlying stock as well as as directly purchasing the underlying stock. The fund is ",
+  "kr": "레버리지 · GraniteShares 2x Long TSM Daily ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "EDC": {
+  "name": "Direxion Daily MSCI Emerging Markets Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets (plus borrowing for investment purposes) in financial instruments, such as swap agreements, securities of the index, and exchange-traded funds (\"ETFs\") that track the index, that, in combination, provide 3X daily leveraged exposure to the index, consis",
+  "kr": "레버리지·해외/글로벌 · Direxion Daily MSCI Emerging Markets Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "해외/글로벌"
+  ]
  }
 }
