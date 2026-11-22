@@ -32,6 +32,25 @@ TG_SUMMARY_TOP = 5                # 분야별 상위 N건만 텔레그램에 요
 MAX_AGE_HOURS = 30                # 이보다 오래된 기사는 제외
 BATCH = 8                         # 요약 API 1회당 기사 수
 OUT_DIR = "docs/news"
+SEEN_FILE = os.path.join(OUT_DIR, "seen.json")   # 이미 보낸 기사 이력 (워크플로가 저장소에 커밋)
+SEEN_KEEP_HOURS = 96                              # 이력 보관 기간
+
+
+def load_seen():
+    """{기사키: 발송시각} - 보관 기간이 지난 항목은 버림"""
+    try:
+        with open(SEEN_FILE, encoding="utf-8") as f:
+            d = json.load(f)
+    except Exception:
+        return {}
+    cut = time.time() - SEEN_KEEP_HOURS * 3600
+    return {k: v for k, v in d.items() if isinstance(v, (int, float)) and v >= cut}
+
+
+def save_seen(d):
+    os.makedirs(OUT_DIR, exist_ok=True)
+    with open(SEEN_FILE, "w", encoding="utf-8") as f:
+        json.dump(d, f, ensure_ascii=False)
 
 
 def gnews(q, days=1):
@@ -239,9 +258,10 @@ def enrich_and_summarize(items):
 
 # ---------- 출력 ----------
 def fmt(i, it, with_summary=True):
-    s = f"{i}. {it['title']}\n{it['link']}"
+    # 텔레그램 HTML 모드: 제목 자체가 링크, 주소는 화면에 노출하지 않음
+    s = f"{i}. <a href=\"{html.escape(it['link'], quote=True)}\">{html.escape(it['title'])}</a>"
     if with_summary:
-        s += "\n" + "\n".join("· " + l for l in it["lines"])
+        s += "\n" + "\n".join("· " + html.escape(l) for l in it["lines"])
     return s
 
 
@@ -251,10 +271,11 @@ _sent = [0]
 def tg_send(text):
     if not (TG_TOKEN and TG_CHAT):
         print("텔레그램 설정 없음 - 발송 생략")
-        return
+        return False
     silent = _sent[0] > 0          # 첫 메시지만 알림, 나머지는 무음
     r = requests.post(f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
                       data={"chat_id": TG_CHAT, "text": text,
+                            "parse_mode": "HTML",
                             "disable_web_page_preview": "true",
                             "disable_notification": "true" if silent else "false"},
                       timeout=20)
@@ -262,6 +283,7 @@ def tg_send(text):
         print("TG FAIL", r.status_code, r.text[:200])
     _sent[0] += 1
     time.sleep(1.1)
+    return r.ok
 
 
 def pages_url():
@@ -285,9 +307,11 @@ def send_category(cat, items, label):
         cur += b + "\n\n"
     if cur:
         chunks.append(cur)
+    ok = bool(chunks)
     for n, c in enumerate(chunks, 1):
         head = f"📰 [{cat['name']}] {label} ({len(items)}/{cat['n']}건) {n}/{len(chunks)}\n\n"
-        tg_send(head + c.strip())
+        ok = tg_send(head + c.strip()) and ok
+    return ok
 
 
 def write_html(result, label, stamp):
@@ -330,7 +354,9 @@ def main():
     label = f"{now:%m/%d} {slot[:2]}:{slot[2:4]}" if len(slot) >= 4 else f"{now:%m/%d %H:%M}"
     stamp = f"{now:%Y%m%d}-{slot or now.strftime('%H%M')}"
 
-    seen, result = set(), []
+    history = load_seen()                 # 이전 회차에 이미 보낸 기사
+    seen, result = set(history), []
+    print(f"이전 발송 이력 {len(history)}건 제외 대상")
     for cat in CATEGORIES:
         items = collect(cat, seen)
         enrich_and_summarize(items)
@@ -340,8 +366,12 @@ def main():
     write_html(result, label, stamp)
     wait_until(slot)
     for cat, items in result:
-        send_category(cat, items, label)
-    tg_send(f"📄 전체 요약 보기 ({label})\n{pages_url()}")
+        if send_category(cat, items, label):          # 발송 성공한 분야만 이력에 기록
+            ts = time.time()
+            for it in items:
+                history[it["key"]] = ts
+            save_seen(history)
+    tg_send(f'<a href="{html.escape(pages_url(), quote=True)}">📄 전체 요약 보기 ({label})</a>')
 
 
 if __name__ == "__main__":
