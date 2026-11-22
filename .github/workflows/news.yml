@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       slot:
-        description: "0700 or 1700"
+        description: "0700 / 1215 / 1700 (HHMM)"
         required: true
         default: "0700"
 
