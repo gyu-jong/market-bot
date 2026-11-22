@@ -699,6 +699,7 @@ C_TERMS = [
     ("52주 신고가", "종가가 최근 1년 중 최고 종가 이상인 종목입니다. 계산 시간 때문에 거래대금 상위 일부(코스피 종목 150개, 한국 ETF 100개, 미국투자 ETF 60개)만 판정합니다."),
     ("거래량 · 거래대금", "거래된 주식 수 · 거래된 금액(원)입니다."),
     ("거래증가율", "전일 대비 거래량 증가율입니다. 거래대금이 1억 원 미만인 종목은 노이즈가 커서 제외합니다."),
+    ("거래대금 증가 상위", "전일 대비 거래대금이 금액으로 가장 많이 늘어난 종목입니다(억 원). 일봉 데이터는 매수와 매도를 구분하지 않아 **매수·매도를 합친 거래대금**입니다. 외국인·기관 순매수와는 다릅니다. 거래대금이 1억 원 미만이거나 전일 거래대금이 0인 종목은 제외합니다."),
     ("기준일", "KRX가 제공하는 최근 거래일 데이터입니다. 개장 전(예: 0800)에는 전일 종가 기준입니다."),
 ]
 
@@ -1051,24 +1052,25 @@ def target_A(only=None):
     mode = os.environ.get("A_SUMMARY_MODE", "brief").strip().lower()
     if only is not None:
         mode = "full"          # 하위 대상은 항목이 적어 전부 보낸다
-    lines = [s["text"] for s in S if mode == "full" or s["key"]]
-    _now = dt.datetime.now(KST)
-    lines.insert(0, f"기준 {_now:%m-%d} ({iso_wk(_now)})")
+    res = [s["text"] for s in S if mode == "full" or s["key"]]
     if sect:
-        lines.append("섹터강세 " + ", ".join(f"{r[0]}{f_pct1(r[2]['1일'])}" for r in sect[:3]))
-        lines.append("섹터약세 " + ", ".join(f"{r[0]}{f_pct1(r[2]['1일'])}" for r in sect[-3:]))
-        lines.append("※섹터 ETF=SPDR Select Sector 11종(S&P500을 업종별로 나눈 ETF, 합치면 S&P500)")
+        res.append("섹터강세 " + ", ".join(f"{r[0]}{f_pct1(r[2]['1일'])}" for r in sect[:3]))
+        res.append("섹터약세 " + ", ".join(f"{r[0]}{f_pct1(r[2]['1일'])}" for r in sect[-3:]))
+    _now = dt.datetime.now(KST)
+    lines = [f"기준 {_now:%m-%d} ({iso_wk(_now)})"] + cap_lines(res)     # 결과가 20개를 넘으면 20개까지만(나머지는 리포트)
+    if sect:
+        lines.append(EXPL_PREFIX + "※섹터 ETF=SPDR Select Sector 11종(S&P500을 업종별로 나눈 ETF, 합치면 S&P500)")
         by_kr = {v: k for k, v in SECTORS.items()}
         shown = list(dict.fromkeys([r[0] for r in sect[:3]] + [r[0] for r in sect[-3:]]))
         for kr in shown:
             t = by_kr.get(kr)
             if t in SECTOR_ETF_DESC:
                 short = SECTOR_ETF_DESC[t][2].split(". ")[0].split(" 예:")[0][:36]
-                lines.append(f"  {t}({kr}): {short}")
+                lines.append(EXPL_PREFIX + f"  {t}({kr}): {short}")
     if miss_all:
         lines.append(f"조회불가 {len(miss_all)}개(리포트 확인)")
     if mode != "full":
-        lines.append("※전체 항목은 리포트 링크에서 확인")
+        lines.append(EXPL_PREFIX + "※전체 항목은 리포트 링크에서 확인")
     return "".join(parts) + a_glossary_html(want), "\n".join(lines)
 
 # ───────────────────────── 대상 B (미국 ETF) ─────────────────────────
@@ -1366,6 +1368,16 @@ def kr_sections(df, label, d, hi_fetch, topn_hi=150):
             + df_html(df.sort_values("등락률(%)")[cols], "하락 상위", 50)
             + df_html(df.sort_values("거래량", ascending=False)[cols], "거래량 상위", 30)
             + df_html(surge.sort_values("거래증가율(%)", ascending=False)[cols], "거래증가율 상위", 30))
+    vtop = pd.DataFrame()
+    if "전일거래대금" in df.columns:      # 전일 대비 거래대금이 가장 많이 늘어난 종목(매수·매도 합산, 금액 기준)
+        v = df[(df["전일거래대금"] > 0) & (df["거래대금"] >= 1e8)].copy()
+        v["거래대금(억)"] = v["거래대금"] / 1e8
+        v["전일 거래대금(억)"] = v["전일거래대금"] / 1e8
+        v["증가액(억)"] = v["거래대금(억)"] - v["전일 거래대금(억)"]
+        v["증가율(%)"] = (v["거래대금"] / v["전일거래대금"] - 1) * 100
+        vtop = v.sort_values("증가액(억)", ascending=False)
+        html += df_html(vtop[["종목", "종가", "등락률(%)", "거래대금(억)", "전일 거래대금(억)", "증가액(억)", "증가율(%)"]],
+                        "거래대금 증가 상위 (전일 대비 증가액 · 매수+매도 합산)", 30)
     ups = df[df["등락률(%)"] >= 29.0]; dns = df[df["등락률(%)"] <= -29.0]
     f2 = lambda x: ", ".join(f"{r['종목']} {r['등락률(%)']:+.1f}%" for _, r in x.iterrows())
     summ = (f"■{label}\n상한{len(ups)}: " + ", ".join(ups["종목"].head(3)) +
@@ -1375,6 +1387,8 @@ def kr_sections(df, label, d, hi_fetch, topn_hi=150):
             f"\n52주신고가 {len(hi_list)}개: " + ", ".join(df.loc[df.index.intersection(hi_list), "종목"].head(4)) +
             "\n거래량TOP3: " + ", ".join(df.sort_values("거래량", ascending=False)["종목"].head(3)) +
             "\n거래증가TOP3: " + ", ".join(surge.sort_values("거래증가율(%)", ascending=False)["종목"].head(3)))
+    if len(vtop):
+        summ += "\n거래대금증가TOP3: " + ", ".join(f"{r['종목']} +{r['증가액(억)']:,.0f}억" for _, r in vtop.head(3).iterrows())
     return html, summ
 
 KR_INDEX = [("코스피", "^KS11"), ("코스닥", "^KQ11")]
@@ -1481,7 +1495,7 @@ def target_C():
         nm = need("종목명", stock.get_market_price_change_by_ticker(pdy, d, market="KOSPI"))["종목명"]
         s = pd.DataFrame({"종목": nm, "종가": cur["종가"], "등락률(%)": cur["등락률"],
                           "거래량": cur["거래량"], "전일거래량": prv["거래량"],
-                          "거래대금": cur["거래대금"]}).dropna(subset=["종가"])
+                          "거래대금": cur["거래대금"], "전일거래대금": prv["거래대금"]}).dropna(subset=["종가"])
         s["거래증가율(%)"] = (s["거래량"] / s["전일거래량"].replace(0, np.nan) - 1) * 100
         return kr_sections(s, "C1 코스피 종목", d,
                            lambda a, b, t: stock.get_market_ohlcv_by_date(a, b, t))
@@ -1496,7 +1510,8 @@ def target_C():
                               "등락률(%)": ((ec["종가"] / ep["종가"].reindex(ec.index) - 1) * 100).values,
                               "거래량": ec["거래량"].values,
                               "전일거래량": ep["거래량"].reindex(ec.index).values,
-                              "거래대금": ec["거래대금"].values}, index=ec.index)
+                              "거래대금": ec["거래대금"].values,
+                              "전일거래대금": ep["거래대금"].reindex(ec.index).values}, index=ec.index)
             e = e[e["종가"] > 0].copy()
             e["거래증가율(%)"] = (e["거래량"] / e["전일거래량"].replace(0, np.nan) - 1) * 100
             cache["e"] = e
@@ -2021,14 +2036,34 @@ def deliver(slot, items, timed, meta):
         print("시간 기록 실패(무시):", e, file=sys.stderr)
 
 ETF_NOTE_MARK = "─ ETF 설명 ─"
+EXPL_PREFIX = "[설명]"        # 이 표식이 붙은 줄은 설명 줄: 기본은 메시지에서 빼고 리포트(HTML)에만 둔다
+
+def cap_lines(lines):
+    """메시지에 싣는 결과 줄 수를 MESSAGE_MAX_RESULTS(기본 20)로 제한한다. 넘는 결과는 리포트(HTML)에서 보게 안내한다."""
+    try:
+        n = max(1, int(os.environ.get("MESSAGE_MAX_RESULTS") or 20))
+    except ValueError:                      # 숫자가 아닌 값이면 기본 20
+        n = 20
+    if len(lines) <= n:
+        return list(lines)
+    return list(lines[:n]) + [f"※나머지 {len(lines) - n}개는 리포트에서 확인"]
 
 def message_text(summ, channel):
-    """채널별 메시지 본문. B 의 'ETF 설명' 하단은 ETF_NOTE_CHANNELS(예: telegram / kakao / kakao,telegram)에
-    들어 있는 채널에만 붙이고, 기본은 리포트(HTML)에만 둔다."""
+    """채널별 메시지 본문. 설명 줄([설명] 표식)과 B 의 'ETF 설명' 구간은 ETF_NOTE_CHANNELS
+    (예: telegram / kakao / kakao,telegram)에 들어 있는 채널에만 붙이고, 기본은 결과만 보내며
+    설명은 리포트(HTML)에만 둔다."""
     allowed = {c.strip().lower() for c in (os.environ.get("ETF_NOTE_CHANNELS") or "").replace("+", ",").split(",") if c.strip()}
-    if channel in allowed or ETF_NOTE_MARK not in summ:
-        return summ
-    return summ.split(ETF_NOTE_MARK)[0].rstrip()
+    show = channel in allowed
+    if not show and ETF_NOTE_MARK in summ:
+        summ = summ.split(ETF_NOTE_MARK)[0].rstrip()
+    out = []
+    for ln in summ.split("\n"):
+        if ln.startswith(EXPL_PREFIX):
+            if show:
+                out.append(ln[len(EXPL_PREFIX):])      # 표식만 떼고 내용은 그대로
+            continue
+        out.append(ln)
+    return "\n".join(out).rstrip()
 
 def notify_channels():
     """발송 채널. NOTIFY_CHANNELS(예: 'kakao', 'telegram', 'kakao,telegram') 가 있으면 그대로,
@@ -2115,12 +2150,12 @@ def send_all(slot, items, show_late=False, meta=None):
                     print("카톡 발송 실패:", e, file=sys.stderr)
             if link:
                 try:
-                    kakao_send(token, f"[{slot}] {TARGET_NAMES[t]} 전체 리포트(그래프·상위50)\n{link}", link)
+                    kakao_send(token, f"[{slot}] {TARGET_NAMES[t]} 전체 리포트(그래프·표·항목 설명)\n{link}", link)
                 except Exception as e:
                     print("링크 발송 실패:", e, file=sys.stderr)
         if "telegram" in channels:       # 글자 수 제한이 넉넉해서 대상별로 한 번에(길면 나눠서) 보낸다
             head = f"[{slot}{(' ' + vl) if vl else ''}{tag}] {TARGET_NAMES[t]}"
-            body = f"{head}\n{kakao_warn}{message_text(summ, 'telegram')}" + (f"\n\n전체 리포트(그래프·상위50)\n{link}" if link else "")
+            body = f"{head}\n{kakao_warn}{message_text(summ, 'telegram')}" + (f"\n\n전체 리포트(그래프·표·항목 설명)\n{link}" if link else "")
             for part in chunk_text(body, limit=3500):
                 telegram_send(part)
 
