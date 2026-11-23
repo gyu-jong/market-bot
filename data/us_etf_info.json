@@ -5507,5 +5507,60 @@
    "레버리지",
    "해외/글로벌"
   ]
+ },
+ "IDVO": {
+  "kr": "이름 조회 실패",
+  "src": "rule",
+  "tags": []
+ },
+ "NVDY": {
+  "kr": "이름 조회 실패",
+  "src": "rule",
+  "tags": []
+ },
+ "TSMZ": {
+  "kr": "이름 조회 실패",
+  "src": "rule",
+  "tags": []
+ },
+ "IEMG": {
+  "kr": "이름 조회 실패",
+  "src": "rule",
+  "tags": []
+ },
+ "EMDI": {
+  "kr": "이름 조회 실패",
+  "src": "rule",
+  "tags": []
+ },
+ "DFAL": {
+  "kr": "이름 조회 실패",
+  "src": "rule",
+  "tags": []
+ },
+ "KLMN": {
+  "kr": "이름 조회 실패",
+  "src": "rule",
+  "tags": []
+ },
+ "EMEQ": {
+  "kr": "이름 조회 실패",
+  "src": "rule",
+  "tags": []
+ },
+ "YEAR": {
+  "kr": "이름 조회 실패",
+  "src": "rule",
+  "tags": []
+ },
+ "TUA": {
+  "kr": "이름 조회 실패",
+  "src": "rule",
+  "tags": []
+ },
+ "WNTR": {
+  "kr": "이름 조회 실패",
+  "src": "rule",
+  "tags": []
  }
 }
