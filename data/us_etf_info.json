@@ -4851,12 +4851,24 @@
  "FLTW": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "해외/글로벌"
+  ],
+  "name": "Franklin FTSE Taiwan ETF",
+  "cat": "Greater China Region",
+  "fam": "Franklin Templeton, Inc",
+  "sum": "Under normal market conditions, the fund invests at least 80% of its assets in the component securities of the FTSE Taiwan Capped Index and in depositary receipts representing such securities. The FTSE Taiwan Capped Index is based on the FTSE Taiwan Index and is designed to measure the performance o"
  },
  "EWT": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "해외/글로벌"
+  ],
+  "name": "iShares MSCI Taiwan ETF",
+  "cat": "Greater China Region",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index. The index is a free float-adjusted market capitali"
  },
  "EZBC": {
   "kr": "이름 조회 실패",
@@ -4876,7 +4888,13 @@
  "TSLS": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "인버스"
+  ],
+  "name": "Direxion Daily TSLA Bear 1X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of the it’s net assets (plus borrowings for investment purposes) in financial instruments, including swap agreements and options, that, in combination, provide 1X daily inverse (opposite) or short exposure to TSLA, consistent with the fund’s"
  },
  "QQQJ": {
   "kr": "이름 조회 실패",
@@ -5511,17 +5529,36 @@
  "IDVO": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "배당/인컴",
+   "해외/글로벌"
+  ],
+  "name": "Amplify CWP International Enhanced Dividend Income ETF",
+  "cat": "Derivative Income",
+  "fam": "Amplify ETFs",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets (plus borrowings for investment purposes) in dividend-paying U.S. exchange-traded American depositary receipt (“ADR”) securities (“Equity Securities”) that are organized or located outside of the U.S. and will opportunistica"
  },
  "NVDY": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ],
+  "name": "YieldMax NVDA Option Income Strategy ETF",
+  "fam": "YieldMax ETFs",
+  "sum": "The fund will employ its investment strategy as it relates to NVDA regardless of whether there are periods of adverse market, economic, or other conditions and will not take temporary defensive positions during such periods. The fund is non-diversified."
  },
  "TSMZ": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "인버스"
+  ],
+  "name": "Direxion Daily TSM Bear 1X Shares",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of the fund’s net assets (plus borrowings for investment purposes) in financial instruments, including swap agreements and options, that, in combination, provide 1X daily inverse (opposite) or short exposure to TSM, consistent with the fund’"
  },
  "IEMG": {
   "kr": "이름 조회 실패",
@@ -5562,5 +5599,232 @@
   "kr": "이름 조회 실패",
   "src": "rule",
   "tags": []
+ },
+ "FLCG": {
+  "name": "Federated Hermes MDT Large Cap Growth ETF",
+  "cat": "Large Growth",
+  "fam": "Federated",
+  "sum": "The fund seeks to achieve its objective by investing primarily in the common stock of large-sized U.S. companies. It will invest its assets so that at least 80% of its net assets (plus any borrowings for investment purposes) are invested in a mix of large-cap investments and growth investments. The ",
+  "kr": "Federated Hermes MDT Large Cap Growth ETF (Large Growth)",
+  "src": "rule",
+  "tags": []
+ },
+ "SPTI": {
+  "name": "State Street SPDR Portfolio Intermediate Term Treasury Index ETF",
+  "cat": "Intermediate Government",
+  "fam": "State Street Investment Management",
+  "sum": "Under normal market conditions, the fund will invest at least 80% of its net assets (plus the amount of borrowings for investment purposes) in the securities comprising the index it seeks to track. The index is designed to measure the performance of intermediate term (3-10 years) public obligations ",
+  "kr": "채권 · State Street SPDR Portfolio Intermediate Term Treasury Index ETF (Intermediate Government)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "JPRF": {
+  "name": "JPMorgan Preferred and Income Securities ETF",
+  "cat": "Preferred Stock",
+  "fam": "JPMorgan",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its assets in either preferred securities and/or debt securities that produce income. It will invest at least 25% of its total assets in the financials sector which includes, among other industries, banking, diversified financials, real es",
+  "kr": "배당/인컴 · JPMorgan Preferred and Income Securities ETF (Preferred Stock)",
+  "src": "rule",
+  "tags": [
+   "배당/인컴"
+  ]
+ },
+ "TBLL": {
+  "name": "Invesco Short Term Treasury ETF",
+  "cat": "Ultrashort Bond",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 80% of its total assets in the components of the index. The index is designed to measure the performance of U.S. Treasury Obligations with a maximum remaining maturity of less than or equal to 12 months. \"U.S. Treasury Obligations\" refer to securities issued o",
+  "kr": "단기채/현금성 · Invesco Short Term Treasury ETF (Ultrashort Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "MQQQ": {
+  "name": "Tradr 2X Long Innovation 100 Monthly ETF",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "AXS",
+  "sum": "Under normal market circumstances, the fund will maintain at least 80% exposure to financial instruments that provide two times leveraged exposure to the calendar month performance of the Invesco QQQ TrustSM. The manager will enter into one or more swaps with major global financial institutions wher",
+  "kr": "레버리지 · Tradr 2X Long Innovation 100 Monthly ETF (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "SHOC": {
+  "name": "Strive U.S. Semiconductor ETF",
+  "cat": "Technology",
+  "fam": "Strive AM",
+  "sum": "The index is a subset of a float-adjusted capitalization weighted index of equity securities covering approximately the largest 99% of the free-float market capitalization in the U.S. stock market stock market. Under normal circumstances, at least 80% of the fund’s total assets (exclusive of collate",
+  "kr": "업종/테마 · Strive U.S. Semiconductor ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "EWY": {
+  "name": "iShares MSCI South Korea ETF",
+  "cat": "Focused Region",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index. The index is a free float-adjusted market capitali",
+  "kr": "해외/글로벌 · iShares MSCI South Korea ETF (Focused Region)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "BOAT": {
+  "name": "SonicShares Global Shipping ETF",
+  "cat": "Industrials",
+  "fam": "SonicShares",
+  "sum": "The index is a rules-based index that seeks to provide exposure to a global portfolio of companies identified as being engaged in the water transportation industry. Under normal circumstances, at least 80% of the fund’s net assets, plus borrowings for investment purposes, will be invested in Global ",
+  "kr": "업종/테마·해외/글로벌 · SonicShares Global Shipping ETF (Industrials)",
+  "src": "rule",
+  "tags": [
+   "업종/테마",
+   "해외/글로벌"
+  ]
+ },
+ "MINO": {
+  "name": "PIMCO Municipal Income Opportunities Active Exchange-Traded Fund",
+  "cat": "Muni National Interm",
+  "fam": "PIMCO",
+  "sum": "The fund seeks to achieve its investment objective by investing under normal circumstances at least 80% of its assets in debt securities whose interest is, in the opinion of bond counsel for the issuer at the time of issuance, exempt from federal income tax. It may invest up to 30% of its total asse",
+  "kr": "채권 · PIMCO Municipal Income Opportunities Active Exchange-Traded Fund (Muni National Interm)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "BRIE": {
+  "name": "MFS Blended Research International Equity ETF",
+  "cat": "Foreign Large Blend",
+  "fam": "MFS",
+  "sum": "The fund advisor normally invests at least 80% of the fund’s net assets in equity securities. Equity securities include common stocks, depositary receipts, and other securities that represent an ownership interest (or right to acquire an ownership interest) in a company or other issuer. The fund adv",
+  "kr": "해외/글로벌 · MFS Blended Research International Equity ETF (Foreign Large Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "ZAP": {
+  "name": "Global X U.S. Electrification ETF",
+  "cat": "Utilities",
+  "fam": "Global X Funds",
+  "sum": "The fund invests at least 80% of its net assets, plus borrowings for investment purposes (if any), in the securities of the underlying index, which may include common stocks and American Depositary Receipts (\"ADRs\") based on the securities in the underlying index. The underlying index is, as present",
+  "kr": "업종/테마·해외/글로벌 · Global X U.S. Electrification ETF (Utilities)",
+  "src": "rule",
+  "tags": [
+   "업종/테마",
+   "해외/글로벌"
+  ]
+ },
+ "BSCV": {
+  "name": "Invesco BulletShares 2031 Corporate Bond ETF",
+  "cat": "Target Maturity",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 80% of its total assets in securities that comprise the underlying index. The underlying index seeks to measure the performance of a portfolio of U.S. dollar-denominated investment grade corporate bonds with maturities or, in some cases, “effective maturities”",
+  "kr": "채권 · Invesco BulletShares 2031 Corporate Bond ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "IBTK": {
+  "name": "iShares iBonds Dec 2030 Term Treasury ETF",
+  "cat": "Target Maturity",
+  "fam": "iShares",
+  "sum": "The fund seeks to meet its investment objective generally by investing in individual securities which satisfy the criteria of the ICE 2030 Maturity U.S. Treasury Index (the \"underlying index\"). It may also invest in short-term paper, cash and cash equivalents, including shares of money market funds ",
+  "kr": "채권 · iShares iBonds Dec 2030 Term Treasury ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "CWI": {
+  "name": "State Street SPDR MSCI ACWI ex-US ETF",
+  "cat": "Foreign Large Blend",
+  "fam": "State Street Investment Management",
+  "sum": "The fund generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index and in depositary receipts based on securities comprising the index. The index is a free float-adjusted market capitalization index that is designed to measure the combined equi",
+  "kr": "State Street SPDR MSCI ACWI ex-US ETF (Foreign Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "BSCU": {
+  "name": "Invesco BulletShares 2030 Corporate Bond ETF",
+  "cat": "Target Maturity",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 80% of its total assets in securities that comprise the underlying index. The underlying index seeks to measure the performance of a portfolio of U.S. dollar-denominated investment grade corporate bonds with maturities or, in some cases, \"effective maturities\"",
+  "kr": "채권 · Invesco BulletShares 2030 Corporate Bond ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "JHCR": {
+  "name": "JHancock Core Bond ETF",
+  "cat": "Intermediate Core Bond",
+  "fam": "John Hancock",
+  "sum": "Under normal market conditions, the fund invests at least 80% of its net assets in investment-grade bonds (securities rated from AAA to BBB by S&P Global Ratings (S&P) and Fitch Ratings, Inc. (Fitch Ratings) and Aaa to Baa by Moody’s Investors Service, Inc. (Moody’s), or equivalent by any nationally",
+  "kr": "채권 · JHancock Core Bond ETF (Intermediate Core Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "ITM": {
+  "name": "VanEck Intermediate Muni ETF",
+  "cat": "Muni National Interm",
+  "fam": "VanEck",
+  "sum": "The fund normally invests at least 80% of its total assets in fixed income securities that comprise the index. The index is comprised of publicly traded municipal bonds that cover the U.S. dollar denominated intermediate term tax-exempt bond market.",
+  "kr": "VanEck Intermediate Muni ETF (Muni National Interm)",
+  "src": "rule",
+  "tags": []
+ },
+ "VTEI": {
+  "name": "Vanguard Intermediate-Term Tax-Exempt Bond ETF",
+  "cat": "Muni National Interm",
+  "fam": "Vanguard",
+  "sum": "The Target Index measures the performance of investment-grade, fixed-rate U.S. municipal bonds with maturities between one month and 20 years, as determined by the index Provider. Under normal circumstances, invest at least 80% of its net assets, plus the amount of any borrowings for investment purp",
+  "kr": "채권 · Vanguard Intermediate-Term Tax-Exempt Bond ETF (Muni National Interm)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "BSJQ": {
+  "name": "Invesco BulletShares 2026 High Yield Corporate Bond ETF",
+  "cat": "Target Maturity",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 80% of its total assets in securities that comprise the underlying index. The underlying index seeks to measure the performance of a portfolio of U.S. dollar-denominated high yield corporate bonds (commonly known as \"junk bonds\") with maturities or, in some ca",
+  "kr": "채권 · Invesco BulletShares 2026 High Yield Corporate Bond ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "JMUB": {
+  "name": "JPMorgan Municipal ETF",
+  "cat": "Muni National Interm",
+  "fam": "JPMorgan",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its assets in municipal securities, the income from which is exempt from federal income tax. The fund may invest in debt securities issued by governmental entities, certain issuers identified with the U.S. government and private issuers. I",
+  "kr": "채권 · JPMorgan Municipal ETF (Muni National Interm)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "IBTG": {
+  "name": "iShares iBonds Dec 2026 Term Treasury ETF",
+  "cat": "Target Maturity",
+  "fam": "iShares",
+  "sum": "The fund will invest at least 80% of its assets in the component securities of the underlying index, and will invest at least 90% of its assets in U.S. Treasury securities that BFA believes will help the fund track the underlying index. The underlying index consists of publicly-issued U.S. Treasury ",
+  "kr": "채권 · iShares iBonds Dec 2026 Term Treasury ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
  }
 }
