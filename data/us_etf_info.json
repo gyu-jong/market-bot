@@ -5590,7 +5590,13 @@
  "EMEQ": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "해외/글로벌"
+  ],
+  "name": "Nomura Focused Emerging Markets Equity ETF",
+  "cat": "Diversified Emerging Mkts",
+  "fam": "Nomura",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its net assets, plus the amount of any borrowings for investment purposes, in equity securities of emerging markets issuers. The fund invests primarily in a broad range of equity securities of companies located in emerging market count"
  },
  "YEAR": {
   "kr": "이름 조회 실패",
@@ -5605,7 +5611,13 @@
  "WNTR": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ],
+  "name": "YieldMax MSTR Short Option Income Strategy ETF",
+  "fam": "YieldMax ETFs",
+  "sum": "The fund is an actively managed exchange-traded fund (“ETF”) that seeks current income while providing indirect inverse exposure to the share price (i.e., the price returns) of the common stock of MicroStrategy Incorporated (“MSTR”). The fund is non-diversified."
  },
  "FLCG": {
   "name": "Federated Hermes MDT Large Cap Growth ETF",
@@ -6074,6 +6086,199 @@
   "src": "rule",
   "tags": [
    "업종/테마"
+  ]
+ },
+ "IDHQ": {
+  "name": "Invesco S&P International Developed Quality ETF",
+  "cat": "Foreign Large Growth",
+  "fam": "Invesco",
+  "sum": "The fund will invest at least 90% of its total assets in securities that comprise the underlying index. The index provider compiles, maintains and calculates the underlying index, which is composed of constituents of the S&P Developed ex-U.S. LargeMidCap Index that the index provider identifies as b",
+  "kr": "해외/글로벌 · Invesco S&P International Developed Quality ETF (Foreign Large Growth)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "POWR": {
+  "name": "iShares U.S. Power Infrastructure ETF",
+  "cat": "Infrastructure",
+  "fam": "iShares",
+  "sum": "The fund seeks to track the investment results of the underlying index, which measures the performance of equity securities of U.S.-domiciled companies involved in U.S. power infrastructure, as determined by S&P Dow Jones Indices LLC (the “index provider” or “SPDJI”). The underlying index is a produ",
+  "kr": "iShares U.S. Power Infrastructure ETF (Infrastructure)",
+  "src": "rule",
+  "tags": []
+ },
+ "VWO": {
+  "name": "Vanguard FTSE Emerging Markets Index Fund ETF Shares",
+  "cat": "Diversified Emerging Mkts",
+  "fam": "Vanguard",
+  "sum": "The index measures the investment return of stocks issued by companies located in emerging market countries. The fund employs an indexing investment approach designed to track the performance of the FTSE Emerging Markets All Cap China A Inclusion Index. It invests by sampling the index, meaning that",
+  "kr": "해외/글로벌 · Vanguard FTSE Emerging Markets Index Fund ETF Shares (Diversified Emerging Mkts)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "FQAL": {
+  "name": "Fidelity Quality Factor ETF",
+  "cat": "Large Blend",
+  "fam": "Fidelity Investments",
+  "sum": "The fund normally invests at least 80% of assets in securities included in the Fidelity U.S. Quality Factor Index?, which is designed to reflect the performance of stocks of large and mid-capitalization U.S. companies with a higher quality profile than the broader market. It invests in lending secur",
+  "kr": "Fidelity Quality Factor ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "IHE": {
+  "name": "iShares U.S. Pharmaceuticals ETF",
+  "cat": "Health",
+  "fam": "iShares",
+  "sum": "The underlying index includes pharmaceutical companies such as manufacturers of prescription or over-the-counter drugs or vaccines. The fund generally will invest at least 80% of its assets in the component securities of its underlying index and may invest up to 20% of its assets in certain futures,",
+  "kr": "업종/테마 · iShares U.S. Pharmaceuticals ETF (Health)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "FFSM": {
+  "name": "Fidelity Covington Trust - Fidelity Fundamental Small-Mid Cap ETF",
+  "kr": "Fidelity Covington Trust - Fidelity Fundamental Small-Mid Cap ETF",
+  "src": "rule",
+  "tags": []
+ },
+ "AAXJ": {
+  "name": "iShares MSCI All Country Asia ex Japan ETF",
+  "cat": "Pacific/Asia ex-Japan Stk",
+  "fam": "iShares",
+  "sum": "The fund will invest at least 80% of its assets in the component securities of the index and in investments that have economic characteristics that are substantially identical to the component securities of the index. The index is a free float-adjusted market capitalization weighted index designed t",
+  "kr": "해외/글로벌 · iShares MSCI All Country Asia ex Japan ETF (Pacific/Asia ex-Japan Stk)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "JHCP": {
+  "name": "JHancock Core Plus Bond ETF",
+  "cat": "Intermediate Core-Plus Bond",
+  "fam": "John Hancock",
+  "sum": "Under normal market conditions, the fund invests at least 80% of its net assets (plus any borrowings for investment purposes) in a diversified portfolio of bonds. These may include corporate bonds, debentures and notes, convertible securities, hybrid securities, mortgage-backed and asset-backed secu",
+  "kr": "채권 · JHancock Core Plus Bond ETF (Intermediate Core-Plus Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "SMHX": {
+  "name": "VanEck Fabless Semiconductor ETF",
+  "cat": "Technology",
+  "fam": "VanEck",
+  "sum": "The fund normally invests at least 80% of its total assets in securities that comprise the fund’s benchmark index. The Fabless Index is composed of U.S.-listed common stocks of companies that derive at least 50% of their revenues from the semiconductor industry and operate as fabless semiconductor c",
+  "kr": "업종/테마 · VanEck Fabless Semiconductor ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "DRSK": {
+  "name": "Aptus Defined Risk ETF",
+  "cat": "Intermediate Core-Plus Bond",
+  "fam": "APTUS ETFs",
+  "sum": "The fund is an actively managed exchange-traded fund (“ETF”) that seeks to achieve its objective through a hybrid fixed income and equity strategy. The fund typically invests approximately 75% to 95% of its assets to obtain exposure to investment-grade fixed income securities (the “Fixed Income Stra",
+  "kr": "채권 · Aptus Defined Risk ETF (Intermediate Core-Plus Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "FLXR": {
+  "name": "TCW Flexible Income ETF",
+  "cat": "Multisector Bond",
+  "fam": "TCW",
+  "sum": "The fund is an actively managed exchange-traded fund (“ETF”) that seeks to pursue its objective by utilizing a flexible investment approach that allocates investments across a range of global investment opportunities related to credit, currencies and interest rates.",
+  "kr": "채권 · TCW Flexible Income ETF (Multisector Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "EAGL": {
+  "name": "Eagle Capital Select Equity ETF",
+  "cat": "Large Blend",
+  "fam": "Eagle Capital Management, LLC",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets, plus the amount of any borrowings for investment purposes, in equity securities, namely common or preferred shares of U.S. or non-U.S. companies, shares of other investment companies that invest primarily in equity securiti",
+  "kr": "Eagle Capital Select Equity ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "UITB": {
+  "name": "VictoryShares Core Intermediate Bond ETF",
+  "cat": "Intermediate Core Bond",
+  "fam": "Victory Capital Management Inc.",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its assets in debt securities and in derivatives and other instruments that have economic characteristics similar to such securities. It may invest up to 20% of its net assets in foreign debt securities, including non-U.S. dollar- denomina",
+  "kr": "채권 · VictoryShares Core Intermediate Bond ETF (Intermediate Core Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "SPYX": {
+  "name": "State Street SPDR S&P 500 Fossil Fuel Reserves Free ETF",
+  "cat": "Large Blend",
+  "fam": "State Street Investment Management",
+  "sum": "Under normal market conditions, the fund will invest at least 80% of its net assets (plus the amount of borrowings for investment purposes) in the securities comprising the index it seeks to track. The Index is designed to measure the performance of companies in the S&P 500 Index that are “fossil fu",
+  "kr": "State Street SPDR S&P 500 Fossil Fuel Reserves Free ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "USIG": {
+  "name": "iShares Broad USD Investment Grade Corporate Bond ETF",
+  "cat": "Corporate Bond",
+  "fam": "iShares",
+  "sum": "The underlying index consists of investment-grade corporate bonds that have $250 million or more of outstanding face value. The fund will invest at least 80% of its assets in the component securities of the underlying index, and the fund will invest at least 90% of its assets in fixed income securit",
+  "kr": "채권 · iShares Broad USD Investment Grade Corporate Bond ETF (Corporate Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "BBCA": {
+  "name": "JPMorgan BetaBuilders Canada ETF",
+  "cat": "Focused Region",
+  "fam": "JPMorgan",
+  "sum": "The fund will invest at least 80% of its assets in securities included in the underlying index. The underlying index is a free float adjusted market capitalization weighted index which consists of stocks traded primarily on the Toronto Stock Exchange. The fund may invest up to 20% of its assets in e",
+  "kr": "JPMorgan BetaBuilders Canada ETF (Focused Region)",
+  "src": "rule",
+  "tags": []
+ },
+ "TCAI": {
+  "name": "Tortoise AI Infrastructure ETF",
+  "cat": "Infrastructure",
+  "fam": "Tortoise Capital Advisors, LLC",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its total assets in equity securities of artificial intelligence (“AI”) infrastructure companies. AI infrastructure companies are companies that derive a significant portion of their revenue from long-term assets, products, or services",
+  "kr": "Tortoise AI Infrastructure ETF (Infrastructure)",
+  "src": "rule",
+  "tags": []
+ },
+ "JSI": {
+  "name": "Janus Henderson Securitized Income ETF",
+  "cat": "Securitized Bond - Diversified",
+  "fam": "Janus Henderson",
+  "sum": "The fund advisor pursues its investment objective by investing, under normal circumstances, at least 80% of its net assets (plus borrowings for investment purposes) in securitized securities. Securitized securities are debt securities that entitle their holders to payments that depend primarily on t",
+  "kr": "채권 · Janus Henderson Securitized Income ETF (Securitized Bond - Diversified)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "IGLD": {
+  "name": "FT Vest Gold Strategy Target Income ETF",
+  "cat": "Commodities Focused",
+  "fam": "First Trust",
+  "sum": "The fund invests in a portfolio substantially composed of short-term U.S. Treasury securities, cash and cash equivalents, and in the shares of a wholly-owned subsidiary (the “Subsidiary”) that holds FLexible Exchange Options (“FLEX Options”) that reference the price performance of the underlying ETF",
+  "kr": "배당/인컴·원자재 · FT Vest Gold Strategy Target Income ETF (Commodities Focused)",
+  "src": "rule",
+  "tags": [
+   "배당/인컴",
+   "원자재"
   ]
  }
 }
