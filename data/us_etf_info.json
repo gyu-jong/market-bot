@@ -4831,7 +4831,14 @@
  "LABU": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "레버리지",
+   "업종/테마"
+  ],
+  "name": "Direxion Daily S&P Biotech Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets in financial instruments, such as swap agreements, securities of the index, and ETFs that track the index, that, in combination, provide 3X daily leveraged exposure to the index, consistent with the fund's investment object"
  },
  "ITB": {
   "kr": "이름 조회 실패",
@@ -5825,6 +5832,248 @@
   "src": "rule",
   "tags": [
    "채권"
+  ]
+ },
+ "IBDX": {
+  "name": "iShares iBonds Dec 2032 Term Corporate ETF",
+  "cat": "Target Maturity",
+  "fam": "iShares",
+  "sum": "The fund will invest in non-U.S. issuers to the extent necessary for it to track the index. It will invest at least 80% of its assets in the component instruments of the index, and the fund will invest at least 90% of its assets in fixed income securities of the types included in the index that BFA ",
+  "kr": "채권 · iShares iBonds Dec 2032 Term Corporate ETF (Target Maturity)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "VUSG": {
+  "name": "Vanguard Wellington U.S. Growth Active ETF",
+  "cat": "Large Growth",
+  "fam": "Vanguard",
+  "sum": "The fund employs an active management approach, investing primarily in large- and mid-capitalization stocks of U.S. companies considered to have above-average earnings growth. Under normal circumstances, it invests at least 80% of its net assets, plus the amount of any borrowings for investment purp",
+  "kr": "Vanguard Wellington U.S. Growth Active ETF (Large Growth)",
+  "src": "rule",
+  "tags": []
+ },
+ "REZ": {
+  "name": "iShares Residential and Multisector Real Estate ETF",
+  "cat": "Real Estate",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of the underlying index and may invest up to 20% of its assets in certain futures, options and swap contracts, cash and cash equivalents. The underlying index measures the performance of the residential apartments,",
+  "kr": "업종/테마 · iShares Residential and Multisector Real Estate ETF (Real Estate)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "EVSD": {
+  "name": "Eaton Vance Short Duration Income ETF",
+  "cat": "Short-Term Bond",
+  "fam": "Eaton Vance ETFs",
+  "sum": "Under normal circumstances, the fund seeks to achieve its investment objective by primarily investing in a diversified portfolio of U.S. dollar-denominated fixed income securities of varying maturities consistent with ordinarily seeking to maintain an average duration of approximately three years or",
+  "kr": "단기채/현금성 · Eaton Vance Short Duration Income ETF (Short-Term Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "RETL": {
+  "name": "Direxion Daily Retail Bull 3X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund invests at least 80% of its net assets in financial instruments, such as swap agreements, securities of the index, and ETFs that track the index, that, in combination, provide 3X daily leveraged exposure to the index, consistent with the fund's investment objective. The index is a modified ",
+  "kr": "레버리지 · Direxion Daily Retail Bull 3X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "NFXL": {
+  "name": "Direxion Daily NFLX Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in the securities of NFLX and financial instruments, such as swap agreements and options, that, in combination, provide 2X daily leveraged exposure to NFLX, consistent with the ",
+  "kr": "레버리지 · Direxion Daily NFLX Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "XBI": {
+  "name": "State Street SPDR S&P Biotech ETF",
+  "cat": "Health",
+  "fam": "State Street Investment Management",
+  "sum": "In seeking to track the performance of the S&P Biotechnology Select Industry Index (the \"index\"), the fund employs a sampling strategy. It generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index. The index represents the biotechnology segment",
+  "kr": "업종/테마 · State Street SPDR S&P Biotech ETF (Health)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "IBB": {
+  "name": "iShares Biotechnology ETF",
+  "cat": "Health",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and may invest up to 20% of its assets in certain futures, options and swap contracts, cash and cash equivalents. It is non-diversified.",
+  "kr": "업종/테마 · iShares Biotechnology ETF (Health)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "XPH": {
+  "name": "State Street SPDR S&P Pharmaceuticals ETF",
+  "cat": "Health",
+  "fam": "State Street Investment Management",
+  "sum": "In seeking to track the performance of the S&P Pharmaceuticals Select Industry Index (the \"index\"), the fund employs a sampling strategy. It generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index. The index represents the pharmaceuticals seg",
+  "kr": "업종/테마 · State Street SPDR S&P Pharmaceuticals ETF (Health)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "SOXQ": {
+  "name": "Invesco PHLX Semiconductor ETF",
+  "cat": "Technology",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 90% of its total assets in the securities that comprise the underlying index. Strictly in accordance with its guidelines and mandated procedures, Nasdaq compiles the underlying index, which is a modified market-capitalization weighted index designed to measure",
+  "kr": "업종/테마 · Invesco PHLX Semiconductor ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "FTXL": {
+  "name": "First Trust Nasdaq Semiconductor ETF",
+  "cat": "Technology",
+  "fam": "First Trust",
+  "sum": "The fund invests at least 90% of its net assets (including investment borrowings) in the securities that comprise the index. The index is designed to provide exposure to U.S. companies comprising the semiconductor sector that have been selected based upon their liquidity and ranking. It is non-diver",
+  "kr": "업종/테마 · First Trust Nasdaq Semiconductor ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "XSD": {
+  "name": "State Street SPDR S&P Semiconductor ETF",
+  "cat": "Technology",
+  "fam": "State Street Investment Management",
+  "sum": "In seeking to track the performance of the S&P Semiconductor Select Industry Index (the \"index\"), the fund employs a sampling strategy. It generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index. The index represents the semiconductors segmen",
+  "kr": "업종/테마 · State Street SPDR S&P Semiconductor ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "SMH": {
+  "name": "VanEck Semiconductor ETF",
+  "cat": "Technology",
+  "fam": "VanEck",
+  "sum": "The fund normally invests at least 80% of its total assets in securities that comprise the fund's benchmark index. The index includes common stocks and depositary receipts of U.S. exchange-listed companies in the semiconductor industry. Such companies may include medium-capitalization companies and ",
+  "kr": "업종/테마 · VanEck Semiconductor ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "SPYM": {
+  "name": "State Street SPDR Portfolio S&P 500 ETF",
+  "cat": "Large Blend",
+  "fam": "State Street Investment Management",
+  "sum": "Under normal market conditions, the fund generally invests substantially all, but at least 80%, of its total assets in the securities comprising the index. The index is designed to measure the performance of the large-capitalization segment of the U.S. equity market. The fund is non-diversified.",
+  "kr": "State Street SPDR Portfolio S&P 500 ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "VEA": {
+  "name": "Vanguard FTSE Developed Markets Index Fund ETF Shares",
+  "cat": "Foreign Large Blend",
+  "fam": "Vanguard",
+  "sum": "The fund employs an indexing investment approach designed to track the performance of the FTSE Developed All Cap ex U.S. Index, a market-capitalization-weighted index that is made up of approximately 3,957 common stocks of large-, mid-, and small-cap companies located in Canada and the major markets",
+  "kr": "Vanguard FTSE Developed Markets Index Fund ETF Shares (Foreign Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "SEIV": {
+  "name": "SEI QiM U.S. Large Cap Value Active ETF",
+  "cat": "Large Value",
+  "fam": "SEI Investments Co",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its net assets (plus the amount of any borrowings for investment purposes) in equity and equity-related securities (such as convertible bonds, convertible preferred stock, depositary receipts, warrants and rights) issued by large U.S. ",
+  "kr": "SEI QiM U.S. Large Cap Value Active ETF (Large Value)",
+  "src": "rule",
+  "tags": []
+ },
+ "SEIM": {
+  "name": "SEI QiM U.S. Large Cap Momentum Active ETF",
+  "cat": "Large Growth",
+  "fam": "SEI Investments Co",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its net assets (plus the amount of any borrowings for investment purposes) in equity and equity-related securities (such as convertible bonds, convertible preferred stock, depositary receipts, warrants and rights) issued by large U.S. ",
+  "kr": "SEI QiM U.S. Large Cap Momentum Active ETF (Large Growth)",
+  "src": "rule",
+  "tags": []
+ },
+ "TDTF": {
+  "name": "Northern Trust iBoxx 5-Year Target Duration TIPS ETF",
+  "cat": "Inflation-Protected Bond",
+  "fam": "Northern Trust",
+  "sum": "The underlying index reflects the performance of a selection of inflation protected public obligations of the U.S. treasury, commonly known as \"TIPS,\" with a targeted average modified adjusted duration, as defined by the S&P Dow Jones Indices LLC as the index provider, of approximately five years. U",
+  "kr": "채권 · Northern Trust iBoxx 5-Year Target Duration TIPS ETF (Inflation-Protected Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "DFGX": {
+  "name": "Dimensional International Core Fixed Income ETF",
+  "cat": "Global Bond-USD Hedged",
+  "fam": "Dimensional Fund Advisors",
+  "sum": "The fund seeks its investment objective by investing primarily in a universe of non-U.S. dollar-denominated foreign and U.S. debt securities. The portfolio manager will purchase fixed income securities that mature within twenty years from the date of settlement. The portfolio manager intends to inve",
+  "kr": "채권·해외/글로벌 · Dimensional International Core Fixed Income ETF (Global Bond-USD Hedged)",
+  "src": "rule",
+  "tags": [
+   "채권",
+   "해외/글로벌"
+  ]
+ },
+ "AGIX": {
+  "name": "KraneShares Artificial Intelligence and Technology Public and Private ETF",
+  "cat": "Technology",
+  "fam": "KraneShares",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets (plus borrowings for investment purposes) in the publicly-traded and privately-offered securities of “Artificial Intelligence (“AI”) and Technology” companies and other instruments that have economic characteristics similar ",
+  "kr": "업종/테마 · KraneShares Artificial Intelligence and Technology Public and Private ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "FOTO": {
+  "name": "Tuttle Capital Pure Play Photonics ETF",
+  "cat": "Technology",
+  "fam": "Tuttle Capital Management, LLC",
+  "sum": "Under normal market conditions, the fund will invest at least 80% of its net assets (plus any borrowings for investment purposes) in equity securities and swaps referencing companies whose primary business operations are directly related to photonics. The fund is non-diversified.",
+  "kr": "업종/테마 · Tuttle Capital Pure Play Photonics ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "IVE": {
+  "name": "iShares S&P 500 Value ETF",
+  "cat": "Large Value",
+  "fam": "iShares",
+  "sum": "The fund seeks to track the investment results of the S&P 500 Value IndexTM (the “underlying index”), which measures the performance of the large-capitalization value sector of the U.S. equity market. It is a subset of the S&P 500® (the “Parent Index”) and consists of those stocks in the Parent Inde",
+  "kr": "iShares S&P 500 Value ETF (Large Value)",
+  "src": "rule",
+  "tags": []
+ },
+ "CHAT": {
+  "name": "Roundhill Generative AI & Technology ETF",
+  "cat": "Technology",
+  "fam": "Roundhill Investments",
+  "sum": "The fund is an actively managed exchange-traded fund (ETF) that seeks to achieve its investment objective by investing in the equity securities of exchange-listed companies globally, including those in emerging markets, which are involved in the investment theme of artificial intelligence (AI), focu",
+  "kr": "업종/테마 · Roundhill Generative AI & Technology ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
   ]
  }
 }
