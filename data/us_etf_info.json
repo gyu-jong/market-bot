@@ -4843,7 +4843,13 @@
  "ITB": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "업종/테마"
+  ],
+  "name": "iShares U.S. Home Construction ETF",
+  "cat": "Consumer Cyclical",
+  "fam": "iShares",
+  "sum": "The index measures the performance of the home construction sector of the U.S. equity market, as defined by the index provider. The fund generally will invest at least 80% of its assets in the component securities of its underlying index and may invest up to 20% of its assets in certain futures, opt"
  },
  "INDA": {
   "kr": "이름 조회 실패",
@@ -4853,7 +4859,13 @@
  "USOI": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "커버드콜/옵션수익",
+   "원자재"
+  ],
+  "name": "UBS ETRACS Crude Oil Shares Covered Call ETN",
+  "cat": "Commodities Focused",
+  "fam": "UBS AG"
  },
  "FLTW": {
   "kr": "이름 조회 실패",
@@ -4885,7 +4897,13 @@
  "UTES": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "업종/테마"
+  ],
+  "name": "Virtus Reaves Utilities ETF",
+  "cat": "Utilities",
+  "fam": "Virtus",
+  "sum": "The fund invests not less than 80% of its net assets (plus the amount of any borrowings for investment purposes) in equity securities of companies in the Utility Sector (\"Utility Sector Companies\"). The manager considers a company to be a \"Utility Sector Company\" if at least 50% of the company's ass"
  },
  "ROCY": {
   "kr": "이름 조회 실패",
@@ -4916,7 +4934,13 @@
  "USO": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "원자재"
+  ],
+  "name": "United States Oil Fund, LP",
+  "cat": "Commodities Focused",
+  "fam": "USCF Investments",
+  "sum": "USO seeks to achieve its investment objective by investing primarily in futures contracts for light, sweet crude oil, other types of crude oil, diesel-heating oil, gasoline, natural gas, and other petroleum-based fuels."
  },
  "CLOU": {
   "kr": "이름 조회 실패",
@@ -6388,5 +6412,230 @@
   "tags": [
    "인버스"
   ]
+ },
+ "GGOV": {
+  "name": "iShares Global Government Bond USD Hedged Active ETF",
+  "cat": "Global Bond-USD Hedged",
+  "fam": "iShares",
+  "sum": "The fund seeks to achieve its investment objective by investing primarily in a portfolio of government bonds globally and related derivative instruments with similar economic characteristics while hedging currency exposure to United States (“U.S.”) dollars. The fund is non-diversified.",
+  "kr": "채권·해외/글로벌 · iShares Global Government Bond USD Hedged Active ETF (Global Bond-USD Hedged)",
+  "src": "rule",
+  "tags": [
+   "채권",
+   "해외/글로벌"
+  ]
+ },
+ "AIA": {
+  "name": "iShares Asia 50 ETF",
+  "cat": "Pacific/Asia ex-Japan Stk",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index and may invest up to 20% of its assets in certain f",
+  "kr": "해외/글로벌 · iShares Asia 50 ETF (Pacific/Asia ex-Japan Stk)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "IAT": {
+  "name": "iShares U.S. Regional Banks ETF",
+  "cat": "Financial",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and may invest up to 20% of its assets in certain futures, options and swap contracts, cash and cash equivalents, as well as in securities not included in the underlying index, but which BFA",
+  "kr": "업종/테마 · iShares U.S. Regional Banks ETF (Financial)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "SGDM": {
+  "name": "Sprott Gold Miners ETF",
+  "cat": "Equity Precious Metals",
+  "fam": "Sprott",
+  "sum": "The underlying index aims to track the performance of gold companies located in the U.S. and Canada whose common stocks or American Depositary Receipts (\"ADRs\") are traded on the Toronto Stock Exchange, the New York Stock Exchange and NASDAQ. The fund will normally invest at least 90% of its net ass",
+  "kr": "원자재 · Sprott Gold Miners ETF (Equity Precious Metals)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "SGDJ": {
+  "name": "Sprott Junior Gold Miners ETF",
+  "cat": "Equity Precious Metals",
+  "fam": "Sprott",
+  "sum": "The fund will invest at least 90% of its net assets in securities that comprise the underlying index. The underlying index aims to track the performance of \"junior\" gold companies primarily located in the U.S., Canada and Australia whose common stock, American Depositary Receipts (\"ADRs\") or Global ",
+  "kr": "원자재 · Sprott Junior Gold Miners ETF (Equity Precious Metals)",
+  "src": "rule",
+  "tags": [
+   "원자재"
+  ]
+ },
+ "TMV": {
+  "name": "Direxion Daily 20+ Year Treasury Bear 3X Shares",
+  "cat": "Trading--Inverse Debt",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of the fund’s net assets in financial instruments, that, in combination, provide 3X daily inverse (opposite) or short exposure to the index or to ETFs that track the index, consistent with the fund’s investment objective. The index is a mark",
+  "kr": "레버리지·인버스 · Direxion Daily 20+ Year Treasury Bear 3X Shares (Trading--Inverse Debt)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "AMZY": {
+  "name": "YieldMax AMZN Option Income Strategy ETF",
+  "fam": "YieldMax ETFs",
+  "sum": "The fund will employ its investment strategy as it relates to AMZN regardless of whether there are periods of adverse market, economic, or other conditions and will not seek to take temporary defensive positions during such periods. The fund is non-diversified.",
+  "kr": "커버드콜/옵션수익·배당/인컴 · YieldMax AMZN Option Income Strategy ETF",
+  "src": "rule",
+  "tags": [
+   "커버드콜/옵션수익",
+   "배당/인컴"
+  ]
+ },
+ "HFSI": {
+  "name": "Hartford Funds Exchange-Traded Trust - Hartford Strategic Income ETF",
+  "kr": "배당/인컴 · Hartford Funds Exchange-Traded Trust - Hartford Strategic Income ETF",
+  "src": "rule",
+  "tags": [
+   "배당/인컴"
+  ]
+ },
+ "ZALT": {
+  "name": "Innovator U.S. Equity 10 Buffer ETF - Quarterly",
+  "cat": "Defined Outcome",
+  "fam": "Innovator ETFs",
+  "sum": "The fund invests at least 80% of its net assets in FLexible EXchange® Options that reference the SPDR® S&P 500® ETF Trust. The fund is non-diversified.",
+  "kr": "Innovator U.S. Equity 10 Buffer ETF - Quarterly (Defined Outcome)",
+  "src": "rule",
+  "tags": []
+ },
+ "FSMD": {
+  "name": "Fidelity Small-Mid Multifactor ETF",
+  "cat": "Small Blend",
+  "fam": "Fidelity Investments",
+  "sum": "The fund normally invests at least 80% of its assets in securities included in the Fidelity Small-Mid Multifactor Index?, which is designed to reflect the performance of stocks of small- and mid-capitalization U.S. companies with attractive valuations, high quality profiles, positive momentum signal",
+  "kr": "Fidelity Small-Mid Multifactor ETF (Small Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "WEAT": {
+  "name": "Teucrium Wheat Fund",
+  "cat": "Commodities Focused",
+  "fam": "Teucrium",
+  "sum": "The fund seeks to achieve its investment objective by investing in Benchmark Component Futures Contracts. Under normal market conditions, the manager expects that 100% of the fund’s assets will be invested in benchmark component futures contracts and in cash and cash equivalents.",
+  "kr": "Teucrium Wheat Fund (Commodities Focused)",
+  "src": "rule",
+  "tags": []
+ },
+ "QTOP": {
+  "name": "iShares Nasdaq Top 30 Stocks ETF",
+  "cat": "Large Growth",
+  "fam": "iShares",
+  "sum": "The fund seeks to track the investment results of the Nasdaq-100 Top 30 Index (the “underlying index”), which measures the performance of securities of the 30 largest domestic and international non-financial companies listed on the Nasdaq Global Select Market or the Nasdaq Global Market and selected",
+  "kr": "iShares Nasdaq Top 30 Stocks ETF (Large Growth)",
+  "src": "rule",
+  "tags": []
+ },
+ "VIXM": {
+  "name": "ProShares VIX Mid-Term Futures ETF",
+  "cat": "Trading--Miscellaneous",
+  "fam": "ProShares",
+  "sum": "The fund seeks to meet its investment objective, by taking long positions in VIX futures contracts. It will also hold cash or cash equivalents such as U.S. Treasury securities or other high credit quality, short-term fixed-income or similar securities (such as shares of money market funds) as collat",
+  "kr": "ProShares VIX Mid-Term Futures ETF (Trading--Miscellaneous)",
+  "src": "rule",
+  "tags": []
+ },
+ "BKLC": {
+  "name": "BNY Mellon US Large Cap Core Equity ETF",
+  "cat": "Large Blend",
+  "fam": "BNY Mellon",
+  "sum": "Under normal circumstances, the fund generally invests in all of the stocks in the index in proportion to their weighting in the index. The index is a float-adjusted market capitalization weighted index designed to measure the performance of 500 of the largest companies listed on U.S. stock markets.",
+  "kr": "BNY Mellon US Large Cap Core Equity ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "VCLT": {
+  "name": "Vanguard Long-Term Corporate Bond Index Fund ETF Shares",
+  "cat": "Long-Term Bond",
+  "fam": "Vanguard",
+  "sum": "The fund manager employs an indexing investment approach designed to track the performance of the Bloomberg U.S. 10+ Year Corporate Bond Index, which includes U.S. dollar-denominated, investment-grade, fixed-rate, taxable debt securities issued by U.S. and non-U.S. industrial, utility, and financial",
+  "kr": "채권 · Vanguard Long-Term Corporate Bond Index Fund ETF Shares (Long-Term Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "PFIX": {
+  "name": "Simplify Interest Rate Hedge ETF",
+  "cat": "Trading--Inverse Debt",
+  "fam": "Simplify Asset Management",
+  "sum": "The adviser seeks to achieve the fund’s investment objective by allocating the fund’s assets approximately equally between: interest rate related derivatives and interest income producing debt instruments. The adviser seeks to achieve the interest rate hedging aspect of the fund’s investment objecti",
+  "kr": "인버스 · Simplify Interest Rate Hedge ETF (Trading--Inverse Debt)",
+  "src": "rule",
+  "tags": [
+   "인버스"
+  ]
+ },
+ "TDVI": {
+  "name": "FT Vest Technology Dividend Target Income ETF",
+  "fam": "First Trust",
+  "sum": "Under normal market conditions, the fund will invest at least 80% of its net assets (plus any borrowings for investment purposes) in dividend-paying securities and/or investments that provide exposure to dividend-paying securities of technology companies. The equity securities held by the fund will ",
+  "kr": "배당/인컴·업종/테마 · FT Vest Technology Dividend Target Income ETF",
+  "src": "rule",
+  "tags": [
+   "배당/인컴",
+   "업종/테마"
+  ]
+ },
+ "QDVO": {
+  "name": "Amplify CWP Growth & Income ETF",
+  "cat": "Derivative Income",
+  "fam": "Amplify ETFs",
+  "sum": "Under normal circumstances, the fund invests at least 80% of its net assets (plus borrowings for investment purposes) in growth-oriented U.S. exchange-traded equity securities and will opportunistically utilize an “option strategy” consisting of writing U.S. exchange-traded call option contracts. Th",
+  "kr": "배당/인컴 · Amplify CWP Growth & Income ETF (Derivative Income)",
+  "src": "rule",
+  "tags": [
+   "배당/인컴"
+  ]
+ },
+ "WQTM": {
+  "name": "WisdomTree Quantum Computing Fund",
+  "cat": "Technology",
+  "fam": "WisdomTree",
+  "sum": "The fund manager employs a “passive management” – or indexing – investment approach designed to track the performance of the index. Under normal circumstances, the fund invests at least 80% of its net assets, plus any borrowings for investment purposes, in constituents of the index and/or investment",
+  "kr": "업종/테마 · WisdomTree Quantum Computing Fund (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "BKLN": {
+  "name": "Invesco Senior Loan ETF",
+  "cat": "Bank Loan",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 80% of its total assets in the components of the index. Strictly in accordance with its guidelines and mandated procedures Morningstar, Inc. (“Morningstar” or the “index provider”) compiles, maintains and calculates the underlying index, which tracks the marke",
+  "kr": "Invesco Senior Loan ETF (Bank Loan)",
+  "src": "rule",
+  "tags": []
+ },
+ "FLRT": {
+  "name": "Pacer Aristotle Pacific Floating Rate High Income ETF",
+  "cat": "Bank Loan",
+  "fam": "Pacer",
+  "sum": "The fund seeks to achieve its investment objective by selecting a focused portfolio comprised primarily of income-producing adjustable rate securities. Under normal circumstances, it will invest at least 80% of its net assets in senior secured floating rate loans and other adjustable rate securities",
+  "kr": "배당/인컴 · Pacer Aristotle Pacific Floating Rate High Income ETF (Bank Loan)",
+  "src": "rule",
+  "tags": [
+   "배당/인컴"
+  ]
+ },
+ "JSMD": {
+  "name": "Janus Henderson Small/Mid Cap Growth Alpha ETF",
+  "cat": "Small Growth",
+  "fam": "Janus Henderson",
+  "sum": "The fund will, under normal circumstances, invest at least 80% of its net assets (plus the amount of any borrowings for investment purposes) in equity securities of small- and mid-sized capitalization (“small/mid cap”) companies selected for their growth potential. For purposes of the 80% policy, th",
+  "kr": "Janus Henderson Small/Mid Cap Growth Alpha ETF (Small Growth)",
+  "src": "rule",
+  "tags": []
  }
 }
