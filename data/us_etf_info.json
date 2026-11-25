@@ -6280,5 +6280,113 @@
    "배당/인컴",
    "원자재"
   ]
+ },
+ "ARGT": {
+  "name": "Global X MSCI Argentina ETF",
+  "cat": "Focused Region",
+  "fam": "Global X Funds",
+  "sum": "The fund invests at least 80% of its total assets in the securities of the underlying index and in American Depositary Receipts (\"ADRs\") and Global Depositary Receipts (\"GDRs\") based on the securities in the underlying index. The underlying index is designed to represent the performance of the broad",
+  "kr": "해외/글로벌 · Global X MSCI Argentina ETF (Focused Region)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "XRPZ": {
+  "name": "Franklin XRP ETF",
+  "cat": "Digital Assets",
+  "fam": "Franklin Templeton, Inc",
+  "sum": "The fund is a passive investment vehicle and is not a leveraged product. The Sponsor does not actively manage the XRP held by the fund. This means that the Sponsor does not sell XRP at times when its price is high or acquire XRP at low prices with the expectation of future price increases. The manag",
+  "kr": "Franklin XRP ETF (Digital Assets)",
+  "src": "rule",
+  "tags": []
+ },
+ "USHY": {
+  "name": "iShares Broad USD High Yield Corporate Bond ETF",
+  "cat": "High Yield Bond",
+  "fam": "iShares",
+  "sum": "The fund will invest at least 80% of its assets in the component securities of the underlying index and it will invest at least 90% of its assets in fixed income securities of the types included in the underlying index that BFA believes will help the fund track the underlying index. The underlying i",
+  "kr": "채권 · iShares Broad USD High Yield Corporate Bond ETF (High Yield Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "JGLO": {
+  "name": "Jpmorgan Global Select Equity ETF",
+  "cat": "Global Large-Stock Blend",
+  "fam": "JPMorgan",
+  "sum": "The fund invests primarily in equity securities of companies in global developed markets. The fund also may invest in global emerging markets. Global developed markets include Australia, Canada, Israel, Japan, New Zealand, Singapore, the United Kingdom, the United States, most of the countries of We",
+  "kr": "해외/글로벌 · Jpmorgan Global Select Equity ETF (Global Large-Stock Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "SHY": {
+  "name": "iShares 1-3 Year Treasury Bond ETF",
+  "cat": "Short Government",
+  "fam": "iShares",
+  "sum": "The underlying index consists of publicly-issued U.S. Treasury securities that have a remaining maturity of greater than or equal to one year and less than three years and have $300 million or more of outstanding face value, excluding amounts held by the Federal Reserve System. The fund will invest ",
+  "kr": "채권 · iShares 1-3 Year Treasury Bond ETF (Short Government)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "SHV": {
+  "name": "iShares 0–1 Year Treasury Bond ETF",
+  "cat": "Ultrashort Bond",
+  "fam": "iShares",
+  "sum": "The fund will invest at least 80% of its assets in the component securities of the underlying index, and it will invest at least 90% of its assets in U.S. Treasury securities that BFA believes will help the fund track the underlying index. The index measures the performance of public obligations of ",
+  "kr": "단기채/현금성 · iShares 0–1 Year Treasury Bond ETF (Ultrashort Bond)",
+  "src": "rule",
+  "tags": [
+   "단기채/현금성"
+  ]
+ },
+ "IEI": {
+  "name": "iShares 3-7 Year Treasury Bond ETF",
+  "cat": "Intermediate Government",
+  "fam": "iShares",
+  "sum": "The underlying index consists of publicly-issued U.S. Treasury securities that have a remaining maturity of greater than or equal to three years and less than seven years and have $300 million or more of outstanding face value, excluding amounts held by the Federal Reserve System. The fund will inve",
+  "kr": "채권 · iShares 3-7 Year Treasury Bond ETF (Intermediate Government)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "IGLB": {
+  "name": "iShares 10+ Year Investment Grade Corporate Bond ETF",
+  "cat": "Long-Term Bond",
+  "fam": "iShares",
+  "sum": "The underlying index consists of investment-grade corporate bonds that have $250 million or more of outstanding face value. The fund will invest at least 80% of its assets in the component securities of the underlying index, and the fund will invest at least 90% of its assets in fixed income securit",
+  "kr": "채권 · iShares 10+ Year Investment Grade Corporate Bond ETF (Long-Term Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "RLY": {
+  "name": "State Street Multi-Asset Real Return ETF",
+  "cat": "Global Moderate Allocation",
+  "fam": "State Street Investment Management",
+  "sum": "Under normal circumstances, the Adviser invests at least 80% of the net assets of the fund among ETPs that provide exposure to the following primary asset classes: (i) inflation protected securities issued by the United States government; (ii) domestic and international real estate securities; (iii)",
+  "kr": "해외/글로벌 · State Street Multi-Asset Real Return ETF (Global Moderate Allocation)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "TBF": {
+  "name": "ProShares Short 20+ Year Treasury",
+  "cat": "Trading--Inverse Debt",
+  "fam": "ProShares",
+  "sum": "The fund invests in financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target. The index is designed to measure the performance of U.S. dollar denominated sovereign debt publicly issued by the U.S. government. The index inclu",
+  "kr": "인버스 · ProShares Short 20+ Year Treasury (Trading--Inverse Debt)",
+  "src": "rule",
+  "tags": [
+   "인버스"
+  ]
  }
 }
