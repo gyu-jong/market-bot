@@ -4892,7 +4892,13 @@
  "EZBC": {
   "kr": "이름 조회 실패",
   "src": "rule",
-  "tags": []
+  "tags": [
+   "암호화폐"
+  ],
+  "name": "Franklin Bitcoin ETF",
+  "cat": "Digital Assets",
+  "fam": "Franklin Templeton, Inc",
+  "sum": "The shares are intended to offer a convenient means of making an investment similar to an investment in bitcoin relative to acquiring, holding and trading bitcoin directly on a peer-to-peer or other basis or via a digital asset exchange. The shares have been designed to remove obstacles associated w"
  },
  "UTES": {
   "kr": "이름 조회 실패",
@@ -6637,5 +6643,201 @@
   "kr": "Janus Henderson Small/Mid Cap Growth Alpha ETF (Small Growth)",
   "src": "rule",
   "tags": []
+ },
+ "KSTR": {
+  "name": "KraneShares China Technology & Semiconductor STAR 50 Index ETF",
+  "cat": "Greater China Region",
+  "fam": "KraneShares",
+  "sum": "Under normal circumstances, the fund will invest at least 80% of its net assets (plus borrowings for investment purposes) in instruments in its underlying index or in instruments that have economic characteristics similar to those in the underlying index. The underlying index includes the stocks of ",
+  "kr": "업종/테마·해외/글로벌 · KraneShares China Technology & Semiconductor STAR 50 Index ETF (Greater China Region)",
+  "src": "rule",
+  "tags": [
+   "업종/테마",
+   "해외/글로벌"
+  ]
+ },
+ "FLCB": {
+  "name": "Franklin U.S. Core Bond ETF",
+  "cat": "Intermediate Core Bond",
+  "fam": "Franklin Templeton, Inc",
+  "sum": "Under normal market conditions, the fund invests at least 80% of its net assets in bonds of U.S. issuers, including government, corporate debt, mortgage-backed and asset-backed securities. It invests predominantly in investment grade debt securities and, under normal market conditions, is generally ",
+  "kr": "채권 · Franklin U.S. Core Bond ETF (Intermediate Core Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "ILF": {
+  "name": "iShares Latin America 40 ETF",
+  "cat": "Focused Region",
+  "fam": "iShares",
+  "sum": "The fund generally invests at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index. It seeks to track the investment results of the S&P La",
+  "kr": "iShares Latin America 40 ETF (Focused Region)",
+  "src": "rule",
+  "tags": []
+ },
+ "BTCZ": {
+  "name": "T-Rex 2X Inverse Bitcoin Daily Target ETF",
+  "cat": "Trading--Miscellaneous",
+  "fam": "Rex",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in financial instruments that are designed to provide, in the aggregate, 200% inverse (opposite) exposure to the price performance of the Reference Assets on a daily basis. The ",
+  "kr": "레버리지·인버스·암호화폐 · T-Rex 2X Inverse Bitcoin Daily Target ETF (Trading--Miscellaneous)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스",
+   "암호화폐"
+  ]
+ },
+ "NASA": {
+  "name": "Tema Space Innovators ETF",
+  "cat": "Large Blend",
+  "fam": "Tema ETFs",
+  "sum": "Under normal circumstances, the fund seeks to achieve its investment objective by investing at least 80% of its net assets, which include borrowings for investment purposes, in domestic and foreign, common and preferred stocks of publicly listed companies that are engaged in “space-related business”",
+  "kr": "Tema Space Innovators ETF (Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "BITU": {
+  "name": "Proshares Ultra Bitcoin ETF",
+  "cat": "Trading--Miscellaneous",
+  "fam": "ProShares",
+  "sum": "The index is designed to measure the performance of a single bitcoin traded in USD and seeks to provide a proxy for the bitcoin market. Under normal circumstances, the fund will invest at least 80% of the fund’s assets in, or provide exposure to, financial instruments that ProShare Advisors believes",
+  "kr": "레버리지·암호화폐 · Proshares Ultra Bitcoin ETF (Trading--Miscellaneous)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "암호화폐"
+  ]
+ },
+ "ETHE": {
+  "name": "Grayscale Ethereum Staking ETF",
+  "cat": "Digital Assets",
+  "fam": "Grayscale",
+  "sum": "While an investment in the Shares is not a direct investment in Ether, the Shares are designed to provide investors with a cost-effective and convenient way to gain investment exposure to Ether.",
+  "kr": "암호화폐 · Grayscale Ethereum Staking ETF (Digital Assets)",
+  "src": "rule",
+  "tags": [
+   "암호화폐"
+  ]
+ },
+ "ETHB": {
+  "name": "iShares Staked Ethereum Trust ETF",
+  "cat": "Digital Assets",
+  "fam": "iShares",
+  "sum": "The Trust seeks to reflect such performance before payment of the Trust’s expenses and liabilities.",
+  "kr": "암호화폐 · iShares Staked Ethereum Trust ETF (Digital Assets)",
+  "src": "rule",
+  "tags": [
+   "암호화폐"
+  ]
+ },
+ "FETH": {
+  "name": "Fidelity Ethereum Fund",
+  "cat": "Digital Assets",
+  "fam": "Fidelity Investments",
+  "sum": "The index is constructed using ether price feeds from eligible ether spot markets and a volume-weighted median price methodology, calculated every 15 seconds based on VWMP spot market data over rolling sixty-minute increments. In seeking to achieve its investment objective, the trust will hold ether",
+  "kr": "암호화폐 · Fidelity Ethereum Fund (Digital Assets)",
+  "src": "rule",
+  "tags": [
+   "암호화폐"
+  ]
+ },
+ "ETH": {
+  "name": "Grayscale Ethereum Mini Trust ETF",
+  "cat": "Digital Assets",
+  "fam": "Grayscale",
+  "sum": "The trust provides investors with the opportunity to gain exposure to the price of ether, as well as to ether earned by the trust as staking consideration, through shares held in a traditional brokerage account, without the barriers to entry or risks involved with holding, transferring or staking et",
+  "kr": "암호화폐 · Grayscale Ethereum Mini Trust ETF (Digital Assets)",
+  "src": "rule",
+  "tags": [
+   "암호화폐"
+  ]
+ },
+ "XBCI": {
+  "name": "NEOS Boosted Bitcoin High Income ETF",
+  "cat": "Digital Assets",
+  "fam": "Neos Funds",
+  "sum": "The Advisor expects to gain indirect exposure to the Spot Bitcoin ETPs by investing up to 25% of its total assets (measured at the time of investment) in the Subsidiary, consistent with the limits of the U.S. federal tax law requirements applicable to registered investment companies. The Subsidiary ",
+  "kr": "암호화폐·배당/인컴 · NEOS Boosted Bitcoin High Income ETF (Digital Assets)",
+  "src": "rule",
+  "tags": [
+   "암호화폐",
+   "배당/인컴"
+  ]
+ },
+ "VNM": {
+  "name": "VanEck Vietnam ETF",
+  "cat": "Focused Region",
+  "fam": "VanEck",
+  "sum": "The fund normally invests at least 80% of its total assets in securities that comprise the fund's benchmark index. The index includes securities of Vietnamese companies. A company is generally considered to be a Vietnamese company if it is incorporated in Vietnam. It is non-diversified.",
+  "kr": "VanEck Vietnam ETF (Focused Region)",
+  "src": "rule",
+  "tags": []
+ },
+ "ETHA": {
+  "name": "iShares Ethereum Trust ETF",
+  "cat": "Digital Assets",
+  "fam": "iShares",
+  "sum": "The shares are intended to constitute a simple means of making an investment similar to an investment in ether rather than by acquiring, holding and trading ether directly on a peer-to-peer or other basis or via a digital asset platform. The shares have been designed to remove the obstacles represen",
+  "kr": "암호화폐 · iShares Ethereum Trust ETF (Digital Assets)",
+  "src": "rule",
+  "tags": [
+   "암호화폐"
+  ]
+ },
+ "XAGG": {
+  "name": "Eaton Vance Income Opportunities ETF",
+  "cat": "Multisector Bond",
+  "fam": "Eaton Vance ETFs",
+  "sum": "The adviser will allocate the fund's investments among the following asset classes or market segments: (1) corporate securities, (2) agency residential and commercial mortgage-backed securities, (3) non-agency residential and commercial mortgage-backed securities, (4) asset-backed securities, (5) em",
+  "kr": "채권 · Eaton Vance Income Opportunities ETF (Multisector Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "TBT": {
+  "name": "ProShares UltraShort 20+ Year Treasury",
+  "cat": "Trading--Inverse Debt",
+  "fam": "ProShares",
+  "sum": "The fund invests in financial instruments that ProShare Advisors believes, in combination, should produce daily returns consistent with the Daily Target. The index includes publicly-issued U.S. Treasury securities that have a remaining maturity greater than or equal to twenty years and have $300 mil",
+  "kr": "레버리지·인버스 · ProShares UltraShort 20+ Year Treasury (Trading--Inverse Debt)",
+  "src": "rule",
+  "tags": [
+   "레버리지",
+   "인버스"
+  ]
+ },
+ "GBTC": {
+  "name": "Grayscale Bitcoin Trust ETF",
+  "cat": "Digital Assets",
+  "fam": "Grayscale",
+  "sum": "The trust’s Bitcoins are carried, for financial statement purposes, at fair value as required by U.S. generally accepted accounting principles (“GAAP”). The trust determines the fair value of Bitcoins based on the price provided by the Digital Asset Market that the trust considers its principal mark",
+  "kr": "암호화폐 · Grayscale Bitcoin Trust ETF (Digital Assets)",
+  "src": "rule",
+  "tags": [
+   "암호화폐"
+  ]
+ },
+ "DBEF": {
+  "name": "Xtrackers MSCI EAFE Hedged Equity ETF",
+  "cat": "Foreign Large Blend",
+  "fam": "Xtrackers",
+  "sum": "The fund, using a \"passive\" or indexing investment approach, seeks investment results that correspond generally to the performance, of the underlying index, which is designed to track developed market performance while seeking to mitigate exposure to fluctuations between the value of the U.S. dollar",
+  "kr": "Xtrackers MSCI EAFE Hedged Equity ETF (Foreign Large Blend)",
+  "src": "rule",
+  "tags": []
+ },
+ "BITB": {
+  "name": "Bitwise Bitcoin ETF",
+  "cat": "Digital Assets",
+  "fam": "Bitwise Investments",
+  "sum": "In seeking to achieve its investment objective, the will trust will hold bitcoin and accrue the sponsor’s management fee (the “Sponsor Fee”) in U.S. dollars. The trust will value its bitcoin holdings, net assets and the shares daily based on the BRRNY. It is passively managed and does not pursue act",
+  "kr": "암호화폐 · Bitwise Bitcoin ETF (Digital Assets)",
+  "src": "rule",
+  "tags": [
+   "암호화폐"
+  ]
  }
 }
