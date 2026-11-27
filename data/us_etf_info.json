@@ -6839,5 +6839,225 @@
   "tags": [
    "암호화폐"
   ]
+ },
+ "AAPU": {
+  "name": "Direxion Daily AAPL Bull 2X Shares",
+  "cat": "Trading--Leveraged Equity",
+  "fam": "Direxion Funds",
+  "sum": "The fund, under normal circumstances, invests at least 80% of its net assets (plus any borrowings for investment purposes) in the securities of AAPL and financial instruments, such as swap agreements and options, that, in combination, provide 2X daily leveraged exposure to AAPL, consistent with the ",
+  "kr": "레버리지 · Direxion Daily AAPL Bull 2X Shares (Trading--Leveraged Equity)",
+  "src": "rule",
+  "tags": [
+   "레버리지"
+  ]
+ },
+ "PHO": {
+  "name": "Invesco Water Resources ETF",
+  "cat": "Miscellaneous Sector",
+  "fam": "Invesco",
+  "sum": "The fund is an index fund that seeks to track the investment results of the underlying index. The underlying index to track the performance of companies that are listed on the New York Stock Exchange (“NYSE”), NYSE American, Cboe Exchange (“Cboe”) or The Nasdaq Stock Market®, that create products th",
+  "kr": "Invesco Water Resources ETF (Miscellaneous Sector)",
+  "src": "rule",
+  "tags": []
+ },
+ "RTH": {
+  "name": "VanEck Retail ETF",
+  "cat": "Consumer Cyclical",
+  "fam": "VanEck",
+  "sum": "The fund normally invests at least 80% of its total assets in securities that comprise the fund's benchmark index. To be initially eligible for the index, companies must generate at least 50% of their revenues from retail. Retail includes companies engaged primarily in retail distribution; wholesale",
+  "kr": "업종/테마 · VanEck Retail ETF (Consumer Cyclical)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "FIW": {
+  "name": "First Trust Water ETF",
+  "cat": "Miscellaneous Sector",
+  "fam": "First Trust",
+  "sum": "The fund will normally invest at least 90% of its net assets (including investment borrowings) in the securities that comprise the index. The index is designed to track the performance of small, mid and large capitalization companies that derive a substantial portion of their revenues from the potab",
+  "kr": "First Trust Water ETF (Miscellaneous Sector)",
+  "src": "rule",
+  "tags": []
+ },
+ "FLGB": {
+  "name": "Franklin FTSE United Kingdom ETF",
+  "cat": "Focused Region",
+  "fam": "Franklin Templeton, Inc",
+  "sum": "Under normal market conditions, the fund invests at least 80% of its assets in the component securities of the FTSE UK Capped Index and in depositary receipts representing such securities. The FTSE UK Capped Index is based on the FTSE UK Index and is designed to measure the performance of United Kin",
+  "kr": "Franklin FTSE United Kingdom ETF (Focused Region)",
+  "src": "rule",
+  "tags": []
+ },
+ "DFCF": {
+  "name": "Dimensional Core Fixed Income ETF",
+  "cat": "Intermediate Core Bond",
+  "fam": "Dimensional Fund Advisors",
+  "sum": "Under normal circumstances, at least 80% of the Portfolio’s net assets will be invested in fixed income securities considered to be investment grade quality. The Portfolio primarily invests in securities that mature within twenty years from the date of settlement. The Portfolio will generally mainta",
+  "kr": "채권 · Dimensional Core Fixed Income ETF (Intermediate Core Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "TAIL": {
+  "name": "Cambria Tail Risk ETF",
+  "cat": "Trading--Inverse Equity",
+  "fam": "Cambria",
+  "sum": "The fund is actively managed and seeks to achieve its investment objective by investing in cash and U.S. government bonds, and utilizing a put option strategy to manage the risk of a significant negative movement in the value of domestic equities. The adviser intends to spend approximately one perce",
+  "kr": "인버스 · Cambria Tail Risk ETF (Trading--Inverse Equity)",
+  "src": "rule",
+  "tags": [
+   "인버스"
+  ]
+ },
+ "EEMA": {
+  "name": "iShares MSCI Emerging Markets Asia ETF",
+  "cat": "Pacific/Asia ex-Japan Stk",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of the underlying index and in investments that have economic characteristics that are substantially identical to the component securities of the underlying index. The underlying index is designed to measure equity",
+  "kr": "해외/글로벌 · iShares MSCI Emerging Markets Asia ETF (Pacific/Asia ex-Japan Stk)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "ACWV": {
+  "name": "iShares MSCI Global Min Vol Factor ETF",
+  "cat": "Global Large-Stock Blend",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of the underlying index and in investments that have economic characteristics that are substantially identical to the component securities of the underlying index. The index measures the combined performance of equ",
+  "kr": "해외/글로벌 · iShares MSCI Global Min Vol Factor ETF (Global Large-Stock Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "PXH": {
+  "name": "Invesco RAFI Emerging Markets ETF",
+  "cat": "Diversified Emerging Mkts",
+  "fam": "Invesco",
+  "sum": "The fund generally will invest at least 90% of its total assets in the securities that comprise the underlying index, as well as ADRs and GDRs that represent securities in the underlying index. The underlying index is is comprised of securities of companies located in countries that are classified a",
+  "kr": "해외/글로벌 · Invesco RAFI Emerging Markets ETF (Diversified Emerging Mkts)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "SPHY": {
+  "name": "State Street SPDR Portfolio High Yield Bond Index ETF",
+  "cat": "High Yield Bond",
+  "fam": "State Street Investment Management",
+  "sum": "Under normal market conditions, the fund will invest at least 80% of its net assets (plus the amount of borrowings for investment purposes) in the securities comprising the index it seeks to track. The index is designed to measure the performance of U.S. dollar denominated below investment grade cor",
+  "kr": "채권 · State Street SPDR Portfolio High Yield Bond Index ETF (High Yield Bond)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "DBA": {
+  "name": "Invesco DB Agriculture Fund",
+  "cat": "Commodities Focused",
+  "fam": "Invesco",
+  "sum": "The index is intended to reflect the change in value of the agriculture sector. The fund invests in futures contracts in an attempt to track its Index. It pursues its investment objective by investing in a portfolio of exchange-traded futures on commodities in the agriculture sector.",
+  "kr": "Invesco DB Agriculture Fund (Commodities Focused)",
+  "src": "rule",
+  "tags": []
+ },
+ "EWD": {
+  "name": "iShares MSCI Sweden ETF",
+  "cat": "Focused Region",
+  "fam": "iShares",
+  "sum": "The fund generally will invest at least 80% of its assets in the component securities of its underlying index and in investments that have economic characteristics that are substantially identical to the component securities of its underlying index. The index is designed to measure the performance o",
+  "kr": "iShares MSCI Sweden ETF (Focused Region)",
+  "src": "rule",
+  "tags": []
+ },
+ "ASHR": {
+  "name": "Xtrackers Harvest CSI 300 China A-Shares ETF",
+  "cat": "Greater China Region",
+  "fam": "Xtrackers",
+  "sum": "The underlying index is designed to reflect the price fluctuation and performance of the China A-Share market and is composed of the 300 largest and most liquid stocks in the China A-Share market. The fund will normally invest at least 80% of its total assets in securities of issuers that comprise t",
+  "kr": "해외/글로벌 · Xtrackers Harvest CSI 300 China A-Shares ETF (Greater China Region)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "FDV": {
+  "name": "Federated Hermes U.S. Strategic Dividend ETF",
+  "cat": "Large Value",
+  "fam": "Federated",
+  "sum": "The fund pursues its investment objective by investing primarily in high dividend-paying common stocks of U.S. issuers with dividend growth potential. The Advisor intends to invest exclusively in U.S. issuers (i.e., companies domiciled and/or with operations in the United States, or listed on U.S.-b",
+  "kr": "배당/인컴 · Federated Hermes U.S. Strategic Dividend ETF (Large Value)",
+  "src": "rule",
+  "tags": [
+   "배당/인컴"
+  ]
+ },
+ "HFXI": {
+  "name": "NYLI FTSE International Equity Currency Neutral ETF",
+  "cat": "Foreign Large Blend",
+  "fam": "New York Life Investment Management LLC",
+  "sum": "The underlying index includes primarily large- and mid-capitalization companies. As of June 30, 2026, the primary sectors within the underlying index were financials, industrials and information technology. The fund will, under normal circumstances, invest at least 80% of its assets (net assets, plu",
+  "kr": "해외/글로벌 · NYLI FTSE International Equity Currency Neutral ETF (Foreign Large Blend)",
+  "src": "rule",
+  "tags": [
+   "해외/글로벌"
+  ]
+ },
+ "ZROZ": {
+  "name": "PIMCO 25+ Year Zero Coupon U.S. Treasury Index Exchange-Traded Fund",
+  "cat": "Long Government",
+  "fam": "PIMCO",
+  "sum": "The fund invests at least 80% of its total assets (exclusive of collateral held from securities lending) in the component securities of the ICE BofA Long U.S. Treasury Principal STRIPS Index (the \"underlying index\"). The underlying index is an unmanaged index comprised of long maturity Separate Trad",
+  "kr": "채권 · PIMCO 25+ Year Zero Coupon U.S. Treasury Index Exchange-Traded Fund (Long Government)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
+ },
+ "ROBO": {
+  "name": "Robo Global Robotics and Automation Index ETF",
+  "cat": "Technology",
+  "fam": "Robo Global",
+  "sum": "The fund will normally invest at least 80% of its total assets in securities of the index or in depositary receipts representing securities of the index. The index is designed to measure the performance of robotics-related and/or automation-related companies. The fund may invest up to 20% of its ass",
+  "kr": "업종/테마·해외/글로벌 · Robo Global Robotics and Automation Index ETF (Technology)",
+  "src": "rule",
+  "tags": [
+   "업종/테마",
+   "해외/글로벌"
+  ]
+ },
+ "ARKQ": {
+  "name": "ARK Autonomous Technology & Robotics ETF",
+  "cat": "Mid-Cap Growth",
+  "fam": "ARK ETF Trust",
+  "sum": "The fund is an actively-managed exchange-traded fund that will invest under normal circumstances primarily (at least 80% of its assets) in domestic and foreign equity securities of autonomous technology and robotics companies that are relevant to the fund's investment theme of disruptive innovation.",
+  "kr": "업종/테마 · ARK Autonomous Technology & Robotics ETF (Mid-Cap Growth)",
+  "src": "rule",
+  "tags": [
+   "업종/테마"
+  ]
+ },
+ "GSOL": {
+  "name": "Grayscale Solana Staking ETF",
+  "cat": "Digital Assets",
+  "fam": "Grayscale",
+  "sum": "The trust’s investment objective is for the shares to reflect the value of the SOL held by the trust, determined by reference to the index price, less the trust’s expenses and otherliabilities.",
+  "kr": "Grayscale Solana Staking ETF (Digital Assets)",
+  "src": "rule",
+  "tags": []
+ },
+ "HYMB": {
+  "name": "State Street SPDR Nuveen ICE High Yield Municipal Bond ETF",
+  "cat": "High Yield Muni",
+  "fam": "State Street Investment Management",
+  "sum": "Under normal market conditions, the fund will invest at least 80% of its net assets (plus the amount of borrowings for investment purposes) in the securities comprising the index it seeks to track. The index is market capitalization-weighted and designed to measure the performance of lower-rated (A3",
+  "kr": "채권 · State Street SPDR Nuveen ICE High Yield Municipal Bond ETF (High Yield Muni)",
+  "src": "rule",
+  "tags": [
+   "채권"
+  ]
  }
 }
